@@ -1,0 +1,51 @@
+<ion-header> </ion-header>
+<ion-content class="contenido">
+  <ion-segment scrollable>
+    <ion-segment-button class="botonSeccion" *ngFor="let categoria of categorias">
+      <div class="icono">
+        <fa-icon [icon]="['fas',categoria.icono]"></fa-icon>
+      </div>
+      <ion-label text-wrap
+        >{{categoria.nombre.length>10?categoria.nombre.substring(0,10):categoria.nombre}}</ion-label
+      >
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Jala para refrescar"
+      refreshingSpinner="circles"
+      refreshingText="Recargando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-card
+    *ngFor="let paquete of paquetes"
+    button
+    (click)="verPaquete(paquete.id)"
+  >
+    <div>
+      <img
+        :src="{{urlApi}}{{paquete.banner}}"
+        :alt="{{paquete.nombre}}"
+        style="position: relative; max-height: 10rem; width: 100%"
+      />
+      <button class="btn"><ion-icon name="heart-outline"></ion-icon></button>
+    </div>
+    <ion-card-header>
+      <ion-card-subtitle>{{paquete.categoria.nombre}}</ion-card-subtitle>
+      <ion-card-title>{{paquete.titulo}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content> {{paquete.descripcion}} </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="cargarMas($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Cargando mas paquetes..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

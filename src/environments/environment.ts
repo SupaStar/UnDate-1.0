@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // url: 'http://localhost:8000/api/',
+  // urlPublic: 'http://localhost:8000/',
+  url: 'https://un-date.herokuapp.com/api/',
+  urlPublic: 'https://un-date.herokuapp.com/',
 };
 
 /*

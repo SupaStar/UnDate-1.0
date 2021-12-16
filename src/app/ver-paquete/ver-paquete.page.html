@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="tabs()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img :src="{{paquete.banner}}" id="imgPaquete" alt="paquete.titulo" />
+  <div class="bg"></div>
+  <div
+    class="botonSheet"
+    (touchmove)="movimiento($event)"
+  >
+    <div class="swipe-handler"></div>
+    <div class="content ion-padding">
+      <h1>{{paquete.titulo}}</h1>
+      <ion-item>
+        <p>{{paquete.descripcion}}</p>
+      </ion-item>
+      <ion-item>
+        <p>{{paquete.categoria.nombre}}</p>
+      </ion-item>
+    </div>
+  </div>
+</ion-content>

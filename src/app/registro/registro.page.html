@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <a (click)="login()"> <ion-icon name="arrow-back-outline"></ion-icon> </a>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Nombres</ion-label>
+    <ion-input type="text" [(ngModel)]="usuario.nombres"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Apellidos</ion-label>
+    <ion-input type="text" [(ngModel)]="usuario.apellidos"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Correo electronico</ion-label>
+    <ion-input type="email" [(ngModel)]="usuario.email"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Telefono</ion-label>
+    <ion-input type="tel" inputmode="tel" [(ngModel)]="usuario.telefono"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="usuario.password"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Confirmacion de Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="usuario.password_confirmation"></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="registro()">Registrarse</ion-button>
+</ion-content>

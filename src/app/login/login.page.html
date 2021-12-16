@@ -1,0 +1,25 @@
+<ion-content>
+  <ion-text class="ion-text-center">
+    <h1>Bienvenido</h1>
+    <h4>Inicie su sesión</h4>
+  </ion-text>
+  <ion-item>
+    <ion-label position="floating">Correo Electrónico</ion-label>
+    <ion-input [(ngModel)]="usuario.email" autofocus autocomplete></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Contraseña</ion-label>
+    <ion-input
+      [(ngModel)]="usuario.password"
+      type="password"
+      autocomplete
+    ></ion-input>
+  </ion-item>
+  <ion-button (click)="login()" expand="block" color="success">
+    Entrar
+  </ion-button>
+  <div class="registro">
+    <p>¿Aun no tienes cuenta?</p>
+    <ion-button (click)="registro()">Registrate</ion-button>
+  </div>
+</ion-content>
