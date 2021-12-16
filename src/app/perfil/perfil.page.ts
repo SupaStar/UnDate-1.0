@@ -35,7 +35,8 @@ export class PerfilPage implements OnInit {
       component: DireccionesPage,
       swipeToClose: true,
       mode: 'ios',
-      presentingElement: await this.modalCtrl.getTop(),
+      initialBreakpoint: 0.5,
+      breakpoints:[0, 0.5, 1]
     });
     return await (await modal).present();
   }

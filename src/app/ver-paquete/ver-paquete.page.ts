@@ -66,7 +66,7 @@ export class VerPaquetePage implements OnInit {
         document.querySelector('.botonSheet')
       )).style.transform =
         'translate3d(0px, ' + this.currentPosition + 'px, 0px)';
-      console.log(this.currentPosition);
+      // console.log(this.currentPosition);
     }
   }
 
