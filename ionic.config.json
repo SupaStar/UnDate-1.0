@@ -1,0 +1,7 @@
+{
+  "name": "UnDate1.0",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
