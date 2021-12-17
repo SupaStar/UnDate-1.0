@@ -28,7 +28,17 @@ export class RegistroPage implements OnInit {
     public toastController: ToastController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.usuario = {
+      nombres: '',
+      apellidos: '',
+      email: '',
+      telefono: '',
+      password: '',
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      password_confirmation: '',
+    };
+  }
   login() {
     this.navController.navigateBack('/');
   }
@@ -42,12 +52,15 @@ export class RegistroPage implements OnInit {
         this.sesionService.registrarUsuario(this.usuario).subscribe(
           (data) => {
             if (data.status) {
-              this.presentToast(data.message, 'success');
+              this.presentToast(
+                'Usuario creado con exito, ahora puedes iniciar sesion.',
+                'success'
+              );
               this.navController.navigateBack('/');
-            }else{
-              let errorC='';
-              data.errors.forEach(element => {
-                errorC+=element+'\n';
+            } else {
+              let errorC = '';
+              data.errors.forEach((element) => {
+                errorC += element + '\n';
               });
               this.presentToast(errorC, 'danger');
             }

@@ -22,6 +22,12 @@
       <ion-item>
         <p>{{paquete.categoria.nombre}}</p>
       </ion-item>
+      <ion-item *ngFor="let extra of extras">
+        <ion-avatar slot="start">
+          <img :src="{{urlExtras}}{{extra.ruta}}">
+        </ion-avatar>
+        <ion-label>{{extra.nombre}}</ion-label>
+      </ion-item>
     </div>
   </div>
 </ion-content>

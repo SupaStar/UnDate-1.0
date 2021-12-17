@@ -28,6 +28,8 @@ export class VerPaquetePage implements OnInit {
     categoria: '',
   };
   urlApi: any;
+  urlExtras: any;
+  extras: any;
   constructor(
     private navCtrl: NavController,
     private paqueteService: PaquetesService,
@@ -35,6 +37,7 @@ export class VerPaquetePage implements OnInit {
     private toastController: ToastController
   ) {
     this.id = Number(localStorage.getItem('paquete_id'));
+    this.urlExtras = environment.urlPublic + 'extras/';
   }
 
   ngOnInit() {
@@ -83,6 +86,7 @@ export class VerPaquetePage implements OnInit {
               this.paquete = res.paquete;
               this.paquete.banner =
                 environment.urlPublic + 'banners/' + this.paquete.banner;
+              this.extras = res.extras;
               console.log(res.paquete);
             } else {
               let errorC = '';
