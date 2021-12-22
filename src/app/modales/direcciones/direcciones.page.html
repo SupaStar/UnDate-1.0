@@ -6,8 +6,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> 
+<ion-content>
   <ion-item button (click)="nuevaDireccion()">
     <ion-icon name="add-outline"></ion-icon> Agregar nueva direccion
+  </ion-item>
+  <ion-item *ngFor="let direccion of direcciones" button>
+    {{direccion.nombre}}
   </ion-item>
 </ion-content>

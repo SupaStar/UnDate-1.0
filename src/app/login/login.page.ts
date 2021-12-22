@@ -45,6 +45,7 @@ export class LoginPage implements OnInit {
             localStorage.setItem('_n_dt_id', data._n_dt.id);
             localStorage.setItem('_n_dt_em', data._n_dt.email);
             localStorage.setItem('_n_dt_t', data._n_dt.telefono);
+            localStorage.setItem('_n_dt_d', JSON.stringify(data.direcciones));
             loading.dismiss();
             this.navCtrl.navigateRoot('/tabs/inicio');
           } else {

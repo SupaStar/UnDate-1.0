@@ -12,10 +12,11 @@ import {
   FaIconLibrary,
 } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { DireccionesPage } from './modales/direcciones/direcciones.page';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent,DireccionesPage],
+  entryComponents: [DireccionesPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

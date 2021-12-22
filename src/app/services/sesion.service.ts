@@ -9,7 +9,8 @@ export class SesionService {
   private login = environment.url + 'login';
   private registro = environment.url + 'register';
   private actualizar = environment.url + 'actualizar_usuario';
-
+  private urlCP = environment.url + 'cp/';
+  private urlAgregarDireccion = environment.url + 'usuario/direccion';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -20,6 +21,14 @@ export class SesionService {
   actualizarUsuario(usuario: any) {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.actualizar, usuario, httpOptions);
+  }
+  buscarPorCp(cp: string) {
+    const httpOptions = this.refrecarToken();
+    return this.http.get<any>(this.urlCP + cp, httpOptions);
+  }
+  agregarDireccion(direccion: any) {
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(this.urlAgregarDireccion, direccion, httpOptions);
   }
   refrecarToken() {
     const jwt = localStorage.getItem('_t_s');

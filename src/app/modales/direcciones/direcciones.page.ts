@@ -7,12 +7,17 @@ import { ModalController, NavController } from '@ionic/angular';
   styleUrls: ['./direcciones.page.scss'],
 })
 export class DireccionesPage implements OnInit {
+  direcciones: any;
   constructor(
     private modalCtrl: ModalController,
     private navCtrl: NavController
-  ) {}
+  ) {
+    this.direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.direcciones);
+  }
   cerrarModal() {
     this.modalCtrl.dismiss({
       dismissed: true,

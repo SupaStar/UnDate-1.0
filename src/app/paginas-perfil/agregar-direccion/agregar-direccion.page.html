@@ -7,8 +7,59 @@
 </ion-header>
 
 <ion-content>
-  <div id="map_canvas"></div>
-  <script async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQdcyDX2nXKB6M7AUJxP9ia1Kag0-_4yY">
-  </script>
+  <ion-item>
+    <ion-label position="floating">Etiqueta de la Direccion</ion-label>
+    <ion-input type="text" [(ngModel)]="direccion.nombre"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Codigo postal</ion-label>
+    <ion-input
+      type="number"
+      [(ngModel)]="direccion.cp"
+      onKeyPress="if(this.value.length==5) return false;"
+      debounce="0"
+      (ionChange)="codigoP()"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Estado</ion-label>
+    <ion-input [(ngModel)]="direccion.estado" disabled></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Municipio</ion-label>
+    <ion-input [(ngModel)]="direccion.municipio" disabled></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Colonia</ion-label>
+    <ion-select
+      placeholder="Selecciona tu colonia"
+      [(ngModel)]="direccion.colonia"
+      disabled="{{colonias.length===0}}"
+    >
+      <ion-select-option
+        *ngFor="let colonia of colonias"
+        :value="{{colonia.Colonia}}"
+        >{{colonia.Colonia}}</ion-select-option
+      >
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Calle</ion-label>
+    <ion-input [(ngModel)]="direccion.calle"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Numero</ion-label>
+    <ion-input type="number" [(ngModel)]="direccion.numero"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Entre calles</ion-label>
+    <ion-input [(ngModel)]="direccion.entreCalles"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Referencia</ion-label>
+    <ion-input [(ngModel)]="direccion.referencia"></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="guardarDireccion()"
+    >Guardar y continuar</ion-button
+  >
 </ion-content>
