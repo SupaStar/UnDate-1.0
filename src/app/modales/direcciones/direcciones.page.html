@@ -10,7 +10,9 @@
   <ion-item button (click)="nuevaDireccion()">
     <ion-icon name="add-outline"></ion-icon> Agregar nueva direccion
   </ion-item>
-  <ion-item *ngFor="let direccion of direcciones" button>
-    {{direccion.nombre}}
-  </ion-item>
+  <div *ngFor="let direccion of direcciones" >
+    <ion-item button (click)="editar(direccion.id)">
+      {{direccion.nombre}}
+    </ion-item>
+  </div>
 </ion-content>

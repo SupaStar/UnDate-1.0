@@ -53,13 +53,16 @@
   </ion-item>
   <ion-item>
     <ion-label position="floating">Entre calles</ion-label>
-    <ion-input [(ngModel)]="direccion.entreCalles"></ion-input>
+    <ion-input [(ngModel)]="direccion.entre_calles"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="floating">Referencia</ion-label>
     <ion-input [(ngModel)]="direccion.referencia"></ion-input>
   </ion-item>
-  <ion-button expand="block" (click)="guardarDireccion()"
+  <ion-button expand="block" *ngIf="agregar" (click)="guardarDireccion()"
+    >Guardar y continuar</ion-button
+  >
+  <ion-button expand="block" *ngIf="editar" (click)="editarDireccion()"
     >Guardar y continuar</ion-button
   >
 </ion-content>

@@ -6,11 +6,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class SesionService {
+  public idEditarDireccion = null;
   private login = environment.url + 'login';
   private registro = environment.url + 'register';
   private actualizar = environment.url + 'actualizar_usuario';
   private urlCP = environment.url + 'cp/';
   private urlAgregarDireccion = environment.url + 'usuario/direccion';
+  private urlEditarDireccion = environment.url + 'usuario/editar_direccion';
+
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -28,7 +31,15 @@ export class SesionService {
   }
   agregarDireccion(direccion: any) {
     const httpOptions = this.refrecarToken();
-    return this.http.post<any>(this.urlAgregarDireccion, direccion, httpOptions);
+    return this.http.post<any>(
+      this.urlAgregarDireccion,
+      direccion,
+      httpOptions
+    );
+  }
+  editarDireccion(direccion: any) {
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(this.urlEditarDireccion, direccion, httpOptions);
   }
   refrecarToken() {
     const jwt = localStorage.getItem('_t_s');

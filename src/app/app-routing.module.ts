@@ -31,7 +31,7 @@ const routes: Routes = [
   {
     path: 'paquete',
     loadChildren: () => import('./ver-paquete/ver-paquete.module').then( m => m.VerPaquetePageModule)
-  },
+  }
 ];
 @NgModule({
   imports: [
