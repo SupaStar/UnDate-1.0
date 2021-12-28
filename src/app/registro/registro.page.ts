@@ -4,6 +4,7 @@ import {
   NavController,
   ToastController,
 } from '@ionic/angular';
+import { FormBuilder, Validators } from '@angular/forms';
 import { SesionService } from '../services/sesion.service';
 
 @Component({
@@ -12,69 +13,66 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
-  usuario = {
-    nombres: '',
-    apellidos: '',
-    email: '',
-    telefono: '',
-    password: '',
+  usuario = this.fb.group({
+    nombres: ['', Validators.required],
+    apellidos: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    telefono: ['', Validators.required],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    password_confirmation: '',
-  };
+    password_confirmation: ['', [Validators.required, Validators.minLength(6)]],
+  });
   constructor(
     private navController: NavController,
     private sesionService: SesionService,
     public loadingController: LoadingController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.usuario = {
-      nombres: '',
-      apellidos: '',
-      email: '',
-      telefono: '',
-      password: '',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      password_confirmation: '',
-    };
+    this.usuario.reset();
   }
   login() {
     this.navController.navigateBack('/');
   }
   registro() {
-    this.loadingController
-      .create({
-        message: 'Cargando...',
-      })
-      .then((loading) => {
-        loading.present();
-        this.sesionService.registrarUsuario(this.usuario).subscribe(
-          (data) => {
-            if (data.status) {
+    if (this.usuario.valid) {
+      this.loadingController
+        .create({
+          message: 'Cargando...',
+        })
+        .then((loading) => {
+          loading.present();
+          this.sesionService.registrarUsuario(this.usuario.value).subscribe(
+            (data) => {
+              if (data.status) {
+                this.presentToast(
+                  'Usuario creado con exito, ahora puedes iniciar sesion.',
+                  'success'
+                );
+                this.navController.navigateBack('/');
+              } else {
+                let errorC = '';
+                data.errors.forEach((element) => {
+                  errorC += element + '\n';
+                });
+                this.presentToast(errorC, 'danger');
+              }
+              loading.dismiss();
+            },
+            (error) => {
+              loading.dismiss();
               this.presentToast(
-                'Usuario creado con exito, ahora puedes iniciar sesion.',
-                'success'
+                'Error con el servidor, por favor contactar con soporte',
+                'danger'
               );
-              this.navController.navigateBack('/');
-            } else {
-              let errorC = '';
-              data.errors.forEach((element) => {
-                errorC += element + '\n';
-              });
-              this.presentToast(errorC, 'danger');
             }
-            loading.dismiss();
-          },
-          (error) => {
-            loading.dismiss();
-            this.presentToast(
-              'Error con el servidor, por favor contactar con soporte',
-              'danger'
-            );
-          }
-        );
-      });
+          );
+        });
+    }else{
+      this.presentToast('Por favor llene todos los campos', 'danger');
+    }
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({

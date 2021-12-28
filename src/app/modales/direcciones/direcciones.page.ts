@@ -17,9 +17,7 @@ export class DireccionesPage implements OnInit {
     this.direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
   }
 
-  ngOnInit() {
-    console.log(this.direcciones);
-  }
+  ngOnInit() {}
   cerrarModal() {
     this.modalCtrl.dismiss({
       dismissed: true,

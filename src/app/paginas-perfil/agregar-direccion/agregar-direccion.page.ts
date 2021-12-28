@@ -6,7 +6,7 @@ import {
   NavController,
   ToastController,
 } from '@ionic/angular';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation';
+import { FormBuilder, Validators } from '@angular/forms';
 import { SesionService } from 'src/app/services/sesion.service';
 @Component({
   selector: 'app-agregar-direccion',
@@ -14,19 +14,18 @@ import { SesionService } from 'src/app/services/sesion.service';
   styleUrls: ['./agregar-direccion.page.scss'],
 })
 export class AgregarDireccionPage implements OnInit {
-  direccion = {
-    id: '',
-    nombre: '',
-    calle: '',
-    numero: '',
-    cp: '',
-    estado: '',
-    municipio: '',
-    colonia: '',
-    instrucciones: '',
-    entre_calles: '',
-    referencia: '',
-  };
+  direccionForm = this.fb.group({
+    nombre: ['', Validators.required],
+    calle: ['', Validators.required],
+    numero: ['', Validators.required],
+    cp: ['', Validators.required],
+    estado: ['', Validators.required],
+    municipio: ['', Validators.required],
+    colonia: ['', Validators.required],
+    entre_calles: ['', Validators.required],
+    tipo: ['0', Validators.required],
+    referencia: [''],
+  });
   selColonia = false;
   colonias = [];
   agregar = true;
@@ -36,38 +35,48 @@ export class AgregarDireccionPage implements OnInit {
     private authService: SesionService,
     private loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
-    this.reiniciarForm('', '');
+    this.selColonia = true;
     if (this.authService.idEditarDireccion !== null) {
       this.editar = true;
       this.agregar = false;
       const direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
-      this.direccion = direcciones.find(
+      const direccion = direcciones.find(
         (d) => d.id === this.authService.idEditarDireccion
       );
+      this.direccionForm.setValue({
+        nombre: direccion.nombre,
+        calle: direccion.calle,
+        numero: direccion.numero,
+        cp: direccion.cp,
+        estado: direccion.estado,
+        municipio: direccion.municipio,
+        colonia: direccion.colonia,
+        entre_calles: direccion.entre_calles,
+        tipo: direccion.tipo,
+        referencia: direccion.referencia,
+      });
+      this.codigoP();
     }
   }
-  async getPosition() {
-    const position = await Geolocation.getCurrentPosition();
-    // const lat = position.coords.latitude;
-    // const lng = position.coords.longitude;
-  }
+
   tabs() {
     this.authService.idEditarDireccion = null;
     this.navCtrl.navigateRoot('/tabs/perfil');
   }
   codigoP() {
-    if (this.direccion.cp.toString().length === 5) {
+    if (this.direccionForm.controls.cp.value.toString().length === 5) {
       this.loadingCtrl
         .create({
           message: 'Buscando...',
         })
         .then((loading) => {
           loading.present();
-          this.authService.buscarPorCp(this.direccion.cp).subscribe(
+          this.authService.buscarPorCp(this.direccionForm.value.cp).subscribe(
             (res: any) => {
               loading.dismiss();
               if (res.status) {
@@ -79,12 +88,12 @@ export class AgregarDireccionPage implements OnInit {
                       .create({
                         header: '¡Atención!',
                         message:
-                          'Aun no contamos con servicio fuera de esta entidad',
+                          'Aun no contamos con servicio fuera de guanajuato, por favor contactar con soporte',
                         buttons: [
                           {
                             text: 'Ok',
                             handler: () => {
-                              this.direccion.cp = '';
+                              this.direccionForm.controls.cp.setValue('');
                             },
                           },
                         ],
@@ -103,9 +112,12 @@ export class AgregarDireccionPage implements OnInit {
                             {
                               text: 'Ok',
                               handler: () => {
-                                this.direccion.estado = res.data[0].Entidad;
-                                this.direccion.municipio =
-                                  res.data[0].Municipio;
+                                this.direccionForm.controls.estado.setValue(
+                                  res.data[0].Entidad
+                                );
+                                this.direccionForm.controls.municipio.setValue(
+                                  res.data[0].Municipio
+                                );
                                 this.colonias = res.data;
                                 this.selColonia = false;
                               },
@@ -116,8 +128,12 @@ export class AgregarDireccionPage implements OnInit {
                           alert.present();
                         });
                     }
-                    this.direccion.estado = res.data[0].Entidad;
-                    this.direccion.municipio = res.data[0].Municipio;
+                    this.direccionForm.controls.estado.setValue(
+                      res.data[0].Entidad
+                    );
+                    this.direccionForm.controls.municipio.setValue(
+                      res.data[0].Municipio
+                    );
                     this.colonias = res.data;
                     this.selColonia = false;
                   }
@@ -139,8 +155,25 @@ export class AgregarDireccionPage implements OnInit {
           );
         });
     } else {
-      this.reiniciarForm(this.direccion.cp, this.direccion.nombre);
+      this.reiniciarForm(
+        this.direccionForm.controls.nombre.value,
+        this.direccionForm.controls.cp.value
+      );
     }
+  }
+  reiniciarForm(nombreR, cpR) {
+    this.direccionForm.setValue({
+      nombre: nombreR,
+      calle: '',
+      numero: '',
+      cp: cpR,
+      estado: '',
+      municipio: '',
+      colonia: '',
+      entre_calles: '',
+      tipo: '0',
+      referencia: '',
+    });
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastCtrl.create({
@@ -150,22 +183,6 @@ export class AgregarDireccionPage implements OnInit {
     });
     toast.present();
   }
-  reiniciarForm(cpA, nombreA) {
-    this.direccion = {
-      id: '',
-      nombre: nombreA,
-      calle: '',
-      numero: '',
-      cp: cpA,
-      estado: '',
-      municipio: '',
-      colonia: '',
-      instrucciones: '',
-      entre_calles: '',
-      referencia: '',
-    };
-    this.selColonia = true;
-  }
   guardarDireccion() {
     this.loadingCtrl
       .create({
@@ -173,13 +190,16 @@ export class AgregarDireccionPage implements OnInit {
       })
       .then((loading) => {
         loading.present();
-        this.authService.agregarDireccion(this.direccion).subscribe(
+        this.authService.agregarDireccion(this.direccionForm.value).subscribe(
           (res: any) => {
             loading.dismiss();
             if (res.status) {
-              this.direccion.id = res.dt_id;
+              const objDireccion = {
+                id: res.dt_id,
+                ...this.direccionForm.value,
+              };
               const direccionesG = JSON.parse(localStorage.getItem('_n_dt_d'));
-              direccionesG.push(this.direccion);
+              direccionesG.push(objDireccion);
               localStorage.setItem('_n_dt_d', JSON.stringify(direccionesG));
               this.presentToast(res.message, 'success');
               this.tabs();
@@ -208,9 +228,12 @@ export class AgregarDireccionPage implements OnInit {
       })
       .then((loading) => {
         loading.present();
-        this.authService
-          .editarDireccion(this.direccion)
-          .subscribe((res: any) => {
+        const objDireccion = {
+          id: this.authService.idEditarDireccion,
+          ...this.direccionForm.value,
+        };
+        this.authService.editarDireccion(objDireccion).subscribe(
+          (res: any) => {
             loading.dismiss();
             if (res.status) {
               localStorage.setItem('_n_dt_d', JSON.stringify(res.direcciones));
@@ -223,14 +246,21 @@ export class AgregarDireccionPage implements OnInit {
               });
               this.presentToast(errorC, 'danger');
             }
-          }, (error) => {
+          },
+          (error) => {
             loading.dismiss();
             this.presentToast(
               'Error con el servidor, por favor contactar con soporte',
               'danger'
             );
+          }
+        );
       });
-    });
   }
-  async loadMap() {}
+  // async loadMap() {}
+  // async getPosition() {
+  //   const position = await Geolocation.getCurrentPosition();
+  //   // const lat = position.coords.latitude;
+  //   // const lng = position.coords.longitude;
+  // }
 }
