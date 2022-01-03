@@ -1,45 +1,58 @@
-.botonSheet{
-    position: fixed;
-    width: 100%;
-    height: 90%;
-    bottom: 0;
-    border-radius: 15px 15px 0px 0px;
-    z-index: 20;
-    background-color: var(--ion-color-step-50, #fff);
-    transition: 0.3s;
-    transform: translate3d(0, 0, 0);
+.botonSheet {
+  position: fixed;
+  width: 100%;
+  height: 90%;
+  bottom: 0;
+  border-radius: 15px 15px 0px 0px;
+  z-index: 20;
+  background-color: var(--ion-color-step-50, #fff);
+  transition: 0.3s;
+  transform: translate3d(0, 0, 0);
 
-
-    .content{
-        h1{
-            font-weight: bold;
-        }
-
-        p{
-            color:gray;
-            font-weight: bold;
-        }
+  .content {
+    h1 {
+      font-weight: bold;
     }
-    .swipe-handler::after{
-        content: '';
-        width: 36px;
-        height: 6px;
-        position: absolute;
-        left: 50%;
-        top: 5%;
-        margin-left: -18px;
-        margin-top: -3px;
-        border-radius: 3px;
-        background: lightgray;
+
+    p {
+      color: gray;
+      font-weight: bold;
     }
+  }
+  .swipe-handler::after {
+    content: "";
+    width: 36px;
+    height: 6px;
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    margin-left: -18px;
+    margin-top: -3px;
+    border-radius: 3px;
+    background: lightgray;
+  }
 }
-.bg{
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba($color: #000000, $alpha: 0.4);
-    z-index: 10;
-    transition: 0.3s;
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba($color: #000000, $alpha: 0.4);
+  z-index: 10;
+  transition: 0.3s;
+}
+#contenedor_imagenes {
+  max-height: 150px;
+}
+.imagenes {
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+.botonAgregar {
+  position: fixed;
+  left: 1rem;
+  bottom: 10px;
+  right: 1rem;
+  --border-radius: 23px;
 }

@@ -7,30 +7,63 @@
 </ion-header>
 
 <ion-content>
-  <img :src="{{paquete.banner}}" id="imgPaquete" alt="paquete.titulo" />
-  <div class="bg"></div>
+  <div id="contenedor_imagenes">
+    <img
+      *ngIf="!carrusel"
+      :src="{{paquete.imagenes[0].ruta}}"
+      id="imgPaquete"
+      class="imagenes"
+      alt="paquete.titulo"
+    />
+  </div>
+  <ion-slides *ngIf="carrusel" pager="true">
+    <ion-slide *ngFor="let imagen of paquete.imagenes">
+      <div id="contenedor_imagenes">
+        <img
+          class="imagenes"
+          :src="{{urlApi}}{{imagen.ruta}}"
+          id="imgPaquete"
+          :alt="paquete.nombre"
+        />
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <h1>{{paquete.titulo}}</h1>
+  <ion-item>
+    <p>{{paquete.descripcion}}</p>
+  </ion-item>
+  <ion-item>
+    <p>{{paquete.categoria.nombre}}</p>
+  </ion-item>
+  <ion-item *ngFor="let extra of paquete.extras">
+    <ion-thumbnail slot="start">
+      <img :src="{{urlExtras}}{{extra.ruta}}" />
+    </ion-thumbnail>
+    <ion-label>{{extra.nombre}}</ion-label>
+    <ion-checkbox
+      slot="end"
+      mode="ios"
+      (ionChange)="agregarExtra(extra.id)"
+    ></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-label>Mont night</ion-label>
+    <ion-checkbox
+      [(ngModel)]="montNightV"
+      slot="end"
+      mode="ios"
+      (ionChange)="montNight()"
+    ></ion-checkbox>
+  </ion-item>
+  <ion-button color="success" (click)="agregarCarrito()" class="botonAgregar">Agregar al carrito.</ion-button>
+  <!-- <div class="bg"></div>
   <div
     class="botonSheet"
     (touchmove)="movimiento($event)"
   >
     <div class="swipe-handler"></div>
     <div class="content ion-padding">
-      <h1>{{paquete.titulo}}</h1>
-      <ion-item>
-        <p>{{paquete.descripcion}}</p>
-      </ion-item>
-      <ion-item>
-        <p>{{paquete.categoria.nombre}}</p>
-      </ion-item>
-      <ion-item *ngFor="let extra of extras">
-        <ion-avatar slot="start">
-          <img :src="{{urlExtras}}{{extra.ruta}}">
-        </ion-avatar>
-        <ion-label>{{extra.nombre}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Mont night</ion-label>
-      </ion-item>
+      
     </div>
-  </div>
+  </div> -->
 </ion-content>

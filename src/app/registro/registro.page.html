@@ -10,7 +10,7 @@
   <div [formGroup]="usuario">
     <ion-item>
       <ion-label position="floating">Nombres</ion-label>
-      <ion-input type="text" formControlName="nombres"></ion-input>
+      <ion-input type="text" formControlName="nombres" autocomplete="name"></ion-input>
     </ion-item>
     <ion-label
       color="danger"
@@ -19,7 +19,7 @@
     </ion-label>
     <ion-item>
       <ion-label position="floating">Apellidos</ion-label>
-      <ion-input type="text" formControlName="apellidos"></ion-input>
+      <ion-input type="text" formControlName="apellidos" autocomplete="family-name"></ion-input>
     </ion-item>
     <ion-label
       color="danger"
@@ -28,7 +28,7 @@
     </ion-label>
     <ion-item>
       <ion-label position="floating">Correo electrónico</ion-label>
-      <ion-input type="email" formControlName="email"></ion-input>
+      <ion-input type="email" formControlName="email" autocomplete="email"></ion-input>
     </ion-item>
     <ion-label
       color="danger"
@@ -46,6 +46,7 @@
         type="tel"
         inputmode="tel"
         formControlName="telefono"
+        autocomplete="tel-local"
       ></ion-input>
     </ion-item>
     <ion-label
@@ -55,7 +56,7 @@
     </ion-label>
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+      <ion-input type="password" formControlName="password" autocomplete="new-password"></ion-input>
     </ion-item>
     <ion-label
       color="danger"
@@ -72,6 +73,7 @@
       <ion-input
         type="password"
         formControlName="password_confirmation"
+        autocomplete="new-password"
       ></ion-input>
     </ion-item>
     <ion-label

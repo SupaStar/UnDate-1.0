@@ -1,6 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, NavController, ToastController } from '@ionic/angular';
+import {
+  LoadingController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { SesionService } from '../services/sesion.service';
 
 @Component({
@@ -14,8 +18,9 @@ export class LoginPage implements OnInit {
     private authService: SesionService,
     public loadingController: LoadingController,
     public toastController: ToastController,
-    private navCtrl: NavController,
+    private navCtrl: NavController
   ) {
+    document.body.classList.toggle('dark');
     this.restablecerFormulario();
     const token = localStorage.getItem('_t_s');
     if (token) {
@@ -37,33 +42,36 @@ export class LoginPage implements OnInit {
       })
       .then((loading) => {
         loading.present();
-        this.authService.iniciarSesion(this.usuario).subscribe((data) => {
-          if (data.status) {
-            localStorage.setItem('_t_s', data.token);
-            localStorage.setItem('_n_dt_nam', data._n_dt.nombres);
-            localStorage.setItem('_n_dt_ap', data._n_dt.apellidos);
-            localStorage.setItem('_n_dt_id', data._n_dt.id);
-            localStorage.setItem('_n_dt_em', data._n_dt.email);
-            localStorage.setItem('_n_dt_t', data._n_dt.telefono);
-            localStorage.setItem('_n_dt_d', JSON.stringify(data.direcciones));
+        this.authService.iniciarSesion(this.usuario).subscribe(
+          (data) => {
+            if (data.status) {
+              localStorage.setItem('_t_s', data.token);
+              localStorage.setItem('_n_dt_nam', data._n_dt.nombres);
+              localStorage.setItem('_n_dt_ap', data._n_dt.apellidos);
+              localStorage.setItem('_n_dt_id', data._n_dt.id);
+              localStorage.setItem('_n_dt_em', data._n_dt.email);
+              localStorage.setItem('_n_dt_t', data._n_dt.telefono);
+              localStorage.setItem('_n_dt_d', JSON.stringify(data.direcciones));
+              localStorage.setItem('car_tems', JSON.stringify([]));
+              loading.dismiss();
+              this.navCtrl.navigateRoot('/tabs/inicio');
+            } else {
+              let errorC = '';
+              data.errors.forEach((element) => {
+                errorC += element + '\n';
+              });
+              loading.dismiss();
+              this.presentToast(errorC, 'danger');
+            }
+          },
+          (error) => {
             loading.dismiss();
-            this.navCtrl.navigateRoot('/tabs/inicio');
-          } else {
-            let errorC = '';
-            data.errors.forEach((element) => {
-              errorC += element + '\n';
-            });
-            loading.dismiss();
-            this.presentToast(errorC, 'danger');
+            this.presentToast(
+              'Error con el servidor, por favor contactar con soporte',
+              'danger'
+            );
           }
-        },
-        (error) => {
-          loading.dismiss();
-          this.presentToast(
-            'Error con el servidor, por favor contactar con soporte',
-            'danger'
-          );
-        });
+        );
       });
   }
   async presentToast(mensaje, colors) {
@@ -74,7 +82,7 @@ export class LoginPage implements OnInit {
     });
     toast.present();
   }
-  registro(){
+  registro() {
     this.navCtrl.navigateForward('/registro');
   }
 }

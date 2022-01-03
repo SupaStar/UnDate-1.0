@@ -12,8 +12,8 @@ const routes: Routes = [
         loadChildren: () => import('../inicio/inicio.module').then(m => m.InicioPageModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'busqueda',
+        loadChildren: () => import('../busqueda/busqueda.module').then(m => m.BusquedaPageModule)
       },
       {
         path: 'perfil',

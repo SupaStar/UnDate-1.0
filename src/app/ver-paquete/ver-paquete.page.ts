@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { Component, OnInit } from '@angular/core';
 import {
+  AlertController,
   LoadingController,
   NavController,
   ToastController,
@@ -26,23 +27,39 @@ export class VerPaquetePage implements OnInit {
     banner: '',
     descripcion: '',
     categoria: '',
+    imagenes: [
+      {
+        ruta: '',
+      },
+    ],
+    extras: [],
   };
+  slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+  };
+  montNightV = false;
+  extrasAnadidos = [];
+  carrusel = false;
   urlApi: any;
   urlExtras: any;
-  extras: any;
+  urlPublic: any;
   constructor(
     private navCtrl: NavController,
     private paqueteService: PaquetesService,
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private alertCtrl: AlertController
   ) {
     this.id = Number(localStorage.getItem('paquete_id'));
     this.urlExtras = environment.urlPublic + 'extras/';
+    this.urlApi = environment.urlPublic + 'banners/';
+    this.extrasAnadidos = [];
   }
 
   ngOnInit() {
     this.cargarPaquete();
-    this.open();
+    // this.open();
   }
   open() {
     (<HTMLStyleElement>document.querySelector('.botonSheet')).style.bottom =
@@ -84,10 +101,9 @@ export class VerPaquetePage implements OnInit {
           (res) => {
             if (res.status) {
               this.paquete = res.paquete;
-              this.paquete.banner =
-                environment.urlPublic + 'banners/' + this.paquete.banner;
-              this.extras = res.extras;
-              console.log(res.paquete);
+              if (this.paquete.imagenes.length > 0) {
+                this.carrusel = true;
+              }
             } else {
               let errorC = '';
               res.errors.forEach((element) => {
@@ -118,5 +134,53 @@ export class VerPaquetePage implements OnInit {
       color: colors,
     });
     toast.present();
+  }
+  agregarExtra(id) {
+    if (this.extrasAnadidos.indexOf(id) === -1) {
+      this.extrasAnadidos.push(id);
+    } else {
+      this.extrasAnadidos.splice(this.extrasAnadidos.indexOf(id), 1);
+    }
+  }
+  montNight() {
+    if (this.montNightV) {
+      this.alertCtrl
+        .create({
+          header: '¿Desea agregar este extra?',
+          message:
+            'Se necesitara realizar una visita antes del evento, para corroborar el espacio',
+          buttons: [
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary',
+              handler: (blah) => {
+                this.montNightV = false;
+              },
+            },
+            {
+              text: 'Agregar',
+              handler: () => {
+                this.montNightV = true;
+              },
+            },
+          ],
+        })
+        .then((alert) => {
+          alert.present();
+        });
+    }
+  }
+  agregarCarrito() {
+    const carritos = JSON.parse(localStorage.getItem('car_tems'));
+    const itemCarrito = {
+      idPaquete: this.paquete.id,
+      extras: this.extrasAnadidos,
+      cantidad: 1,
+      montNight: this.montNightV,
+    };
+    carritos.push(itemCarrito);
+    localStorage.setItem('car_tems', JSON.stringify(carritos));
+    this.navCtrl.back();
   }
 }

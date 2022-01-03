@@ -90,8 +90,9 @@ export class InicioPage implements OnInit {
         loading.present();
         this.paquetesService.getPaquetes().subscribe((data) => {
           if (data.status) {
+            this.infiniteScroll.disabled=false;
             this.paquetesCompletos = data.paquetes;
-            this.paquetes = this.paquetesCompletos.slice(0, 10);
+            this.paquetes = this.paquetesCompletos.slice(0, 5);
           } else {
             let errorC = '';
             data.message.forEach((element) => {
@@ -115,15 +116,14 @@ export class InicioPage implements OnInit {
   cargarMas(event) {
     console.log('Cargando siguiente...');
     setTimeout(() => {
-      this.paquetes.push({
-        id: this.paquetes.length + 1,
-        banner:
-          'https://media.gq-magazine.co.uk/photos/5f5a3406020908336ccd4df0/3:2/w_1620,h_1080,c_limit/20200910-date.jpg',
-        titulo: 'Paquete ' + this.paquetes.length,
-        descripcion:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et .',
-        categoria: 'Ejemplo Tipo',
-      });
+      const faltantes=this.paquetesCompletos.length-this.paquetes.length;
+      if(faltantes<=0){
+        event.target.complete();
+        this.infiniteScroll.disabled=true;
+        return;
+      }
+      const start = this.paquetes.length;
+      this.paquetes = this.paquetes.concat(this.paquetesCompletos.slice(start, start + 5));
       event.target.complete();
       if (this.paquetes.length === 10) {
         event.target.disabled = true;
