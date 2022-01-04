@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VerPaquetePageRoutingModule } from './ver-paquete-routing.module';
+import { CarritoPageRoutingModule } from './carrito-routing.module';
 
-import { VerPaquetePage } from './ver-paquete.page';
+import { CarritoPage } from './carrito.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerPaquetePageRoutingModule,
+    CarritoPageRoutingModule
   ],
-  declarations: [VerPaquetePage]
+  declarations: [CarritoPage]
 })
-export class VerPaquetePageModule {}
+export class CarritoPageModule {}

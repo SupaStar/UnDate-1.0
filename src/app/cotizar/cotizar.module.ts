@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VerPaquetePageRoutingModule } from './ver-paquete-routing.module';
+import { CotizarPageRoutingModule } from './cotizar-routing.module';
 
-import { VerPaquetePage } from './ver-paquete.page';
+import { CotizarPage } from './cotizar.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerPaquetePageRoutingModule,
+    CotizarPageRoutingModule
   ],
-  declarations: [VerPaquetePage]
+  declarations: [CotizarPage]
 })
-export class VerPaquetePageModule {}
+export class CotizarPageModule {}

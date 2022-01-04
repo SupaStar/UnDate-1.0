@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrarModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let item of carrito;let i = index"  [attr.data-index]="i">
+    <ion-item>
+      <ion-label>{{item.paquete.titulo}}</ion-label>
+      <ion-button slot="end" (click)="eliminar(i)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </div>
+  <ion-button class="botonPagar" (click)="cotizar()" color="dark" expand="full">
+    Cotizar
+  </ion-button>
+</ion-content>

@@ -26,12 +26,22 @@ const routes: Routes = [
   },
   {
     path: 'editar',
-    loadChildren: () => import('./paginas-perfil/editar/editar.module').then( m => m.EditarPageModule)
+    loadChildren: () =>
+      import('./paginas-perfil/editar/editar.module').then(
+        (m) => m.EditarPageModule
+      ),
   },
   {
     path: 'paquete',
-    loadChildren: () => import('./ver-paquete/ver-paquete.module').then( m => m.VerPaquetePageModule)
-  }
+    loadChildren: () =>
+      import('./ver-paquete/ver-paquete.module').then(
+        (m) => m.VerPaquetePageModule
+      ),
+  },  {
+    path: 'cotizar',
+    loadChildren: () => import('./cotizar/cotizar.module').then( m => m.CotizarPageModule)
+  },
+
 ];
 @NgModule({
   imports: [

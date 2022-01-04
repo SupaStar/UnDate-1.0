@@ -49,7 +49,7 @@ export class VerPaquetePage implements OnInit {
     private paqueteService: PaquetesService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
   ) {
     this.id = Number(localStorage.getItem('paquete_id'));
     this.urlExtras = environment.urlPublic + 'extras/';
@@ -137,9 +137,12 @@ export class VerPaquetePage implements OnInit {
   }
   agregarExtra(id) {
     if (this.extrasAnadidos.indexOf(id) === -1) {
-      this.extrasAnadidos.push(id);
+      this.extrasAnadidos.push(this.paquete.extras.find((e) => e.id === id));
     } else {
-      this.extrasAnadidos.splice(this.extrasAnadidos.indexOf(id), 1);
+      this.extrasAnadidos.splice(
+        this.extrasAnadidos.indexOf(id),
+        1
+      );
     }
   }
   montNight() {
@@ -174,7 +177,7 @@ export class VerPaquetePage implements OnInit {
   agregarCarrito() {
     const carritos = JSON.parse(localStorage.getItem('car_tems'));
     const itemCarrito = {
-      idPaquete: this.paquete.id,
+      paquete: this.paquete,
       extras: this.extrasAnadidos,
       cantidad: 1,
       montNight: this.montNightV,

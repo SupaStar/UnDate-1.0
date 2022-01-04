@@ -13,9 +13,10 @@ import {
 } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { DireccionesPage } from './modales/direcciones/direcciones.page';
+import { CarritoPage } from './modales/carrito/carrito.page';
 
 @NgModule({
-  declarations: [AppComponent,DireccionesPage],
+  declarations: [AppComponent,DireccionesPage,CarritoPage],
   entryComponents: [DireccionesPage],
   imports: [
     BrowserModule,

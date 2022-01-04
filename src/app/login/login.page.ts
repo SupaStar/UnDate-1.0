@@ -20,7 +20,6 @@ export class LoginPage implements OnInit {
     public toastController: ToastController,
     private navCtrl: NavController
   ) {
-    document.body.classList.toggle('dark');
     this.restablecerFormulario();
     const token = localStorage.getItem('_t_s');
     if (token) {

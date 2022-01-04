@@ -1,7 +1,10 @@
 <ion-header> </ion-header>
 <ion-content class="contenido">
   <ion-segment scrollable>
-    <ion-segment-button class="botonSeccion" *ngFor="let categoria of categorias">
+    <ion-segment-button
+      class="botonSeccion"
+      *ngFor="let categoria of categorias"
+    >
       <div class="icono">
         <fa-icon [icon]="['fas',categoria.icono]"></fa-icon>
       </div>
@@ -31,7 +34,9 @@
         :alt="{{paquete.nombre}}"
         style="position: relative; max-height: 10rem; width: 100%"
       />
-      <button class="btn"><ion-icon name="heart-outline"></ion-icon></button>
+      <button class="btn">
+        <ion-icon style="color: black" name="heart-outline"></ion-icon>
+      </button>
     </div>
     <ion-card-header>
       <ion-card-subtitle>{{paquete.categoria.nombre}}</ion-card-subtitle>
@@ -41,6 +46,9 @@
     <ion-card-content> {{paquete.descripcion}} </ion-card-content>
   </ion-card>
 
+  <ion-button *ngIf="carrito" class="botonCarrito" color="dark" expand="full" (click)="verCarrito()">
+  Ver carrito ({{nProductos}})</ion-button
+  >
   <ion-infinite-scroll threshold="100px" (ionInfinite)="cargarMas($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
