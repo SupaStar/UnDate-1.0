@@ -48,7 +48,7 @@ export class RegistroPage implements OnInit {
             (data) => {
               if (data.status) {
                 this.presentToast(
-                  'Usuario creado con exito, ahora puedes iniciar sesion.',
+                  'Usuario creado con éxito, confirma tu correo para iniciar sesion.',
                   'success'
                 );
                 this.navController.navigateBack('/');
