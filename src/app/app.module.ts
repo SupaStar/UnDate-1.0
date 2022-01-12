@@ -14,9 +14,10 @@ import {
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { DireccionesPage } from './modales/direcciones/direcciones.page';
 import { CarritoPage } from './modales/carrito/carrito.page';
+import { ReiniciarPassPage } from './modales/reiniciar-pass/reiniciar-pass.page';
 
 @NgModule({
-  declarations: [AppComponent,DireccionesPage,CarritoPage],
+  declarations: [AppComponent, DireccionesPage, CarritoPage],
   entryComponents: [DireccionesPage],
   imports: [
     BrowserModule,

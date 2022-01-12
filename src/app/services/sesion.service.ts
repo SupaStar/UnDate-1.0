@@ -13,7 +13,7 @@ export class SesionService {
   private urlCP = environment.url + 'cp/';
   private urlAgregarDireccion = environment.url + 'usuario/direccion';
   private urlEditarDireccion = environment.url + 'usuario/editar_direccion';
-
+  private urlRequestResetPassword = environment.url + 'request_reset_password';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -48,5 +48,8 @@ export class SesionService {
       headers: headersO,
     };
     return httpOptions;
+  }
+  requestResetPassword(usuario: any) {
+    return this.http.post<any>(this.urlRequestResetPassword, usuario);
   }
 }

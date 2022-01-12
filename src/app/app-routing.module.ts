@@ -37,10 +37,20 @@ const routes: Routes = [
       import('./ver-paquete/ver-paquete.module').then(
         (m) => m.VerPaquetePageModule
       ),
-  },  {
+  },
+  {
     path: 'cotizar',
     loadChildren: () => import('./cotizar/cotizar.module').then( m => m.CotizarPageModule)
   },
+  {
+    path: 'reiniciarPass',
+    loadChildren: () => import('./modales/reiniciar-pass/reiniciar-pass.module').then( m => m.ReiniciarPassPageModule)
+  },
+  {
+    path: 'codigoCambio',
+    loadChildren: () => import('./modales/codigo-cambio/codigo-cambio.module').then( m => m.CodigoCambioPageModule)
+  },
+
 
 ];
 @NgModule({

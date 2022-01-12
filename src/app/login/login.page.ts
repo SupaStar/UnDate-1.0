@@ -2,9 +2,11 @@
 import { Component, OnInit } from '@angular/core';
 import {
   LoadingController,
+  ModalController,
   NavController,
   ToastController,
 } from '@ionic/angular';
+import { ReiniciarPassPage } from '../modales/reiniciar-pass/reiniciar-pass.page';
 import { SesionService } from '../services/sesion.service';
 
 @Component({
@@ -18,7 +20,8 @@ export class LoginPage implements OnInit {
     private authService: SesionService,
     public loadingController: LoadingController,
     public toastController: ToastController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private modalCtrl: ModalController
   ) {
     this.restablecerFormulario();
     const token = localStorage.getItem('_t_s');
@@ -83,5 +86,8 @@ export class LoginPage implements OnInit {
   }
   registro() {
     this.navCtrl.navigateForward('/registro');
+  }
+  async reiniciarPassword() {
+    this.navCtrl.navigateForward('/reiniciarPass');
   }
 }
