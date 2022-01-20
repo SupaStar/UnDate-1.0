@@ -50,6 +50,11 @@ const routes: Routes = [
     path: 'codigoCambio',
     loadChildren: () => import('./modales/codigo-cambio/codigo-cambio.module').then( m => m.CodigoCambioPageModule)
   },
+  {
+    path: 'nuevaPass',
+    loadChildren: () => import('./paginas-perfil/nueva-pass/nueva-pass.module').then( m => m.NuevaPassPageModule)
+  },
+
 
 
 ];

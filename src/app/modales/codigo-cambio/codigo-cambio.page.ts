@@ -15,7 +15,7 @@ import { SesionService } from 'src/app/services/sesion.service';
 })
 export class CodigoCambioPage implements OnInit {
   @ViewChildren(IonInput) inputs: IonInput[];
-
+  arregloInputs = [];
   correo: any;
   intentos: any;
   espera = false;
@@ -28,6 +28,7 @@ export class CodigoCambioPage implements OnInit {
     n5: '',
     n6: '',
   };
+  finalizado = false;
 
   constructor(
     private navController: NavController,
@@ -41,49 +42,96 @@ export class CodigoCambioPage implements OnInit {
   }
 
   ngOnInit() {}
-  cambiar(numero) {
+  pegar(event) {
+    const codigoPegado = event.clipboardData.getData('text/plain');
+    if (codigoPegado.length === 6) {
+      for (let i = 0; i < 6; i++) {
+        const keys = Object.keys(this.digitos);
+        this.digitos[keys[i]] = codigoPegado[i];
+      }
+    }
+  }
+  cambiar(event, numero) {
+    if (!(this.arregloInputs.length > 0)) {
+      for (const input of this.inputs) {
+        this.arregloInputs.push(input);
+      }
+    }
     switch (numero) {
       case 0:
-        setTimeout(() => {
-          this.inputs[1].setFocus();
-        },150);
+        if (!(this.arregloInputs[0].value.length < 1)) {
+          this.arregloInputs[1].setFocus();
+        } else {
+          this.finalizado = false;
+        }
         break;
       case 1:
-        this.inputs[2].setFocus();
+        if (!(this.arregloInputs[1].value.length < 1)) {
+          this.arregloInputs[2].setFocus();
+        } else {
+          this.finalizado = false;
+        }
         break;
       case 2:
-        this.inputs[3].setFocus();
+        if (!(this.arregloInputs[2].value.length < 1)) {
+          this.arregloInputs[3].setFocus();
+        } else {
+          this.finalizado = false;
+        }
         break;
       case 3:
-        this.inputs[4].setFocus();
+        if (!(this.arregloInputs[3].value.length < 1)) {
+          this.arregloInputs[4].setFocus();
+        } else {
+          this.finalizado = false;
+        }
         break;
       case 4:
-        this.inputs[5].setFocus();
+        if (!(this.arregloInputs[4].value.length < 1)) {
+          this.arregloInputs[5].setFocus();
+        } else {
+          this.finalizado = false;
+        }
         break;
       case 5:
-        const finalizado = true;
+        this.finalizado = true;
         break;
     }
   }
-  // async cuenta() {
-  //   let segundosRestantes = this.intentos * 30;
-  //   if(this.intentos-60>0){
-  //     while(segundosRestantes>60){
-  //     let minutosRestantes = Math.round(segundosRestantes/60);
-  //     }
-  //   }else{
-  //     while(segundosRestantes>0){
-  //       setTimeout(() => {
-  //         segundosRestantes--;
-  //         if(segundosRestantes<10){
-  //           this.tiempoRestante = "00"+":0"+segundosRestantes;
-  //         }else{
-  //           this.tiempoRestante = "00"+":"+segundosRestantes;
-  //         }
-  //       }, 1000);
-  //     }
-  //   }
-  // }
+  validateCode() {
+    const keys = Object.keys(this.digitos);
+    let code = '';
+    keys.forEach((key) => {
+      code += this.digitos[key];
+    });
+    this.loadingController
+      .create({
+        message: 'Cargando...',
+      })
+      .then((loading) => {
+        loading.present();
+        this.authProv.validateCode(code).subscribe(
+          (data) => {
+            loading.dismiss();
+            if (data.status === true) {
+              localStorage.setItem('m_us_change_int', data.code);
+              this.navController.navigateForward('/nuevaPass');
+            } else {
+              let error = '';
+              data.errors.forEach((element) => {
+                error += element + '\n';
+              });
+              this.presentToast(error, 'danger');
+            }
+          },
+          (err) => {
+            loading.dismiss();
+            this.presentToast('Error de conexión', 'danger');
+          }
+        );
+      });
+  }
+
   cambioPass() {
     this.navController.navigateBack('/');
   }
@@ -94,7 +142,7 @@ export class CodigoCambioPage implements OnInit {
       })
       .then((loading) => {
         loading.present();
-        this.authProv.requestResetPassword({ correo: this.correo }).subscribe(
+        this.authProv.requestResetPassword({ email: this.correo }).subscribe(
           (data) => {
             if (data.status) {
               loading.dismiss();

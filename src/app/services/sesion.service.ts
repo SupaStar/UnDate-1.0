@@ -14,6 +14,8 @@ export class SesionService {
   private urlAgregarDireccion = environment.url + 'usuario/direccion';
   private urlEditarDireccion = environment.url + 'usuario/editar_direccion';
   private urlRequestResetPassword = environment.url + 'request_reset_password';
+  private urlValidatecode = environment.url + 'validateCode/';
+  private urlNewPassword = environment.url + 'reset_password';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -51,5 +53,11 @@ export class SesionService {
   }
   requestResetPassword(usuario: any) {
     return this.http.post<any>(this.urlRequestResetPassword, usuario);
+  }
+  validateCode(code: any) {
+    return this.http.get<any>(this.urlValidatecode + code);
+  }
+  newPassword(user:any){
+    return this.http.post<any>(this.urlNewPassword,user);
   }
 }

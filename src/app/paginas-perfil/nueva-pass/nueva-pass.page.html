@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <a (click)="cambioPass()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </a>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [formGroup]="newPass">
+    <ion-item>
+      <ion-label position="floating">Nueva contraseña</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <div
+      *ngIf="newPass.controls.password.touched && newPass.controls.password.invalid"
+      color="danger"
+    >
+      <ion-label
+        *ngIf="newPass.controls.password.errors.required"
+        color="danger"
+      >
+        * La contraseña es obligatoria
+      </ion-label>
+      <ion-label
+        *ngIf="newPass.controls.password.errors.minlength"
+        color="danger"
+      >
+        * La contraseña debe tener al menos 6 caracteres
+      </ion-label>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Confirmar contraseña</ion-label>
+      <ion-input
+        type="password"
+        formControlName="password_confirmation"
+        autocomplete="new-password"
+      ></ion-input>
+    </ion-item>
+    <div
+      *ngIf="newPass.controls.password_confirmation.touched && newPass.controls.password_confirmation.invalid"
+      color="danger"
+    >
+      <ion-label
+        color="danger"
+        *ngIf="newPass.controls.password_confirmation.errors.required && (newPass.controls.password_confirmation.touched || newPass.controls.password_confirmation.dirty)"
+        >* La confirmación de la contraseña es obligatoria
+      </ion-label>
+      <ion-label
+        color="danger"
+        *ngIf="newPass.controls.password_confirmation.errors.minLength && (newPass.controls.password_confirmation.touched || newPass.controls.password_confirmation.dirty)"
+        >* La confirmación de la contraseña debe tener mínimo 6 caracteres
+      </ion-label>
+      <ion-label
+        *ngIf="newPass.controls.password_confirmation.errors.same"
+        color="danger"
+      >
+        * Las contraseñas no coinciden
+      </ion-label>
+    </div>
+    <ion-button
+      expand="block"
+      color="primary"
+      [disabled]="!newPass.valid"
+      (click)="cambiarPass()"
+    >
+      Enviar
+    </ion-button>
+  </div>
+</ion-content>

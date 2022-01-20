@@ -11,15 +11,58 @@
 <ion-content>
   <p>Introduce el código de 6 dígitos que enviamos a tu correo {{correo}}</p>
   <ion-item>
-    <ion-input type="number" [(ngModel)]="digitos.n1" debounce='0' (ionChange)='cambiar(0)'></ion-input>
-    <ion-input type="number" [(ngModel)]="digitos.n2" debounce='0' (ionChange)='cambiar(1)'></ion-input>
-    <ion-input type="number" [(ngModel)]="digitos.n3" debounce='0' (ionChange)='cambiar(2)'></ion-input>
-    <ion-input type="number" [(ngModel)]="digitos.n4" debounce='0' (ionChange)='cambiar(3)'></ion-input>
-    <ion-input type="number" [(ngModel)]="digitos.n5" debounce='0' (ionChange)='cambiar(4)'></ion-input>
-    <ion-input type="number" [(ngModel)]="digitos.n6" debounce='0' (ionChange)='cambiar(5)'></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n1"
+      (paste)="pegar($event)"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,0)"
+    ></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n2"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,1)"
+    ></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n3"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,2)"
+    ></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n4"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,3)"
+    ></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n5"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,4)"
+    ></ion-input>
+    <ion-input
+      type="tel"
+      inputmode="numeric"
+      [(ngModel)]="digitos.n6"
+      debounce="0"
+      maxlength="1"
+      (ionChange)="cambiar($event,5)"
+    ></ion-input>
   </ion-item>
-  <button (click)="reenviarCodigo()">
-    No he recibido el correo
-    <ion-label *ngIf="espera">{{tiempoRestante}}</ion-label>
-  </button>
+  <button (click)="reenviarCodigo()">No he recibido el correo</button>
+  <ion-button color="primary" *ngIf="finalizado" expand="block" (click)="validateCode()">
+    Enviar
+  </ion-button>
 </ion-content>
