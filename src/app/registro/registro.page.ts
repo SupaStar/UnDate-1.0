@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   LoadingController,
   NavController,
@@ -13,6 +13,14 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
+  @ViewChild('passwordEyeRegister', { read: ElementRef })
+  passwordEye: ElementRef;
+  @ViewChild('passwordEyeRegisterConfirm', { read: ElementRef })
+  passwordEyeConfirm: ElementRef;
+  passwordTypeInput = 'password';
+  passwordConfirmTypeInput = 'password';
+
+
   usuario = this.fb.group({
     nombres: ['', Validators.required],
     apellidos: ['', Validators.required],
@@ -32,6 +40,26 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.usuario.reset();
+  }
+  togglePasswordMode() {
+    this.passwordTypeInput =
+      this.passwordTypeInput === 'text' ? 'password' : 'text';
+    const nativeEl = this.passwordEye.nativeElement.querySelector('input');
+    const inputSelection = nativeEl.selectionStart;
+    nativeEl.focus();
+    setTimeout(() => {
+      nativeEl.setSelectionRange(inputSelection, inputSelection);
+    }, 1);
+  }
+  togglePasswordMode2() {
+    this.passwordConfirmTypeInput =
+      this.passwordConfirmTypeInput === 'text' ? 'password' : 'text';
+    const nativeEl = this.passwordEyeConfirm.nativeElement.querySelector('input');
+    const inputSelection = nativeEl.selectionStart;
+    nativeEl.focus();
+    setTimeout(() => {
+      nativeEl.setSelectionRange(inputSelection, inputSelection);
+    }, 1);
   }
   login() {
     this.navController.navigateBack('/');
@@ -70,7 +98,7 @@ export class RegistroPage implements OnInit {
             }
           );
         });
-    }else{
+    } else {
       this.presentToast('Por favor llene todos los campos', 'danger');
     }
   }

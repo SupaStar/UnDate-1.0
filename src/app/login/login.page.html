@@ -1,28 +1,57 @@
 <ion-content>
-  <ion-text class="ion-text-center">
-    <h1>Bienvenido</h1>
-    <h4>Inicie su sesión</h4>
-  </ion-text>
-  <ion-item>
-    <ion-label position="floating">Correo Electrónico</ion-label>
-    <ion-input [(ngModel)]="usuario.email" autofocus autocomplete="email"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input
-      [(ngModel)]="usuario.password"
-      type="password"
-      autocomplete="current-password"
-    ></ion-input>
-  </ion-item>
-  <ion-button (click)="login()" expand="block" color="success">
-    Entrar
-  </ion-button>
-  <div class="registro">
-    <p>¿Aun no tienes cuenta?</p>
-    <ion-button (click)="registro()">Registrate</ion-button>
-  </div>
   <div>
-    <a (click)="reiniciarPassword()">Olvide mi contraseña</a>
+    <ion-img
+      src="assets/img/fondo.jpg"
+      style="filter: blur(1px)"
+      class="imgFondo"
+    ></ion-img>
+    <ion-img src="assets/img/logo-sinfondo.png" class="logo"></ion-img>
+  </div>
+  <div class="contenido">
+    <div class="paddingLetras">
+      <ion-text>Iniciar sesión</ion-text>
+    </div>
+    <ion-item class="inputCentrado">
+      <ion-label position="stacked" class="label">
+        Correo electrónico
+      </ion-label>
+      <ion-input
+        #inputEmail
+        [(ngModel)]="usuario.email"
+        (ionFocus)="animacion()"
+        autocomplete="email"
+        type="email"
+        placeholder="ejemplo@ejemplo.com"
+      ></ion-input>
+    </ion-item>
+    <ion-item class="inputCentrado" style="padding-top: 2vh">
+      <ion-label position="stacked" class="label"> Contraseña </ion-label>
+      <ion-input
+        [(ngModel)]="usuario.password"
+        type="password"
+        autocomplete="current-password"
+        placeholder="Contraseña"
+        aria-label="Contraseña"
+      ></ion-input>
+    </ion-item>
+    <div class="reiniciarPass">
+      <a (click)="reiniciarPassword()" style="color: var(--ion-color-medium)"
+        >¿Contraseña olvidada?</a
+      >
+    </div>
+    <ion-button
+      (click)="login()"
+      expand="block"
+      color="dark"
+      style="margin-top: 6vh; height: 7vh"
+    >
+      Entrar
+    </ion-button>
+    <div class="registro">
+      <p style="font-size: 14px">
+        ¿Aun no tienes cuenta?
+        <a style="font-size: 16px" (click)="registro()" style="color: var(--ion-color-medium)">Registrate</a>
+      </p>
+    </div>
   </div>
 </ion-content>

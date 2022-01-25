@@ -3,91 +3,170 @@
     <ion-buttons slot="start">
       <a (click)="login()"> <ion-icon name="arrow-back-outline"></ion-icon> </a>
     </ion-buttons>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-img
+    src="assets/img/logo-sinfondo.png"
+    style="margin-bottom: -3vh"
+  ></ion-img>
   <div [formGroup]="usuario">
-    <ion-item>
-      <ion-label position="floating">Nombres</ion-label>
-      <ion-input type="text" formControlName="nombres" autocomplete="name"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.nombres.errors?.required && (usuario.controls.nombres.touched || usuario.controls.nombres.dirty)"
-      >* El nombre es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Apellidos</ion-label>
-      <ion-input type="text" formControlName="apellidos" autocomplete="family-name"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.apellidos.errors?.required && (usuario.controls.apellidos.touched || usuario.controls.apellidos.dirty)"
-      >* Los apellidos son obligatorios
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Correo electrónico</ion-label>
-      <ion-input type="email" formControlName="email" autocomplete="email"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.email.errors?.required && (usuario.controls.email.touched || usuario.controls.email.dirty)"
-      >* El correo electrónico es obligatorio
-    </ion-label>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.email.errors?.email && (usuario.controls.email.touched || usuario.controls.email.dirty)"
-      >* El correo electrónico no tiene un formato valido
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Telefono</ion-label>
-      <ion-input
-        type="tel"
-        inputmode="tel"
-        formControlName="telefono"
-        autocomplete="tel-local"
-      ></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.telefono.errors?.required && (usuario.controls.telefono.touched || usuario.controls.telefono.dirty)"
-      >* El teléfono es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" formControlName="password" autocomplete="new-password"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.password.errors?.required && (usuario.controls.password.touched || usuario.controls.password.dirty)"
-      >* La contraseña es obligatoria
-    </ion-label>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.password.errors?.minLength && (usuario.controls.password.touched || usuario.controls.password.dirty)"
-      >* La contraseña debe tener mínimo 6 caracteres</ion-label
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Nombre(s)</ion-label>
+            <ion-input
+              type="text"
+              formControlName="nombres"
+              autocomplete="name"
+            ></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            *ngIf="usuario.controls.nombres.errors?.required && (usuario.controls.nombres.touched || usuario.controls.nombres.dirty)"
+            >* El nombre es obligatorio
+          </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Apellidos</ion-label>
+            <ion-input
+              type="text"
+              formControlName="apellidos"
+              autocomplete="family-name"
+            ></ion-input>
+          </ion-item>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.apellidos.errors?.required && (usuario.controls.apellidos.touched || usuario.controls.apellidos.dirty)"
+            >* Los apellidos son obligatorios
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Correo electrónico</ion-label>
+            <ion-input
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+            ></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            *ngIf="usuario.controls.email.errors?.required && (usuario.controls.email.touched || usuario.controls.email.dirty)"
+            >* El correo electrónico es obligatorio
+          </ion-label>
+          <ion-label
+            color="danger"
+            *ngIf="usuario.controls.email.errors?.email && (usuario.controls.email.touched || usuario.controls.email.dirty)"
+            >* El correo electrónico no tiene un formato valido
+          </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Telefono</ion-label>
+            <ion-input
+              type="tel"
+              inputmode="tel"
+              formControlName="telefono"
+              autocomplete="tel-local"
+            ></ion-input>
+          </ion-item>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.telefono.errors?.required && (usuario.controls.telefono.touched || usuario.controls.telefono.dirty)"
+            >* El teléfono es obligatorio
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input
+              [type]="passwordTypeInput"
+              #passwordEyeRegister
+              formControlName="password"
+              autocomplete="new-password"
+              clearOnEdit="false"
+            ></ion-input>
+            <button
+              item-end
+              class="btn_eye_icon"
+              (click)="togglePasswordMode()"
+            >
+              <ion-icon
+                [name]="(passwordTypeInput === 'text')?'eye-off':'eye'"
+              ></ion-icon>
+            </button>
+          </ion-item>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.password.errors?.required && (usuario.controls.password.touched || usuario.controls.password.dirty)"
+            >* La contraseña es obligatoria
+          </ion-label>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.password.errors?.minLength && (usuario.controls.password.touched || usuario.controls.password.dirty)"
+            >* La contraseña debe tener mínimo 6 caracteres</ion-label
+          >
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating"
+              >Confirmación de Contraseña</ion-label
+            >
+            <ion-input
+              [type]="passwordConfirmTypeInput"
+              #passwordEyeRegisterConfirm
+              formControlName="password_confirmation"
+              autocomplete="new-password"
+              clearOnEdit="false"
+            ></ion-input>
+            <button
+              item-end
+              class="btn_eye_icon"
+              (click)="togglePasswordMode2()"
+            >
+              <ion-icon
+                [name]="(passwordConfirmTypeInput === 'text')?'eye-off':'eye'"
+              ></ion-icon>
+            </button>
+          </ion-item>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.password_confirmation.errors?.required && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
+            >* La confirmación de contraseña es obligatoria
+          </ion-label>
+          <ion-label
+            class="labelCentrado"
+            color="danger"
+            *ngIf="usuario.controls.password_confirmation.errors?.minLength && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
+            >* La contraseña debe tener mínimo 6 caracteres</ion-label
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button
+      expand="block"
+      [disabled]="!usuario.valid"
+      (click)="registro()"
+      color="medium"
+      style="height: 7vh; margin-top: 16vh"
     >
-    <ion-item>
-      <ion-label position="floating">Confirmación de Contraseña</ion-label>
-      <ion-input
-        type="password"
-        formControlName="password_confirmation"
-        autocomplete="new-password"
-      ></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.password_confirmation.errors?.required && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
-      >* La confirmación de contraseña es obligatoria
-    </ion-label>
-    <ion-label
-      color="danger"
-      *ngIf="usuario.controls.password_confirmation.errors?.minLength && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
-      >* La contraseña debe tener mínimo 6 caracteres</ion-label
-    >
-    <ion-button expand="block" [disabled]="!usuario.valid" (click)="registro()"
-      >Registrarse</ion-button
-    >
+      Registrarse
+    </ion-button>
   </div>
 </ion-content>

@@ -1,12 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit } from '@angular/core';
 import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  AnimationController,
   LoadingController,
-  ModalController,
   NavController,
   ToastController,
 } from '@ionic/angular';
-import { ReiniciarPassPage } from '../modales/reiniciar-pass/reiniciar-pass.page';
 import { SesionService } from '../services/sesion.service';
 
 @Component({
@@ -15,13 +20,15 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  @ViewChild('inputEmail') inputEmail: ElementRef;
   usuario: any;
+  mostrar = false;
   constructor(
     private authService: SesionService,
     public loadingController: LoadingController,
     public toastController: ToastController,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private animationCtrl: AnimationController
   ) {
     this.restablecerFormulario();
     const token = localStorage.getItem('_t_s');
@@ -88,6 +95,9 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward('/registro');
   }
   async reiniciarPassword() {
+    if(this.usuario.email !== ''){
+      localStorage.setItem('_t_mail', this.usuario.email);
+    }
     this.navCtrl.navigateForward('/reiniciarPass');
   }
 }

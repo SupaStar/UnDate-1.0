@@ -23,7 +23,12 @@ export class ReiniciarPassPage implements OnInit {
     public toastController: ToastController,
     private authProv: SesionService,
     private fb: FormBuilder
-  ) {}
+  ) {
+    const mail = localStorage.getItem('_t_mail');
+    if (mail) {
+      this.usuario.controls.email.setValue(mail);
+    }
+  }
 
   ngOnInit() {}
   login() {
