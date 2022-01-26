@@ -15,6 +15,7 @@ import { PaquetesService } from '../services/paquetes.service';
   styleUrls: ['./ver-paquete.page.scss'],
 })
 export class VerPaquetePage implements OnInit {
+  imgban = '';
   currentPosition;
   height;
   minimumThreshold = 100;
@@ -49,11 +50,12 @@ export class VerPaquetePage implements OnInit {
     private paqueteService: PaquetesService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertCtrl: AlertController,
+    private alertCtrl: AlertController
   ) {
     this.id = Number(localStorage.getItem('paquete_id'));
     this.urlExtras = environment.urlPublic + 'extras/';
     this.urlApi = environment.urlPublic + 'banners/';
+    this.imgban = this.urlApi + localStorage.getItem('img_ban');
     this.extrasAnadidos = [];
   }
 
@@ -101,6 +103,7 @@ export class VerPaquetePage implements OnInit {
           (res) => {
             if (res.status) {
               this.paquete = res.paquete;
+              console.log(this.paquete);
               if (this.paquete.imagenes.length > 0) {
                 this.carrusel = true;
               }
@@ -139,10 +142,7 @@ export class VerPaquetePage implements OnInit {
     if (this.extrasAnadidos.indexOf(id) === -1) {
       this.extrasAnadidos.push(this.paquete.extras.find((e) => e.id === id));
     } else {
-      this.extrasAnadidos.splice(
-        this.extrasAnadidos.indexOf(id),
-        1
-      );
+      this.extrasAnadidos.splice(this.extrasAnadidos.indexOf(id), 1);
     }
   }
   montNight() {

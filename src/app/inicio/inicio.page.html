@@ -43,11 +43,19 @@
       <ion-card-title>{{paquete.titulo}}</ion-card-title>
     </ion-card-header>
 
-    <ion-card-content> {{paquete.descripcion}} </ion-card-content>
+    <ion-card-content>
+      {{paquete.descripcion.length>60?paquete.descripcion.slice(0,60)+"...":paquete.descripcion}}
+    </ion-card-content>
   </ion-card>
 
-  <ion-button *ngIf="carrito" class="botonCarrito" color="dark" expand="full" (click)="verCarrito()">
-  Ver carrito ({{nProductos}})</ion-button
+  <ion-button
+    *ngIf="carrito"
+    class="botonCarrito"
+    color="dark"
+    expand="full"
+    (click)="verCarrito()"
+  >
+    Ver carrito ({{nProductos}})</ion-button
   >
   <ion-infinite-scroll threshold="100px" (ionInfinite)="cargarMas($event)">
     <ion-infinite-scroll-content

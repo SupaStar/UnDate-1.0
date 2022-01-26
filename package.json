@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "full":"npm run build && npx cap add android && npx cordova-res android --skip-config --copy && npx cap copy && npx cap open android",
+    "full": "npm run build && npx cap add android && npx cordova-res android --skip-config --copy && npx cap copy && npx cap open android",
     "pruebas": "npx cordova-res android --skip-config --copy && npm run build && npx cap copy && npx cap open android"
   },
   "private": true,
@@ -34,6 +34,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@ionic/angular": "^6.0.0",
     "cordova-plugin-geolocation": "^4.1.0",
+    "ionic-header-parallax": "^3.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

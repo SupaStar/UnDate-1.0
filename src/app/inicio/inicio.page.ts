@@ -159,6 +159,8 @@ export class InicioPage implements OnInit {
   }
   verPaquete(id) {
     localStorage.setItem('paquete_id', id);
+    const paqueteE=this.paquetesCompletos.find(paquete=>paquete.id==id);
+    localStorage.setItem('img_ban', paqueteE.imagenes[0].ruta);
     this.navCtrl.navigateForward('/paquete');
   }
   async presentToast(mensaje, colors) {
