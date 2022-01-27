@@ -8,10 +8,20 @@
     color: #757575;
   }
 }
-
 .btn_eye_icon:focus {
   outline: none !important;
 }
 ion-col {
   padding-top: 2vh;
+}
+.error {
+  font-size: 12px;
+}
+.btnRegistro {
+  height: 7vh;
+  // margin-top: 16vh;
+  position: fixed;
+  left: 1rem;
+  bottom: 1.5vh;
+  right: 1rem;
 }

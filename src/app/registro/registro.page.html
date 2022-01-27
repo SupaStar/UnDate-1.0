@@ -25,7 +25,7 @@
             ></ion-input>
           </ion-item>
           <ion-label
-            color="danger"
+            color="danger" class="error"
             *ngIf="usuario.controls.nombres.errors?.required && (usuario.controls.nombres.touched || usuario.controls.nombres.dirty)"
             >* El nombre es obligatorio
           </ion-label>
@@ -40,7 +40,7 @@
             ></ion-input>
           </ion-item>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.apellidos.errors?.required && (usuario.controls.apellidos.touched || usuario.controls.apellidos.dirty)"
             >* Los apellidos son obligatorios
@@ -59,11 +59,13 @@
           </ion-item>
           <ion-label
             color="danger"
+            class="error"
             *ngIf="usuario.controls.email.errors?.required && (usuario.controls.email.touched || usuario.controls.email.dirty)"
             >* El correo electrónico es obligatorio
           </ion-label>
           <ion-label
             color="danger"
+            class="error"
             *ngIf="usuario.controls.email.errors?.email && (usuario.controls.email.touched || usuario.controls.email.dirty)"
             >* El correo electrónico no tiene un formato valido
           </ion-label>
@@ -79,7 +81,7 @@
             ></ion-input>
           </ion-item>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.telefono.errors?.required && (usuario.controls.telefono.touched || usuario.controls.telefono.dirty)"
             >* El teléfono es obligatorio
@@ -108,13 +110,13 @@
             </button>
           </ion-item>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.password.errors?.required && (usuario.controls.password.touched || usuario.controls.password.dirty)"
             >* La contraseña es obligatoria
           </ion-label>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.password.errors?.minLength && (usuario.controls.password.touched || usuario.controls.password.dirty)"
             >* La contraseña debe tener mínimo 6 caracteres</ion-label
@@ -145,13 +147,13 @@
             </button>
           </ion-item>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.password_confirmation.errors?.required && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
             >* La confirmación de contraseña es obligatoria
           </ion-label>
           <ion-label
-            class="labelCentrado"
+            class="error"
             color="danger"
             *ngIf="usuario.controls.password_confirmation.errors?.minLength && (usuario.controls.password_confirmation.touched || usuario.controls.password_confirmation.dirty)"
             >* La contraseña debe tener mínimo 6 caracteres</ion-label
@@ -164,7 +166,7 @@
       [disabled]="!usuario.valid"
       (click)="registro()"
       color="medium"
-      style="height: 7vh; margin-top: 16vh"
+      class="btnRegistro"
     >
       Registrarse
     </ion-button>

@@ -6,5 +6,25 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    this.modoOscuro();
+  }
+  modoOscuro() {
+    const preferencia = localStorage.getItem('dark');
+    if (preferencia === null) {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      console.log(prefersDark.matches);
+      document.body.classList.toggle('dark', prefersDark.matches);
+      localStorage.setItem('dark', 'null');
+    } else {
+      if (preferencia === 'true') {
+        document.body.classList.toggle('dark', true);
+      } else if (preferencia === 'null') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+        document.body.classList.toggle('dark', prefersDark.matches);
+      } else {
+        document.body.classList.toggle('dark', false);
+      }
+    }
+  }
 }
