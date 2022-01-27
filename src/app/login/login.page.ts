@@ -54,6 +54,8 @@ export class LoginPage implements OnInit {
         this.authService.iniciarSesion(this.usuario).subscribe(
           (data) => {
             if (data.status) {
+              localStorage.clear();
+              localStorage.setItem('dark', 'null');
               localStorage.setItem('_t_s', data.token);
               localStorage.setItem('_n_dt_nam', data._n_dt.nombres);
               localStorage.setItem('_n_dt_ap', data._n_dt.apellidos);
@@ -95,7 +97,7 @@ export class LoginPage implements OnInit {
     this.navCtrl.navigateForward('/registro');
   }
   async reiniciarPassword() {
-    if(this.usuario.email !== ''){
+    if (this.usuario.email !== '') {
       localStorage.setItem('_t_mail', this.usuario.email);
     }
     this.navCtrl.navigateForward('/reiniciarPass');

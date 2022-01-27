@@ -8,100 +8,140 @@
 
 <ion-content>
   <div [formGroup]="direccionForm">
-    <ion-item>
-      <ion-label position="floating">Etiqueta de la Dirección</ion-label>
-      <ion-input type="text" formControlName="nombre"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="direccionForm.controls.nombre.errors?.required && (direccionForm.controls.nombre.touched || direccionForm.controls.nombre.dirty)"
-      >* El nombre es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Código postal</ion-label>
-      <ion-input
-        type="number"
-        formControlName="cp"
-        onKeyPress="if(this.value.length==5) return false;"
-        debounce="0"
-        (ionChange)="codigoP()"
-      ></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="direccionForm.controls.cp.errors?.required && (direccionForm.controls.cp.touched || direccionForm.controls.cp.dirty)"
-      >* El código postal es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Estado</ion-label>
-      <ion-input formControlName="estado" disabled></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Municipio</ion-label>
-      <ion-input formControlName="municipio" disabled></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Colonia</ion-label>
-      <ion-select
-        placeholder="Selecciona tu colonia"
-        formControlName="colonia"
-        disabled="{{colonias.length===0}}"
-      >
-        <ion-select-option
-          *ngFor="let colonia of colonias"
-          :value="{{colonia.Colonia}}"
-          >{{colonia.Colonia}}</ion-select-option
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Etiqueta de la Dirección</ion-label>
+            <ion-input type="text" formControlName="nombre"></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            class="error"
+            *ngIf="direccionForm.controls.nombre.errors?.required && (direccionForm.controls.nombre.touched || direccionForm.controls.nombre.dirty)"
+            >* El nombre es obligatorio
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Código postal</ion-label>
+            <ion-input
+              type="number"
+              formControlName="cp"
+              onKeyPress="if(this.value.length==5) return false;"
+              debounce="0"
+              (ionChange)="codigoP()"
+            ></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            class="error"
+            *ngIf="direccionForm.controls.cp.errors?.required && (direccionForm.controls.cp.touched || direccionForm.controls.cp.dirty)"
+            >* El código postal es obligatorio
+          </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Estado</ion-label>
+            <ion-input formControlName="estado" disabled></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Municipio</ion-label>
+            <ion-input formControlName="municipio" disabled></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Colonia</ion-label>
+            <ion-select
+              placeholder="Selecciona tu colonia"
+              formControlName="colonia"
+              disabled="{{colonias.length===0}}"
+              interface="popover"
+            >
+              <ion-select-option
+                *ngFor="let colonia of colonias"
+                :value="{{colonia.nombre}}"
+                >{{colonia.nombre}}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+          <ion-label
+            color="danger"
+            class="error"
+            *ngIf="direccionForm.controls.colonia.errors?.required && (direccionForm.controls.colonia.touched || direccionForm.controls.colonia.dirty)"
+            >* La colonia es obligatoria
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Calle</ion-label>
+            <ion-input formControlName="calle"></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            class="error"
+            *ngIf="direccionForm.controls.calle.errors?.required && (direccionForm.controls.calle.touched || direccionForm.controls.calle.dirty)"
+            >* Este campo es obligatorio
+          </ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Numero</ion-label>
+            <ion-input type="number" formControlName="numero"></ion-input>
+          </ion-item>
+          <ion-label
+            color="danger"
+            class="error"
+            *ngIf="direccionForm.controls.numero.errors?.required && (direccionForm.controls.numero.touched || direccionForm.controls.numero.dirty)"
+            >* Este campo es obligatorio
+          </ion-label>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Entre calles</ion-label>
+            <ion-input formControlName="entre_calles"></ion-input> </ion-item
+        ></ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Tipo de lugar</ion-label>
+            <ion-select formControlName="tipo">
+              <ion-select-option selected value="0">Cerrado</ion-select-option>
+              <ion-select-option value="1">Abierto</ion-select-option>
+            </ion-select>
+          </ion-item></ion-col
         >
-      </ion-select>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="direccionForm.controls.colonia.errors?.required && (direccionForm.controls.colonia.touched || direccionForm.controls.colonia.dirty)"
-      >* La colonia es obligatoria
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Calle</ion-label>
-      <ion-input formControlName="calle"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="direccionForm.controls.calle.errors?.required && (direccionForm.controls.calle.touched || direccionForm.controls.calle.dirty)"
-      >* Este campo es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Numero</ion-label>
-      <ion-input type="number" formControlName="numero"></ion-input>
-    </ion-item>
-    <ion-label
-      color="danger"
-      *ngIf="direccionForm.controls.numero.errors?.required && (direccionForm.controls.numero.touched || direccionForm.controls.numero.dirty)"
-      >* Este campo es obligatorio
-    </ion-label>
-    <ion-item>
-      <ion-label position="floating">Entre calles</ion-label>
-      <ion-input formControlName="entre_calles"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Tipo de lugar</ion-label>
-      <ion-select formControlName="tipo">
-        <ion-select-option selected value="0">Cerrado</ion-select-option>
-        <ion-select-option value="1">Abierto</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Referencia</ion-label>
-      <ion-input formControlName="referencia"></ion-input>
-    </ion-item>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Referencia</ion-label>
+            <ion-input formControlName="referencia"></ion-input> </ion-item
+        ></ion-col>
+      </ion-row>
+    </ion-grid>
     <ion-button
       expand="block"
       *ngIf="agregar"
       (click)="guardarDireccion()"
+      color="dark"
       [disabled]="!direccionForm.valid"
       >Guardar y continuar</ion-button
     >
     <ion-button
       expand="block"
       *ngIf="editar"
+      color="dark"
       (click)="editarDireccion()"
       [disabled]="!direccionForm.valid"
       >Guardar y continuar</ion-button

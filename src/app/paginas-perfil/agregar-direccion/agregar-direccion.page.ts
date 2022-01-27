@@ -80,20 +80,43 @@ export class AgregarDireccionPage implements OnInit {
             (res: any) => {
               loading.dismiss();
               if (res.status) {
-                if (res.data.Descripcion !== undefined) {
-                  this.presentToast(res.data.Descripcion, 'danger');
+                if (res.data[0].municipio.estado.nombre !== 'Guanajuato') {
+                  this.alertCtrl
+                    .create({
+                      header: '¡Atención!',
+                      message:
+                        'Aun no contamos con servicio fuera de guanajuato, por favor contactar con soporte',
+                      buttons: [
+                        {
+                          text: 'Ok',
+                          handler: () => {
+                            this.direccionForm.controls.cp.setValue('');
+                          },
+                        },
+                      ],
+                    })
+                    .then((alert) => {
+                      alert.present();
+                    });
                 } else {
-                  if (res.data[0].Entidad !== 'GUANAJUATO') {
+                  if (res.data[0].municipio.nombre !== 'León') {
                     this.alertCtrl
                       .create({
                         header: '¡Atención!',
                         message:
-                          'Aun no contamos con servicio fuera de guanajuato, por favor contactar con soporte',
+                          'Fuera del municipio de leon, agregamos un extra por transporte',
                         buttons: [
                           {
                             text: 'Ok',
                             handler: () => {
-                              this.direccionForm.controls.cp.setValue('');
+                              this.direccionForm.controls.estado.setValue(
+                                res.data[0].Entidad
+                              );
+                              this.direccionForm.controls.municipio.setValue(
+                                res.data[0].Municipio
+                              );
+                              this.colonias = res.data;
+                              this.selColonia = false;
                             },
                           },
                         ],
@@ -102,47 +125,22 @@ export class AgregarDireccionPage implements OnInit {
                         alert.present();
                       });
                   } else {
-                    if (res.data[0].Municipio !== 'LEON') {
-                      this.alertCtrl
-                        .create({
-                          header: '¡Atención!',
-                          message:
-                            'Fuera del municipio de leon, agregamos un extra por transporte',
-                          buttons: [
-                            {
-                              text: 'Ok',
-                              handler: () => {
-                                this.direccionForm.controls.estado.setValue(
-                                  res.data[0].Entidad
-                                );
-                                this.direccionForm.controls.municipio.setValue(
-                                  res.data[0].Municipio
-                                );
-                                this.colonias = res.data;
-                                this.selColonia = false;
-                              },
-                            },
-                          ],
-                        })
-                        .then((alert) => {
-                          alert.present();
-                        });
-                    }
                     this.direccionForm.controls.estado.setValue(
-                      res.data[0].Entidad
+                      res.data[0].municipio.estado.nombre
                     );
                     this.direccionForm.controls.municipio.setValue(
-                      res.data[0].Municipio
+                      res.data[0].municipio.nombre
                     );
                     this.colonias = res.data;
                     this.selColonia = false;
                   }
                 }
               } else {
-                this.presentToast(
-                  'Error con el servidor, por favor contactar con soporte',
-                  'danger'
-                );
+                let error = '';
+                res.errors.forEach((element) => {
+                  error += element + '\n';
+                });
+                this.presentToast(error, 'danger');
               }
             },
             (error) => {
@@ -178,7 +176,7 @@ export class AgregarDireccionPage implements OnInit {
   async presentToast(mensaje, colors) {
     const toast = await this.toastCtrl.create({
       message: mensaje,
-      duration: 2000,
+      duration: 3000,
       color: colors,
     });
     toast.present();
