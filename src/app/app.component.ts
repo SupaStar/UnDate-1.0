@@ -13,7 +13,6 @@ export class AppComponent {
     const preferencia = localStorage.getItem('dark');
     if (preferencia === null) {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      console.log(prefersDark.matches);
       document.body.classList.toggle('dark', prefersDark.matches);
       localStorage.setItem('dark', 'null');
     } else {
