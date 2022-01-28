@@ -1,6 +1,32 @@
-ion-input{
-    border: black;
-    border-width: 1px;
-    border-style: solid;
-    --padding-end: 10px;
+ion-input {
+  border: black;
+  border-width: 1px;
+  border-style: solid;
+  --padding-end: 10px;
+}
+.inpCodigo {
+  border-radius: 10px;
+  border: var(--ion-color-medium-shade) solid;
+  margin-right: 1vh;
+  height: 8vh;
+  text-align: center;
+  font-size: 2rem;
+}
+.centrarItem {
+  padding: 0 2vh;
+  --padding-start: -20px;
+  --inner-padding-end: -10px;
+  margin: 4vh auto;
+}
+.reenviarCodigo {
+  margin-top: 2vh;
+  text-align: center;
+}
+.textoCorreo {
+  margin-left: 2vh;
+  margin-right: 2vh;
+}
+.botonJustificado {
+  display: flex;
+  justify-content: center;
 }

@@ -8,10 +8,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <p>Introduce el código de 6 dígitos que enviamos a tu correo {{correo}}</p>
-  <ion-item>
+<ion-content style="--padding-top: 6vh">
+  <p class="textoCorreo">
+    Introduce el código de 6 dígitos que enviamos a tu correo {{correo}}
+  </p>
+  <ion-item class="centrarItem">
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n1"
@@ -21,6 +24,7 @@
       (ionChange)="cambiar($event,0)"
     ></ion-input>
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n2"
@@ -29,6 +33,7 @@
       (ionChange)="cambiar($event,1)"
     ></ion-input>
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n3"
@@ -37,6 +42,7 @@
       (ionChange)="cambiar($event,2)"
     ></ion-input>
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n4"
@@ -45,6 +51,7 @@
       (ionChange)="cambiar($event,3)"
     ></ion-input>
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n5"
@@ -53,6 +60,7 @@
       (ionChange)="cambiar($event,4)"
     ></ion-input>
     <ion-input
+      class="inpCodigo"
       type="tel"
       inputmode="numeric"
       [(ngModel)]="digitos.n6"
@@ -61,8 +69,23 @@
       (ionChange)="cambiar($event,5)"
     ></ion-input>
   </ion-item>
-  <button (click)="reenviarCodigo()">No he recibido el correo</button>
-  <ion-button color="primary" *ngIf="finalizado" expand="block" (click)="validateCode()">
-    Enviar
-  </ion-button>
+
+  <div class="reenviarCodigo textoCorreo">
+    <ion-text *ngIf="tiempoRestante!==0">
+      Podrás solicitar un código nuevo en: <br />
+      <ion-text color="primary">{{tiempoRestante}} segundos</ion-text>
+    </ion-text>
+    <ion-text color="primary" *ngIf="tiempoRestante===0">
+      <a (click)="reenviarCodigo()" color="primary">Reenviar código</a>
+    </ion-text>
+  </div>
+  <div class="botonJustificado" *ngIf="finalizado">
+    <ion-button
+      color="dark"
+      (click)="validateCode()"
+      style="margin-top: 5vh; width: 70vw"
+    >
+      Enviar
+    </ion-button>
+  </div>
 </ion-content>

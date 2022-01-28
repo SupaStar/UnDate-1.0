@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <div [formGroup]="usuario">
+  <div [formGroup]="usuario" class="contenido">
     <ion-item>
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input
@@ -18,15 +18,20 @@
     </ion-item>
     <ion-label
       color="danger"
+      class="error"
       *ngIf="usuario.controls.email.errors?.required && (usuario.controls.email.touched || usuario.controls.email.dirty)"
       >* El correo electrónico es obligatorio
     </ion-label>
-    <ion-button
-      expand="block"
-      color="primary"
-      (click)="reiniciarPass()"
-      [disabled]="!usuario.valid">
-      Confirmar
-    </ion-button>
+    <div class="botonJustificado">
+      <ion-button
+        expand="block"
+        color="dark"
+        (click)="reiniciarPass()"
+        [disabled]="!usuario.valid"
+        class="btnEnviar"
+      >
+        Confirmar
+      </ion-button>
+    </div>
   </div>
 </ion-content>

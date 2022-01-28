@@ -39,8 +39,17 @@ export class CodigoCambioPage implements OnInit {
   ) {
     this.intentos = localStorage.getItem('m_us_change_int');
     this.correo = localStorage.getItem('m_us_change');
+    this.cuentaRegresiva();
   }
-
+  async cuentaRegresiva() {
+    this.tiempoRestante = 60;
+    const intervalo = setInterval(() => {
+      this.tiempoRestante--;
+      if (this.tiempoRestante === 0) {
+        clearInterval(intervalo);
+      }
+    }, 1000);
+  }
   ngOnInit() {}
   pegar(event) {
     const codigoPegado = event.clipboardData.getData('text/plain');

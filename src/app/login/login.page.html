@@ -38,18 +38,24 @@
         >¿Contraseña olvidada?</a
       >
     </div>
-    <ion-button
-      (click)="login()"
-      expand="block"
-      color="dark"
-      style="margin-top: 6vh; height: 7vh"
-    >
-      Entrar
-    </ion-button>
+    <div class="botonJustificado">
+      <ion-button
+        (click)="login()"
+        color="dark"
+        style="margin-top: 6vh; height: 7vh;width: 70vw"
+      >
+        Entrar
+      </ion-button>
+    </div>
     <div class="registro">
       <p style="font-size: 14px">
         ¿Aun no tienes cuenta?
-        <a style="font-size: 16px" (click)="registro()" style="color: var(--ion-color-medium)">Registrate</a>
+        <a
+          style="font-size: 16px"
+          (click)="registro()"
+          style="color: var(--ion-color-medium)"
+          >Registrate</a
+        >
       </p>
     </div>
   </div>
