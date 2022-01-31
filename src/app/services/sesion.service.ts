@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -16,6 +17,7 @@ export class SesionService {
   private urlRequestResetPassword = environment.url + 'request_reset_password';
   private urlValidatecode = environment.url + 'validateCode/';
   private urlNewPassword = environment.url + 'reset_password';
+  private urlAddFavorite = environment.url + 'usuario/favorito';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -57,7 +59,15 @@ export class SesionService {
   validateCode(code: any) {
     return this.http.get<any>(this.urlValidatecode + code);
   }
-  newPassword(user:any){
-    return this.http.post<any>(this.urlNewPassword,user);
+  newPassword(user: any) {
+    return this.http.post<any>(this.urlNewPassword, user);
+  }
+  favorite(id: any) {
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(
+      this.urlAddFavorite,
+      { paquete_id: id },
+      httpOptions
+    );
   }
 }

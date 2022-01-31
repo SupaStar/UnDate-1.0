@@ -56,6 +56,7 @@ export class LoginPage implements OnInit {
             if (data.status) {
               localStorage.clear();
               localStorage.setItem('dark', 'null');
+              localStorage.setItem('fav_usr', JSON.stringify(data.fav_usr));
               localStorage.setItem('_t_s', data.token);
               localStorage.setItem('_n_dt_nam', data._n_dt.nombres);
               localStorage.setItem('_n_dt_ap', data._n_dt.apellidos);

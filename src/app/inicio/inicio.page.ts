@@ -9,6 +9,7 @@ import {
 import { environment } from 'src/environments/environment';
 import { CarritoPage } from '../modales/carrito/carrito.page';
 import { PaquetesService } from '../services/paquetes.service';
+import { SesionService } from '../services/sesion.service';
 
 @Component({
   selector: 'app-inicio',
@@ -28,7 +29,8 @@ export class InicioPage implements OnInit {
     public loadingController: LoadingController,
     private toastController: ToastController,
     private navCtrl: NavController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private authService: SesionService
   ) {
     this.carrito = false;
     const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
@@ -36,7 +38,6 @@ export class InicioPage implements OnInit {
       this.nProductos = carritoLocal.length;
       this.carrito = true;
     }
-
     this.categorias = [
       {
         icono: 'candy-cane',
@@ -60,8 +61,44 @@ export class InicioPage implements OnInit {
       },
     ];
   }
+  favoritos(id) {
+    this.authService.favorite(id).subscribe(
+      (data) => {
+        if (data.status) {
+          let favoritos = JSON.parse(localStorage.getItem('fav_usr'));
+          if (data.fav !== true) {
+            this.paquetesCompletos.forEach((paquete) => {
+              if (paquete.id === id) {
+                paquete.favorito = true;
+              }
+            });
+            favoritos.push(data.fav);
+          } else {
+            this.paquetesCompletos.forEach((paquete) => {
+              if (paquete.id === id) {
+                paquete.favorito = false;
+              }
+            });
+            favoritos = favoritos.splice(
+              0,
+              favoritos.find((item) => item.paquete_id === id)
+            );
+          }
+          localStorage.setItem('fav_usr', JSON.stringify(favoritos));
+          this.presentToast(data.message, 'success');
+        } else {
+          this.presentToast(data.message, 'danger');
+        }
+      },
+      (error) => {
+        this.presentToast(
+          'Error con el servidor, por favor contactar con soporte',
+          'danger'
+        );
+      }
+    );
+  }
   ionViewWillEnter() {
-    console.log('ionViewWillEnter');
     const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
     if (carritoLocal.length > 0) {
       this.nProductos = carritoLocal.length;
@@ -70,11 +107,8 @@ export class InicioPage implements OnInit {
       this.carrito = false;
     }
   }
-  ionViewDidEnter() {
-    console.log('ionViewDidEnter');
-  }
+  ionViewDidEnter() {}
   ngOnInit() {
-    console.log('ngOnInit');
     this.loadingController
       .create({
         message: 'Cargando...',
@@ -84,8 +118,17 @@ export class InicioPage implements OnInit {
         this.paquetesService.getPaquetes().subscribe(
           (data) => {
             if (data.status) {
-              this.paquetesCompletos = data.paquetes;
+              const favoritos = JSON.parse(localStorage.getItem('fav_usr'));
+              this.paquetesCompletos = data.paquetes.map((paquete) => ({
+                ...paquete,
+                favorito: favoritos.find(
+                  (item) => item.paquete_id === paquete.id
+                )
+                  ? true
+                  : false,
+              }));
               this.paquetes = this.paquetesCompletos.slice(0, 10);
+              console.log(this.paquetes);
             } else {
               let errorC = '';
               data.message.forEach((element) => {
@@ -106,38 +149,35 @@ export class InicioPage implements OnInit {
       });
   }
   refrescar(event) {
-    this.loadingController
-      .create({
-        message: 'Cargando...',
-      })
-      .then((loading) => {
-        loading.present();
-        this.paquetesService.getPaquetes().subscribe(
-          (data) => {
-            if (data.status) {
-              this.infiniteScroll.disabled = false;
-              this.paquetesCompletos = data.paquetes;
-              this.paquetes = this.paquetesCompletos.slice(0, 5);
-            } else {
-              let errorC = '';
-              data.message.forEach((element) => {
-                errorC += element + '\n';
-              });
-              this.presentToast(errorC, 'danger');
-            }
-            loading.dismiss();
-            event.target.complete();
-          },
-          (error) => {
-            loading.dismiss();
-            event.target.complete();
-            this.presentToast(
-              'Error con el servidor, por favor contactar con soporte',
-              'danger'
-            );
-          }
+    this.paquetesService.getPaquetes().subscribe(
+      (data) => {
+        if (data.status) {
+          this.infiniteScroll.disabled = false;
+          const favoritos = JSON.parse(localStorage.getItem('fav_usr'));
+          this.paquetesCompletos = data.paquetes.map((paquete) => ({
+            ...paquete,
+            favorito: favoritos.find((item) => item.paquete_id === paquete.id)
+              ? true
+              : false,
+          }));
+          this.paquetes = this.paquetesCompletos.slice(0, 5);
+        } else {
+          let errorC = '';
+          data.message.forEach((element) => {
+            errorC += element + '\n';
+          });
+          this.presentToast(errorC, 'danger');
+        }
+        event.target.complete();
+      },
+      (error) => {
+        event.target.complete();
+        this.presentToast(
+          'Error con el servidor, por favor contactar con soporte',
+          'danger'
         );
-      });
+      }
+    );
   }
   cargarMas(event) {
     setTimeout(() => {
@@ -159,7 +199,9 @@ export class InicioPage implements OnInit {
   }
   verPaquete(id) {
     localStorage.setItem('paquete_id', id);
-    const paqueteE = this.paquetesCompletos.find((paquete) => paquete.id === id);
+    const paqueteE = this.paquetesCompletos.find(
+      (paquete) => paquete.id === id
+    );
     localStorage.setItem('img_ban', paqueteE.imagenes[0].ruta);
     this.navCtrl.navigateForward('/paquete');
   }

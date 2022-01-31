@@ -61,35 +61,6 @@ export class VerPaquetePage implements OnInit {
 
   ngOnInit() {
     this.cargarPaquete();
-    // this.open();
-  }
-  open() {
-    (<HTMLStyleElement>document.querySelector('.botonSheet')).style.bottom =
-      '-13%';
-    (<HTMLStyleElement>document.querySelector('.bg')).style.display = 'bottom';
-  }
-  movimiento(evt: TouchEvent) {
-    if (this.startPosition === 0) {
-      this.startPosition = evt.touches[0].clientY;
-      this.maximumHeight = -(
-        document.querySelector('.botonSheet').clientHeight * 0.14
-      );
-      this.minimumThreshold =
-        document.querySelector('#imgPaquete').clientHeight * 0.09;
-    }
-    this.height = document.querySelector('.botonSheet').clientHeight;
-    const y = evt.touches[0].clientY;
-    this.currentPosition = y - this.startPosition;
-    if (
-      this.currentPosition > this.maximumHeight &&
-      this.currentPosition < this.minimumThreshold
-    ) {
-      (<HTMLStyleElement>(
-        document.querySelector('.botonSheet')
-      )).style.transform =
-        'translate3d(0px, ' + this.currentPosition + 'px, 0px)';
-      // console.log(this.currentPosition);
-    }
   }
 
   cargarPaquete() {
@@ -103,7 +74,7 @@ export class VerPaquetePage implements OnInit {
           (res) => {
             if (res.status) {
               this.paquete = res.paquete;
-              console.log(this.paquete);
+              //console.log(this.paquete);
               if (this.paquete.imagenes.length > 0) {
                 this.carrusel = true;
               }
