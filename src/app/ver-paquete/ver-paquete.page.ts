@@ -8,6 +8,7 @@ import {
 } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { PaquetesService } from '../services/paquetes.service';
+import { SesionService } from '../services/sesion.service';
 
 @Component({
   selector: 'app-ver-paquete',
@@ -16,6 +17,8 @@ import { PaquetesService } from '../services/paquetes.service';
 })
 export class VerPaquetePage implements OnInit {
   imgban = '';
+  inicio = true;
+  favoritos = false;
   currentPosition;
   height;
   minimumThreshold = 100;
@@ -50,8 +53,16 @@ export class VerPaquetePage implements OnInit {
     private paqueteService: PaquetesService,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private authService: SesionService
   ) {
+    if (this.authService.idPackFavorite === null) {
+      this.inicio = true;
+      this.favoritos = false;
+    } else {
+      this.favoritos = true;
+      this.inicio = false;
+    }
     this.id = Number(localStorage.getItem('paquete_id'));
     this.urlExtras = environment.urlPublic + 'extras/';
     this.urlApi = environment.urlPublic + 'banners/';
@@ -99,7 +110,12 @@ export class VerPaquetePage implements OnInit {
       });
   }
   tabs() {
-    this.navCtrl.navigateBack('/tabs/inicio');
+    if (this.inicio) {
+      this.navCtrl.navigateBack('/tabs/inicio');
+    } else {
+      this.authService.idPackFavorite = null;
+      this.navCtrl.navigateBack('/favoritos');
+    }
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({

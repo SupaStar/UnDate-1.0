@@ -53,9 +53,10 @@ const routes: Routes = [
   {
     path: 'nuevaPass',
     loadChildren: () => import('./paginas-perfil/nueva-pass/nueva-pass.module').then( m => m.NuevaPassPageModule)
+  },  {
+    path: 'favoritos',
+    loadChildren: () => import('./paginas-perfil/favoritos/favoritos.module').then( m => m.FavoritosPageModule)
   },
-
-
 
 ];
 @NgModule({

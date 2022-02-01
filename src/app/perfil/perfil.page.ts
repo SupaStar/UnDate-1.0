@@ -59,4 +59,7 @@ export class PerfilPage implements OnInit {
   cuenta() {
     this.navCtrl.navigateForward('/editar');
   }
+  favoritos(){
+    this.navCtrl.navigateForward('/favoritos');
+  }
 }

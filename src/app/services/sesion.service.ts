@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SesionService {
   public idEditarDireccion = null;
+  public idPackFavorite = null;
   private login = environment.url + 'login';
   private registro = environment.url + 'register';
   private actualizar = environment.url + 'actualizar_usuario';
@@ -18,6 +19,7 @@ export class SesionService {
   private urlValidatecode = environment.url + 'validateCode/';
   private urlNewPassword = environment.url + 'reset_password';
   private urlAddFavorite = environment.url + 'usuario/favorito';
+  private urlFavoritos = environment.url + 'usuario/favoritos';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -69,5 +71,9 @@ export class SesionService {
       { paquete_id: id },
       httpOptions
     );
+  }
+  favoritos() {
+    const httpOptions = this.refrecarToken();
+    return this.http.get<any>(this.urlFavoritos, httpOptions);
   }
 }

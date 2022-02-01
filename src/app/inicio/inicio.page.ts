@@ -128,7 +128,6 @@ export class InicioPage implements OnInit {
                   : false,
               }));
               this.paquetes = this.paquetesCompletos.slice(0, 10);
-              console.log(this.paquetes);
             } else {
               let errorC = '';
               data.message.forEach((element) => {

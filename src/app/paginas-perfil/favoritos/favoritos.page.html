@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <a (click)="inicio()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </a>
+    </ion-buttons>
+    <ion-title>Mis favoritos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="favoritos.length!==0">
+    <ion-item *ngFor="let favorito of favoritos">
+      <ion-thumbnail
+        slot="start"
+        button
+        (click)="verPaquete(favorito.paquete.id)"
+      >
+        <img [src]="urlPublica+favorito.paquete.imagenes[0].ruta" />
+      </ion-thumbnail>
+      <ion-label button (click)="verPaquete(favorito.paquete.id)">
+        <h2>{{favorito.paquete.titulo}}</h2>
+        <p>{{favorito.paquete.descripcion}}</p>
+      </ion-label>
+      <ion-button
+        slot="end"
+        fill="clear"
+        (click)="editFavorito(favorito.paquete.id)"
+      >
+        <ion-icon
+          name="{{favorito.fav===true?'heart':'heart-outline'}}"
+        ></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="favoritos.length===0" class="sinFavoritos">
+    <p>Aun no agregas ningún paquete a tus favoritos. Animate!</p>
+  </div>
+</ion-content>
