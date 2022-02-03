@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 export class PaquetesService {
   private paquetes = environment.url + 'paquetes/paquetes';
   private paquete = environment.url + 'paquetes/paquete';
+  private urlSearch = environment.url + 'paquetes/busqPaquetes/';
   constructor(private http: HttpClient) {}
   getPaquetes() {
     const httpOptions = this.refrecarToken();
@@ -24,5 +25,9 @@ export class PaquetesService {
       headers: headersO,
     };
     return httpOptions;
+  }
+  buscar(termino: string) {
+    const httpOptions = this.refrecarToken();
+    return this.http.get<any>(this.urlSearch + termino, httpOptions);
   }
 }

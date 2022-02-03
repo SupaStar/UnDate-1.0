@@ -19,6 +19,7 @@ export class VerPaquetePage implements OnInit {
   imgban = '';
   inicio = true;
   favoritos = false;
+  busqueda = false;
   currentPosition;
   height;
   minimumThreshold = 100;
@@ -59,9 +60,15 @@ export class VerPaquetePage implements OnInit {
     if (this.authService.idPackFavorite === null) {
       this.inicio = true;
       this.favoritos = false;
+      this.busqueda = false;
+    } else if (this.authService.idPackFavorite === 'owo') {
+      this.inicio = false;
+      this.favoritos = false;
+      this.busqueda = true;
     } else {
       this.favoritos = true;
       this.inicio = false;
+      this.busqueda = false;
     }
     this.id = Number(localStorage.getItem('paquete_id'));
     this.urlExtras = environment.urlPublic + 'extras/';
@@ -112,6 +119,9 @@ export class VerPaquetePage implements OnInit {
   tabs() {
     if (this.inicio) {
       this.navCtrl.navigateBack('/tabs/inicio');
+    } else if (this.busqueda) {
+      this.authService.idPackFavorite = null;
+      this.navCtrl.navigateBack('/tabs/busqueda');
     } else {
       this.authService.idPackFavorite = null;
       this.navCtrl.navigateBack('/favoritos');

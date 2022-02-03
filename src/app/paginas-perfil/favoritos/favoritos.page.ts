@@ -11,11 +11,19 @@ import { environment } from 'src/environments/environment';
 export class FavoritosPage implements OnInit {
   favoritos = [];
   urlPublica = environment.urlPublic + 'banners/';
+  cargando = false;
+  sinFav = false;
   constructor(
     private navCtrl: NavController,
     private authService: SesionService,
     private toastController: ToastController
-  ) {}
+  ) {
+    if (localStorage.getItem('fav_usr').length > 0) {
+      this.cargando = true;
+    } else {
+      this.sinFav = true;
+    }
+  }
 
   ngOnInit() {
     this.cargarFavoritos();
@@ -28,15 +36,20 @@ export class FavoritosPage implements OnInit {
       (data) => {
         this.favoritos = data.favoritos.map((paquete) => ({
           ...paquete,
-          fav: true
-        }));;
-        console.log(this.favoritos);
+          fav: true,
+        }));
+        this.cargando = false;
       },
       (error) => {
-        console.log(error);
+        this.presentToast(
+          'Error con el servidor, por favor contactar con soporte',
+          'danger'
+        );
+        this.cargando = false;
       }
     );
   }
+
   verPaquete(id) {
     localStorage.setItem('paquete_id', id);
     let paqueteE = this.favoritos.find((paquete) => paquete.paquete_id === id);

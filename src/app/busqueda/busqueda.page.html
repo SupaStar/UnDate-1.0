@@ -1,9 +1,43 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Buscar</ion-title>
+    <ion-title class="ion-text-center">Buscar</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      showCancelButton="focus"
+      cancelButtonText="Cancelar"
+      animated
+      placeholder="Buscar paquetes o categorías"
+      debounce="500"
+      (ionChange)="onSearchChange($event)"
+      [(ngModel)]="busqueda"
+      mode="ios"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-searchbar showCancelButton="focus" cancelButtonText="Cancelar" animated  placeholder="Buscar paquetes o categorías"></ion-searchbar>
+  <ion-card *ngFor="let paquete of paquetes">
+    <div>
+      <img
+        :src="{{urlApi}}{{paquete.imagenes[0].ruta}}"
+        :alt="{{paquete.nombre}}"
+        style="position: relative; max-height: 10rem; width: 100%"
+        button
+        (click)="verPaquete(paquete.id)"
+      />
+      <button class="btn" (click)="favoritos(paquete.id)">
+        <ion-icon
+          name="{{paquete.favorito===false||paquete.favorito===undefined?'heart-outline':'heart'}}"
+        ></ion-icon>
+      </button>
+    </div>
+    <ion-card-header button (click)="verPaquete(paquete.id)">
+      <ion-card-subtitle>{{paquete.categoria.nombre}}</ion-card-subtitle>
+      <ion-card-title>{{paquete.titulo}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content button (click)="verPaquete(paquete.id)">
+      {{paquete.descripcion.length>60?paquete.descripcion.slice(0,60)+"...":paquete.descripcion}}
+    </ion-card-content>
+  </ion-card>
 </ion-content>
