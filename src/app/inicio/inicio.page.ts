@@ -98,17 +98,7 @@ export class InicioPage implements OnInit {
       }
     );
   }
-  ionViewWillEnter() {
-    const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
-    if (carritoLocal.length > 0) {
-      this.nProductos = carritoLocal.length;
-      this.carrito = true;
-    } else {
-      this.carrito = false;
-    }
-  }
-  ionViewDidEnter() {}
-  ngOnInit() {
+  cargar() {
     this.loadingController
       .create({
         message: 'Cargando...',
@@ -146,6 +136,15 @@ export class InicioPage implements OnInit {
           }
         );
       });
+  }
+  ngOnInit() {
+    const paquetesStorage = JSON.parse(localStorage.getItem('paquetes_cargados'));
+    if (paquetesStorage.length === 0) {
+      this.cargar();
+    } else {
+      this.paquetesCompletos = paquetesStorage;
+      this.paquetes = this.paquetesCompletos.slice(0, 10);
+    }
   }
   refrescar(event) {
     this.paquetesService.getPaquetes().subscribe(
@@ -202,7 +201,11 @@ export class InicioPage implements OnInit {
       (paquete) => paquete.id === id
     );
     localStorage.setItem('img_ban', paqueteE.imagenes[0].ruta);
-    this.navCtrl.navigateForward('/paquete');
+    localStorage.setItem(
+      'paquetes_cargados',
+      JSON.stringify(this.paquetesCompletos)
+    );
+    this.navCtrl.navigateRoot('/paquete');
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({
@@ -220,6 +223,16 @@ export class InicioPage implements OnInit {
       initialBreakpoint: 0.5,
       breakpoints: [0, 0.5],
     });
-    return await (await modal).present();
+    (await modal).present();
+    await (await modal).onWillDismiss().then((data) => {
+      const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
+      if (carritoLocal.length > 0) {
+        this.nProductos = carritoLocal.length;
+        this.carrito = true;
+      } else {
+        this.nProductos = 0;
+        this.carrito = false;
+      }
+    });
   }
 }
