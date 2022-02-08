@@ -1,9 +1,10 @@
 <ion-header> </ion-header>
 <ion-content class="contenido">
-  <ion-segment scrollable mode="md">
+  <ion-segment scrollable mode="md" (ionChange)="filtrar($event)" value="{{filtro}}">
     <ion-segment-button
       class="botonSeccion"
       *ngFor="let categoria of categorias"
+      value="{{categoria.id}}"
     >
       <div class="icono">
         <fa-icon [icon]="['fas',categoria.icono]"></fa-icon>

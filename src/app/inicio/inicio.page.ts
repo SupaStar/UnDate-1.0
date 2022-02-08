@@ -24,6 +24,8 @@ export class InicioPage implements OnInit {
   paquetes: any;
   carrito = false;
   nProductos = 0;
+  filtro = 0;
+  paquetesFiltrados = [];
   constructor(
     private paquetesService: PaquetesService,
     public loadingController: LoadingController,
@@ -38,28 +40,36 @@ export class InicioPage implements OnInit {
       this.nProductos = carritoLocal.length;
       this.carrito = true;
     }
-    this.categorias = [
-      {
-        icono: 'candy-cane',
-        nombre: 'Navidad',
-      },
-      {
-        icono: 'birthday-cake',
-        nombre: 'Cumpleaños',
-      },
-      {
-        icono: 'gift',
-        nombre: 'Regalos',
-      },
-      {
-        icono: 'fan',
-        nombre: 'Flores',
-      },
-      {
-        icono: 'ring',
-        nombre: 'Pedida',
-      },
-    ];
+    const categoriasStorage = JSON.parse(localStorage.getItem('cats_paq'));
+    this.categorias = categoriasStorage;
+    // this.categorias = [
+    //   {
+    //     icono: 'candy-cane',
+    //     nombre: 'Navidad',
+    //   },
+    //   {
+    //     icono: 'birthday-cake',
+    //     nombre: 'Cumpleaños',
+    //   },
+    //   {
+    //     icono: 'gift',
+    //     nombre: 'Regalos',
+    //   },
+    //   {
+    //     icono: 'fan',
+    //     nombre: 'Flores',
+    //   },
+    //   {
+    //     icono: 'ring',
+    //     nombre: 'Pedida',
+    //   },
+    // ];
+  }
+  filtrar(event) {
+    this.paquetesFiltrados = this.paquetesCompletos.filter(
+      (paquete) => paquete.id_categoria.toString() === event.detail.value
+    );
+    this.paquetes = this.paquetesFiltrados.slice(0, 10);
   }
   favoritos(id) {
     this.authService.favorite(id).subscribe(
@@ -138,7 +148,9 @@ export class InicioPage implements OnInit {
       });
   }
   ngOnInit() {
-    const paquetesStorage = JSON.parse(localStorage.getItem('paquetes_cargados'));
+    const paquetesStorage = JSON.parse(
+      localStorage.getItem('paquetes_cargados')
+    );
     if (paquetesStorage.length === 0) {
       this.cargar();
     } else {
@@ -159,6 +171,8 @@ export class InicioPage implements OnInit {
               : false,
           }));
           this.paquetes = this.paquetesCompletos.slice(0, 5);
+          localStorage.setItem('cats_paq', JSON.stringify(data.cat_paq_reg));
+          this.categorias = data.cat_paq_reg;
         } else {
           let errorC = '';
           data.message.forEach((element) => {
@@ -178,22 +192,41 @@ export class InicioPage implements OnInit {
     );
   }
   cargarMas(event) {
-    setTimeout(() => {
-      const faltantes = this.paquetesCompletos.length - this.paquetes.length;
-      if (faltantes <= 0) {
+    if (this.filtro === 0) {
+      setTimeout(() => {
+        const faltantes = this.paquetesCompletos.length - this.paquetes.length;
+        if (faltantes <= 0) {
+          event.target.complete();
+          this.infiniteScroll.disabled = true;
+          return;
+        }
+        const start = this.paquetes.length;
+        this.paquetes = this.paquetes.concat(
+          this.paquetesCompletos.slice(start, start + 5)
+        );
         event.target.complete();
-        this.infiniteScroll.disabled = true;
-        return;
-      }
-      const start = this.paquetes.length;
-      this.paquetes = this.paquetes.concat(
-        this.paquetesCompletos.slice(start, start + 5)
-      );
-      event.target.complete();
-      if (this.paquetes.length === 10) {
-        event.target.disabled = true;
-      }
-    }, 2000);
+        if (this.paquetes.length === 10) {
+          event.target.disabled = true;
+        }
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        const faltantes = this.paquetesFiltrados.length - this.paquetes.length;
+        if (faltantes <= 0) {
+          event.target.complete();
+          this.infiniteScroll.disabled = true;
+          return;
+        }
+        const start = this.paquetes.length;
+        this.paquetes = this.paquetes.concat(
+          this.paquetesFiltrados.slice(start, start + 5)
+        );
+        event.target.complete();
+        if (this.paquetes.length === 10) {
+          event.target.disabled = true;
+        }
+      }, 2000);
+    }
   }
   verPaquete(id) {
     localStorage.setItem('paquete_id', id);
