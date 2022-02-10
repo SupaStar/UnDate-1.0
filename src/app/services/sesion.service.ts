@@ -20,6 +20,8 @@ export class SesionService {
   private urlNewPassword = environment.url + 'reset_password';
   private urlAddFavorite = environment.url + 'usuario/favorito';
   private urlFavoritos = environment.url + 'usuario/favoritos';
+  private urlCambiarPassPerfil =
+    environment.url + 'usuario/cambiar_pass_perfil';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -75,5 +77,9 @@ export class SesionService {
   favoritos() {
     const httpOptions = this.refrecarToken();
     return this.http.get<any>(this.urlFavoritos, httpOptions);
+  }
+  cambiarPassPerfil(pass: any) {
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(this.urlCambiarPassPerfil, pass, httpOptions);
   }
 }

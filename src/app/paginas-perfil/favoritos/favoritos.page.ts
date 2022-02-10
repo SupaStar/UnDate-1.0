@@ -34,11 +34,16 @@ export class FavoritosPage implements OnInit {
   cargarFavoritos() {
     this.authService.favoritos().subscribe(
       (data) => {
-        this.favoritos = data.favoritos.map((paquete) => ({
-          ...paquete,
-          fav: true,
-        }));
-        this.cargando = false;
+        if (data.favoritos.length === 0) {
+          this.cargando = false;
+          this.sinFav = true;
+        } else {
+          this.favoritos = data.favoritos.map((paquete) => ({
+            ...paquete,
+            fav: true,
+          }));
+          this.cargando = false;
+        }
       },
       (error) => {
         this.presentToast(

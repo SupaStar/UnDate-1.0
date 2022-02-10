@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="perfil()">Regresar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [formGroup]="newPass">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Contraseña actual</ion-label>
+            <ion-input type="password" formControlName="oldPass"></ion-input>
+          </ion-item>
+          <div
+            *ngIf="newPass.get('oldPass').hasError('required') && newPass.get('oldPass').touched"
+            class="error"
+            color="danger"
+          >
+            <ion-label
+              *ngIf="newPass.controls.oldPass.errors.required"
+              color="danger"
+            >
+              La contraseña actual es requerida
+            </ion-label>
+            <ion-label
+              *ngIf="newPass.controls.oldPass.errors.minlength"
+              color="danger"
+            >
+              * La contraseña debe tener al menos 6 caracteres
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="inputs">
+            <ion-label position="floating">Nueva contraseña</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+          </ion-item>
+          <div
+            *ngIf="newPass.controls.password.touched && newPass.controls.password.invalid"
+            class="error"
+            color="danger"
+          >
+            <ion-label
+              *ngIf="newPass.controls.password.errors.required"
+              color="danger"
+            >
+              * La nueva contraseña es obligatoria
+            </ion-label>
+            <ion-label
+              *ngIf="newPass.controls.password.errors.minlength"
+              color="danger"
+            >
+              * La nueva contraseña debe tener al menos 6 caracteres
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="inputs">
+            <ion-label position="floating">Confirmar contraseña</ion-label>
+            <ion-input
+              type="password"
+              formControlName="passwordConfirmation"
+              autocomplete="new-password"
+            ></ion-input>
+          </ion-item>
+          <div
+            *ngIf="newPass.controls.passwordConfirmation.touched && newPass.controls.passwordConfirmation.invalid"
+            class="error"
+            color="danger"
+          >
+            <ion-label
+              color="danger"
+              *ngIf="newPass.controls.passwordConfirmation.errors.required && (newPass.controls.passwordConfirmation.touched || newPass.controls.passwordConfirmation.dirty)"
+              >* La confirmación de la contraseña es obligatoria
+            </ion-label>
+            <ion-label
+              color="danger"
+              *ngIf="newPass.controls.passwordConfirmation.errors.minLength && (newPass.controls.passwordConfirmation.touched || newPass.controls.passwordConfirmation.dirty)"
+              >* La confirmación de la contraseña debe tener mínimo 6 caracteres
+            </ion-label>
+            <ion-label
+              *ngIf="newPass.controls.passwordConfirmation.errors.same"
+              color="danger"
+            >
+              * Las contraseñas no coinciden
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button
+      color="primary"
+      [disabled]="!newPass.valid"
+      (click)="cambiar()"
+      class="botonEnviar"
+    >
+      Cambiar
+    </ion-button>
+  </div>
+</ion-content>

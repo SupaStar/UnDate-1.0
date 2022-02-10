@@ -1,13 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   LoadingController,
   NavController,
@@ -96,18 +89,18 @@ export class NuevaPassPage implements OnInit {
     });
     toast.present();
   }
-  checkPasswords(controlName: string, matchingControlName: string){
+  checkPasswords(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
-        const control = formGroup.controls[controlName];
-        const matchingControl = formGroup.controls[matchingControlName];
-        if (matchingControl.errors && !matchingControl.errors.same) {
-            return;
-        }
-        if (control.value !== matchingControl.value) {
-            matchingControl.setErrors({ same: true });
-        } else {
-            matchingControl.setErrors(null);
-        }
-    }
-}
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.same) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ same: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
 }

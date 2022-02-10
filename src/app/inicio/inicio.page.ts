@@ -66,10 +66,15 @@ export class InicioPage implements OnInit {
     // ];
   }
   filtrar(event) {
-    this.paquetesFiltrados = this.paquetesCompletos.filter(
-      (paquete) => paquete.id_categoria.toString() === event.detail.value
-    );
-    this.paquetes = this.paquetesFiltrados.slice(0, 10);
+    if (event.detail.value === '0') {
+      this.paquetesFiltrados = this.paquetesCompletos;
+      this.paquetes=this.paquetesFiltrados.slice(0, 10);
+    } else {
+      this.paquetesFiltrados = this.paquetesCompletos.filter(
+        (paquete) => paquete.id_categoria.toString() === event.detail.value
+      );
+      this.paquetes = this.paquetesFiltrados.slice(0, 10);
+    }
   }
   favoritos(id) {
     this.authService.favorite(id).subscribe(
