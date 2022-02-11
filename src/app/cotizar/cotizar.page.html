@@ -7,5 +7,36 @@
 </ion-header>
 
 <ion-content>
-
+  <h1 style="margin-left: 2vh">Detalles de la cotización.</h1>
+  <ion-list>
+    <ion-item button>
+      <ion-icon name="location" slot="start"></ion-icon>
+      <p>
+        Prueba 1<br />
+        <ion-text>prueba2</ion-text>
+      </p>
+    </ion-item>
+    <ion-item button>
+      <ion-icon name="person" slot="start"></ion-icon>
+      <p>
+        Esperar en...<br />
+        <ion-text color="success" style="font-size: 0.9rem">
+          Agregar una nota de llegada
+        </ion-text>
+      </p>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>Tus paquetes.</ion-list-header>
+    <ion-item *ngFor="let item of carrito;let i = index" [attr.data-index]="i">
+      <ion-label>{{item.paquete.titulo}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <div>
+    <p style="font-size: 0.8rem;margin-left: 2vh;">
+      Si no estas presente, el pedido no se podrá colocar. Al cotizar y pagar,
+      aceptas asumir toda la responsabilidad una vez se vaya colocar el date.
+    </p>
+    <ion-button color="dark" class="botonCotizar">Realizar cotización.</ion-button>
+  </div>
 </ion-content>

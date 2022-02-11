@@ -7,7 +7,10 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./cotizar.page.scss'],
 })
 export class CotizarPage implements OnInit {
-  constructor(private navCtrl: NavController) {}
+  carrito: [];
+  constructor(private navCtrl: NavController) {
+    this.carrito = JSON.parse(localStorage.getItem('car_tems'));
+  }
 
   ngOnInit() {}
   tabs() {
