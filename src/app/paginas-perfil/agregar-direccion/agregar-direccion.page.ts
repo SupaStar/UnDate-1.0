@@ -192,12 +192,17 @@ export class AgregarDireccionPage implements OnInit {
           (res: any) => {
             loading.dismiss();
             if (res.status) {
-              const objDireccion = {
+              const direccionesG = JSON.parse(localStorage.getItem('_n_dt_d'));
+              let objDireccion = {
                 id: res.dt_id,
                 ...this.direccionForm.value,
               };
-              const direccionesG = JSON.parse(localStorage.getItem('_n_dt_d'));
-              direccionesG.push(objDireccion);
+              if (direccionesG.length === 0) {
+                objDireccion = { ...objDireccion, ...{ default: true } };
+                direccionesG.push(objDireccion);
+              } else {
+                direccionesG.push(objDireccion);
+              }
               localStorage.setItem('_n_dt_d', JSON.stringify(direccionesG));
               this.presentToast(res.message, 'success');
               this.tabs();
@@ -234,7 +239,34 @@ export class AgregarDireccionPage implements OnInit {
           (res: any) => {
             loading.dismiss();
             if (res.status) {
-              localStorage.setItem('_n_dt_d', JSON.stringify(res.direcciones));
+              let direcciones = res.direcciones;
+              const direccionGuard = JSON.parse(
+                localStorage.getItem('_n_dt_d')
+              );
+              let direccionDefault = direccionGuard.find((x) => x.default);
+              if (direccionDefault === undefined) {
+                direccionDefault = direcciones[0];
+                direccionDefault = {
+                  ...direccionDefault,
+                  ...{ default: true },
+                };
+                direcciones = direcciones.splice(
+                  direcciones.indexOf(direcciones[0]),
+                  1,
+                  direccionDefault
+                );
+              } else {
+                const nuevaDireccionEditada = direcciones.find(
+                  (x) => x.id === objDireccion.id
+                );
+                direccionDefault = {
+                  ...nuevaDireccionEditada,
+                  ...{ default: true },
+                };
+                const indice = direcciones.indexOf(nuevaDireccionEditada);
+                direcciones.splice(indice, 1, direccionDefault);
+              }
+              localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
               this.presentToast('Direccion modificada con exito', 'success');
               this.tabs();
             } else {

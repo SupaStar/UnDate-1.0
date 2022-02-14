@@ -57,7 +57,10 @@ export class LoginPage implements OnInit {
               localStorage.clear();
               localStorage.setItem('dark', 'null');
               localStorage.setItem('fav_usr', JSON.stringify(data.fav_usr));
-              localStorage.setItem('cats_paq', JSON.stringify(data.cat_paq_reg));
+              localStorage.setItem(
+                'cats_paq',
+                JSON.stringify(data.cat_paq_reg)
+              );
               localStorage.setItem('paquetes_cargados', JSON.stringify([]));
               localStorage.setItem('_t_s', data.token);
               localStorage.setItem('_n_dt_nam', data._n_dt.nombres);
@@ -65,7 +68,11 @@ export class LoginPage implements OnInit {
               localStorage.setItem('_n_dt_id', data._n_dt.id);
               localStorage.setItem('_n_dt_em', data._n_dt.email);
               localStorage.setItem('_n_dt_t', data._n_dt.telefono);
-              localStorage.setItem('_n_dt_d', JSON.stringify(data.direcciones));
+              const direcciones = data.direcciones;
+              if (direcciones.length > 0) {
+                direcciones[0] = { ...direcciones[0], ...{ default: true } };
+              }
+              localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
               localStorage.setItem('car_tems', JSON.stringify([]));
               loading.dismiss();
               this.navCtrl.navigateRoot('/tabs/inicio');
