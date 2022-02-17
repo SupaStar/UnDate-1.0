@@ -22,6 +22,7 @@ export class SesionService {
   private urlFavoritos = environment.url + 'usuario/favoritos';
   private urlCambiarPassPerfil =
     environment.url + 'usuario/cambiar_pass_perfil';
+  private urlCotizar = environment.url + 'usuario/cotizar';
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -81,5 +82,14 @@ export class SesionService {
   cambiarPassPerfil(pass: any) {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCambiarPassPerfil, pass, httpOptions);
+  }
+  cotizar(carrito: any, idDireccion: any, fechaDeseada: any) {
+    const body = {
+      paquetes: carrito,
+      direccion: idDireccion,
+      fechaD: fechaDeseada,
+    };
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(this.urlCotizar, body, httpOptions);
   }
 }

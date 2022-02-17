@@ -5,7 +5,9 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
+<style>
+  
+</style>
 <ion-content>
   <h1 style="margin-left: 2vh">Detalles de la cotización.</h1>
   <ion-list>
@@ -35,15 +37,42 @@
       <ion-label>{{item.paquete.titulo}}</ion-label>
     </ion-item>
   </ion-list>
+  <ion-list>
+    <ion-list-header> Fecha y hora seleccionados: </ion-list-header>
+    <ion-item button id="modal">
+      <ion-text>
+        {{fechaDeseada===undefined?"Sin fecha
+        seleccionada":fechaDeseada}}</ion-text
+      >
+    </ion-item>
+  </ion-list>
   <div>
     <p style="font-size: 0.8rem; margin-left: 2vh">
       Si no estas presente, el pedido no se podrá colocar. Al cotizar y pagar,
       aceptas asumir toda la responsabilidad una vez se vaya colocar el date.
     </p>
-    <ion-button color="dark" class="botonCotizar"
-      >Realizar cotización.</ion-button
-    >
+    <p style="font-size: 0.8rem; margin-left: 2vh">
+      La fecha y hora seleccionados, son sujetos a disponibilidad, se te
+      confirmara la fecha y hora mas adelante en tu cotización
+    </p>
+    <ion-button color="dark" class="botonCotizar" (click)="cotizar()">
+      Realizar cotización.
+    </ion-button>
   </div>
+
+  <ion-modal trigger="modal" class="modalFecha">
+    <ng-template>
+      <ion-content force-overscroll="false">
+        <ion-datetime
+          display-format="DD/MM/YYYY"
+          picker-format="DD/MM/YYYY"
+          [(ngModel)]="fechaDeseada"
+          locale="es-MX"
+          placeholder="Fecha"
+        ></ion-datetime>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
   <ion-modal
     trigger="botonDirecciones"
@@ -53,7 +82,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Escoger Direccion</ion-title>
+          <ion-title>Escoger Dirección</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content>

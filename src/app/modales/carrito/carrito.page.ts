@@ -23,7 +23,7 @@ export class CarritoPage implements OnInit {
   }
   cotizar() {
     this.cerrarModal();
-    this.navCtrl.navigateForward('/cotizar');
+    this.navCtrl.navigateRoot('/cotizar');
   }
   eliminar(indice) {
     this.carrito.splice(indice, 1);

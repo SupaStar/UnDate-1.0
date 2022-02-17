@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
+import { SesionService } from '../services/sesion.service';
 
 @Component({
   selector: 'app-cotizar',
@@ -10,7 +16,14 @@ export class CotizarPage implements OnInit {
   carrito: [];
   direccion: any;
   direcciones = [];
-  constructor(private navCtrl: NavController) {
+  fechaDeseada: any;
+  constructor(
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private authService: SesionService,
+    private alertCtrl: AlertController
+  ) {
     this.carrito = JSON.parse(localStorage.getItem('car_tems'));
     this.direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
   }
@@ -24,7 +37,6 @@ export class CotizarPage implements OnInit {
   direccionPrincipal() {
     const direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
     this.direccion = direcciones.find((d) => d.default === true);
-    console.log(this.direccion);
   }
   default(id) {
     const direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
@@ -39,5 +51,49 @@ export class CotizarPage implements OnInit {
       nuevasDirecciones.push(d);
     });
     localStorage.setItem('_n_dt_d', JSON.stringify(nuevasDirecciones));
+  }
+  cotizar() {
+    if (!this.fechaDeseada) {
+      //Crear alerta diciendo que seleccione una fecha
+      const alerta = this.alertCtrl.create({
+        header: 'Error',
+        message: 'Seleccione una fecha',
+        buttons: ['OK'],
+      });
+      alerta.then((alert) => alert.present());
+    } else {
+      this.loadingCtrl
+        .create({
+          message: 'Cargando...',
+        })
+        .then((overlay) => {
+          overlay.present();
+          this.authService
+            .cotizar(this.carrito, this.direccion.id, this.fechaDeseada)
+            .subscribe(
+              (res) => {
+                overlay.dismiss();
+                localStorage.setItem('car_tems', JSON.stringify([]));
+                this.presentToast('Cotización enviada', 'success');
+                this.navCtrl.navigateRoot('/tabs/inicio');
+              },
+              (err) => {
+                overlay.dismiss();
+                this.presentToast(
+                  'Error, esperar y volver a intentar, si el problema persiste contactar a soporte.',
+                  'danger'
+                );
+              }
+            );
+        });
+    }
+  }
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+    });
+    toast.present();
   }
 }

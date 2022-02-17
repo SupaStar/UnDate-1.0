@@ -3,3 +3,12 @@
   margin-left: 10vw;
   --border-radius: 0px;
 }
+.modalFecha {
+  --width: 290px;
+  --height: 382px;
+  --border-radius: 8px;
+}
+
+.modalFecha ion-datetime {
+  height: 382px;
+}
