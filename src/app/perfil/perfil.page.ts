@@ -65,4 +65,7 @@ export class PerfilPage implements OnInit {
   pass() {
     this.navCtrl.navigateForward('/cambiarPass');
   }
+  cotizaciones() {
+    this.navCtrl.navigateForward('/misCotizaciones');
+  }
 }

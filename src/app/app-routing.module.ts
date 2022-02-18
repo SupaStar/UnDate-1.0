@@ -62,6 +62,11 @@ const routes: Routes = [
     path: 'cambiarPass',
     loadChildren: () => import('./paginas-perfil/cambiar-pass/cambiar-pass.module').then( m => m.CambiarPassPageModule)
   },
+  {
+    path: 'misCotizaciones',
+    loadChildren: () => import('./paginas-perfil/mis-cotizaciones/mis-cotizaciones.module').then( m => m.MisCotizacionesPageModule)
+  },
+
 
 ];
 @NgModule({

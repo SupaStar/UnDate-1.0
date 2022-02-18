@@ -42,33 +42,11 @@ export class InicioPage implements OnInit {
     }
     const categoriasStorage = JSON.parse(localStorage.getItem('cats_paq'));
     this.categorias = categoriasStorage;
-    // this.categorias = [
-    //   {
-    //     icono: 'candy-cane',
-    //     nombre: 'Navidad',
-    //   },
-    //   {
-    //     icono: 'birthday-cake',
-    //     nombre: 'Cumpleaños',
-    //   },
-    //   {
-    //     icono: 'gift',
-    //     nombre: 'Regalos',
-    //   },
-    //   {
-    //     icono: 'fan',
-    //     nombre: 'Flores',
-    //   },
-    //   {
-    //     icono: 'ring',
-    //     nombre: 'Pedida',
-    //   },
-    // ];
   }
   filtrar(event) {
     if (event.detail.value === '0') {
       this.paquetesFiltrados = this.paquetesCompletos;
-      this.paquetes=this.paquetesFiltrados.slice(0, 10);
+      this.paquetes = this.paquetesFiltrados.slice(0, 10);
     } else {
       this.paquetesFiltrados = this.paquetesCompletos.filter(
         (paquete) => paquete.id_categoria.toString() === event.detail.value
@@ -133,6 +111,10 @@ export class InicioPage implements OnInit {
                   : false,
               }));
               this.paquetes = this.paquetesCompletos.slice(0, 10);
+              localStorage.setItem(
+                'paquetes_cargados',
+                JSON.stringify(this.paquetesCompletos)
+              );
             } else {
               let errorC = '';
               data.message.forEach((element) => {

@@ -23,6 +23,8 @@ export class SesionService {
   private urlCambiarPassPerfil =
     environment.url + 'usuario/cambiar_pass_perfil';
   private urlCotizar = environment.url + 'usuario/cotizar';
+  private urlMisCotizaciones = environment.url + 'usuario/cotizaciones';
+
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
@@ -91,5 +93,9 @@ export class SesionService {
     };
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCotizar, body, httpOptions);
+  }
+  misCotizaciones() {
+    const httpOptions = this.refrecarToken();
+    return this.http.get<any>(this.urlMisCotizaciones, httpOptions);
   }
 }

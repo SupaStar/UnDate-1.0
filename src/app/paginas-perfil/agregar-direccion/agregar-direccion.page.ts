@@ -66,7 +66,8 @@ export class AgregarDireccionPage implements OnInit {
 
   tabs() {
     this.authService.idEditarDireccion = null;
-    this.navCtrl.navigateRoot('/tabs/perfil');
+    this.navCtrl.back();
+    //this.navCtrl.navigateRoot('/tabs/perfil');
   }
   codigoP() {
     if (this.direccionForm.controls.cp.value.toString().length === 5) {

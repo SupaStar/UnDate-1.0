@@ -11,7 +11,7 @@
 <ion-content>
   <h1 style="margin-left: 2vh">Detalles de la cotización.</h1>
   <ion-list>
-    <ion-item button id="botonDirecciones">
+    <ion-item button id="botonDirecciones" *ngIf="direccion!==undefined">
       <ion-icon name="location" slot="start"></ion-icon>
       <p>
         {{direccion.nombre}}<br />
@@ -19,6 +19,12 @@
           >{{direccion.colonia}}, {{direccion.cp}}
           {{direccion.municipio}}</ion-text
         >
+      </p>
+    </ion-item>
+    <ion-item button id="botonDirecciones" *ngIf="direccion===undefined">
+      <ion-icon name="location" slot="start"></ion-icon>
+      <p>
+        <ion-text>No tienes ninguna direccion agregada.</ion-text>
       </p>
     </ion-item>
     <!-- <ion-item button>
@@ -87,10 +93,14 @@
       </ion-header>
       <ion-content>
         <ion-list>
+          <div>
+            <ion-item button (click)="nuevaDireccion()">
+              <ion-icon name="add-outline"></ion-icon> Agregar nueva direccion
+            </ion-item>
+          </div>
           <div *ngFor="let direccion of direcciones">
             <ion-item button (click)="default(direccion.id)">
               <ion-label>{{direccion.nombre}}</ion-label>
-              <!-- <ion-radio value="false"></ion-radio> -->
             </ion-item>
           </div>
         </ion-list>

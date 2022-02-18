@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
   LoadingController,
+  ModalController,
   NavController,
   ToastController,
 } from '@ionic/angular';
@@ -22,7 +23,8 @@ export class CotizarPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private authService: SesionService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
   ) {
     this.carrito = JSON.parse(localStorage.getItem('car_tems'));
     this.direcciones = JSON.parse(localStorage.getItem('_n_dt_d'));
@@ -95,5 +97,11 @@ export class CotizarPage implements OnInit {
       color,
     });
     toast.present();
+  }
+  nuevaDireccion() {
+    this.modalCtrl.dismiss({
+      dismissed: true,
+    });
+    this.navCtrl.navigateRoot('/nuevaDireccion');
   }
 }
