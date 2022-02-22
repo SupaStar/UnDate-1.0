@@ -13,6 +13,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { DireccionesPage } from './modales/direcciones/direcciones.page';
 import { CarritoPage } from './modales/carrito/carrito.page';
 import { PaquetesCotizacionPage } from './modales/paquetes-cotizacion/paquetes-cotizacion.page';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { PaquetesCotizacionPage } from './modales/paquetes-cotizacion/paquetes-c
     HttpClientModule,
     FontAwesomeModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },ScreenOrientation],
   bootstrap: [AppComponent],
 })
 export class AppModule {

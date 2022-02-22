@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {
+  constructor(public screenOrientation: ScreenOrientation) {
     this.modoOscuro();
+    this.bloquearPantalla();
   }
   modoOscuro() {
     const preferencia = localStorage.getItem('dark');
@@ -25,5 +27,8 @@ export class AppComponent {
         document.body.classList.toggle('dark', false);
       }
     }
+  }
+  bloquearPantalla() {
+    this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
   }
 }
