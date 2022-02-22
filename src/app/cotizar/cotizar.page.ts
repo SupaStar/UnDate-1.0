@@ -55,8 +55,14 @@ export class CotizarPage implements OnInit {
     localStorage.setItem('_n_dt_d', JSON.stringify(nuevasDirecciones));
   }
   cotizar() {
-    if (!this.fechaDeseada) {
-      //Crear alerta diciendo que seleccione una fecha
+    if (this.direcciones.length === 0) {
+      const alerta = this.alertCtrl.create({
+        header: 'Error',
+        message: 'Agregue una direccion para poder continuar.',
+        buttons: ['OK'],
+      });
+      alerta.then((alert) => alert.present());
+    } else if (!this.fechaDeseada) {
       const alerta = this.alertCtrl.create({
         header: 'Error',
         message: 'Seleccione una fecha',
