@@ -21,6 +21,9 @@ import { SesionService } from '../services/sesion.service';
 })
 export class LoginPage implements OnInit {
   @ViewChild('inputEmail') inputEmail: ElementRef;
+  @ViewChild('passwordEyeRegister', { read: ElementRef })
+  passwordEye: ElementRef;
+  passwordTypeInput = 'password';
   usuario: any;
   mostrar = false;
   constructor(
@@ -111,5 +114,15 @@ export class LoginPage implements OnInit {
       localStorage.setItem('_t_mail', this.usuario.email);
     }
     this.navCtrl.navigateForward('/reiniciarPass');
+  }
+  togglePasswordMode() {
+    this.passwordTypeInput =
+      this.passwordTypeInput === 'text' ? 'password' : 'text';
+    const nativeEl = this.passwordEye.nativeElement.querySelector('input');
+    const inputSelection = nativeEl.selectionStart;
+    nativeEl.focus();
+    setTimeout(() => {
+      nativeEl.setSelectionRange(inputSelection, inputSelection);
+    }, 1);
   }
 }

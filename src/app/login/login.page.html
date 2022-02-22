@@ -27,11 +27,17 @@
       <ion-label position="stacked" class="label"> Contraseña </ion-label>
       <ion-input
         [(ngModel)]="usuario.password"
-        type="password"
+        [type]="passwordTypeInput"
+        #passwordEyeRegister
         autocomplete="current-password"
         placeholder="Contraseña"
         aria-label="Contraseña"
       ></ion-input>
+      <button item-end class="btn_eye_icon" (click)="togglePasswordMode()">
+        <ion-icon
+          [name]="(passwordTypeInput === 'text')?'eye-off':'eye'"
+        ></ion-icon>
+      </button>
     </ion-item>
     <div class="reiniciarPass">
       <a (click)="reiniciarPassword()" style="color: var(--ion-color-medium)"
@@ -42,7 +48,7 @@
       <ion-button
         (click)="login()"
         color="dark"
-        style="margin-top: 6vh; height: 7vh;width: 70vw"
+        style="margin-top: 6vh; height: 7vh; width: 70vw"
       >
         Entrar
       </ion-button>

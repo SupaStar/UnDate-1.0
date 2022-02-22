@@ -20,9 +20,18 @@ ion-content {
   padding-bottom: 3rem;
 }
 .paddingLetras {
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+  padding-top: 6vh;
+  padding-bottom: 3vh;
   text-align: center;
+  @media (min-width: 768px) {
+    padding-top: 14vh;
+    padding-bottom: 3vh;
+  }
+  //Media 540 alto y 720 ancho
+  @media (min-width: 540px) and (max-width: 720px) {
+    padding-top: 17vh;
+    padding-bottom: 4vh;
+  }
 }
 .botonLogin {
   float: right;
@@ -61,4 +70,17 @@ ion-content {
 .botonJustificado {
   display: flex;
   justify-content: center;
+}
+.btn_eye_icon {
+  position: absolute;
+  right: 0;
+  bottom: 1.3vh;
+  background: transparent;
+  ion-icon {
+    font-size: 22px;
+    color: #757575;
+  }
+}
+.btn_eye_icon:focus {
+  outline: none !important;
 }
