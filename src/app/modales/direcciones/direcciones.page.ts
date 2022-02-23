@@ -27,13 +27,13 @@ export class DireccionesPage implements OnInit {
     this.modalCtrl.dismiss({
       dismissed: true,
     });
-    this.navCtrl.navigateRoot('/nuevaDireccion');
+    this.navCtrl.navigateForward('/nuevaDireccion');
   }
   editar(id) {
     this.modalCtrl.dismiss({
       dismissed: true,
     });
     this.authService.idEditarDireccion = id;
-    this.navCtrl.navigateRoot('/nuevaDireccion');
+    this.navCtrl.navigateForward('/nuevaDireccion');
   }
 }

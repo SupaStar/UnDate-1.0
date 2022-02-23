@@ -92,7 +92,6 @@ export class VerPaquetePage implements OnInit {
           (res) => {
             if (res.status) {
               this.paquete = res.paquete;
-              //console.log(this.paquete);
               if (this.paquete.imagenes.length > 0) {
                 this.carrusel = true;
               }

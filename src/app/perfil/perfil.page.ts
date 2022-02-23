@@ -23,12 +23,11 @@ export class PerfilPage implements OnInit {
     public routerOutlet: IonRouterOutlet
   ) {
     this.tema = localStorage.getItem('dark');
-  }
-
-  ngOnInit() {
     this.usuario.nombre = localStorage.getItem('_n_dt_nam');
     this.usuario.apellido = localStorage.getItem('_n_dt_ap');
   }
+
+  ngOnInit() {}
   cambiarTema() {
     if (this.tema === 'false') {
       document.body.classList.toggle('dark', false);
@@ -57,7 +56,7 @@ export class PerfilPage implements OnInit {
     return await (await modal).present();
   }
   cuenta() {
-    this.navCtrl.navigateForward('/editar');
+    this.navCtrl.navigateRoot('/editar');
   }
   favoritos() {
     this.navCtrl.navigateForward('/favoritos');

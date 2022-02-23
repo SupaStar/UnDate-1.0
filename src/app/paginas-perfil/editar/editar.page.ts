@@ -7,6 +7,7 @@ import {
 } from '@ionic/angular';
 import { SesionService } from 'src/app/services/sesion.service';
 import { Platform } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-editar',
@@ -14,59 +15,39 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./editar.page.scss'],
 })
 export class EditarPage implements OnInit {
-  usuario = {
-    nombres: '',
-    apellidos: '',
-    telefono: '',
-  };
-  usuarioSinM = {
-    nombres: '',
-    apellidos: '',
-    telefono: '',
-  };
+  usuario: FormGroup;
   email = '';
-
   cambio = false;
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
     private authService: SesionService,
     public toastCtrl: ToastController,
-    private platform: Platform
+    private fb: FormBuilder
   ) {
-    this.platform.keyboardDidShow.subscribe((ev) => {
-      const { keyboardHeight } = ev;
-    });
-    this.usuario.nombres = localStorage.getItem('_n_dt_nam');
-    this.usuario.apellidos = localStorage.getItem('_n_dt_ap');
+    this.usuario = this.fb.group(
+      {
+        nombres: [localStorage.getItem('_n_dt_nam'), [Validators.required]],
+        apellidos: [localStorage.getItem('_n_dt_ap'), [Validators.required]],
+        telefono: [localStorage.getItem('_n_dt_t'), [Validators.required]],
+        nombresM: [localStorage.getItem('_n_dt_nam'), [Validators.required]],
+        apellidosM: [localStorage.getItem('_n_dt_ap'), [Validators.required]],
+        telefonoM: [localStorage.getItem('_n_dt_t'), [Validators.required]],
+      },
+      {
+        validator: [
+          this.checkSame('nombres', 'nombresM'),
+          this.checkSame('apellidos', 'apellidosM'),
+          this.checkSame('telefono', 'telefonoM'),
+        ],
+      }
+    );
     this.email = localStorage.getItem('_n_dt_em');
-    this.usuario.telefono = localStorage.getItem('_n_dt_t');
-    this.usuarioSinM.nombres = localStorage.getItem('_n_dt_nam');
-    this.usuarioSinM.apellidos = localStorage.getItem('_n_dt_ap');
-    this.usuarioSinM.telefono = localStorage.getItem('_n_dt_t');
   }
 
   ngOnInit() {}
-  validar() {
-    if (this.usuario.nombres !== this.usuarioSinM.nombres) {
-      this.cambio = true;
-      return;
-    }
-    if (this.usuario.apellidos !== this.usuarioSinM.apellidos) {
-      this.cambio = true;
-      return;
-    }
-    if (this.usuario.telefono !== this.usuarioSinM.telefono) {
-      this.cambio = true;
-      return;
-    }
-    if (this.cambio) {
-      this.cambio = false;
-      return;
-    }
-  }
   tabs() {
-    this.navCtrl.navigateBack('/tabs/perfil');
+    this.navCtrl.navigateRoot('/tabs/perfil');
   }
   actualizar() {
     this.loadingCtrl
@@ -75,13 +56,33 @@ export class EditarPage implements OnInit {
       })
       .then((loading) => {
         loading.present();
-        this.authService
-          .actualizarUsuario(this.usuario)
-          .subscribe((response) => {
+        this.authService.actualizarUsuario(this.usuario.value).subscribe(
+          (response) => {
             if (response.status) {
-              localStorage.setItem('_n_dt_nam', this.usuario.nombres);
-              localStorage.setItem('_n_dt_ap', this.usuario.apellidos);
-              localStorage.setItem('_n_dt_t', this.usuario.telefono);
+              localStorage.setItem(
+                '_n_dt_nam',
+                this.usuario.controls.nombres.value
+              );
+              localStorage.setItem(
+                '_n_dt_ap',
+                this.usuario.controls.apellidos.value
+              );
+              localStorage.setItem(
+                '_n_dt_t',
+                this.usuario.controls.telefono.value
+              );
+              this.usuario.controls.nombresM.setValue(
+                this.usuario.controls.nombresM.value
+              );
+              this.usuario.controls.apellidosM.setValue(
+                this.usuario.controls.apellidosM.value
+              );
+              this.usuario.controls.telefonoM.setValue(
+                this.usuario.controls.telefonoM.value
+              );
+              this.usuario.controls.nombresM.setErrors(null);
+              this.usuario.controls.apellidosM.setErrors(null);
+              this.usuario.controls.telefonoM.setErrors(null);
               this.cambio = false;
               this.presentToast(response.message, 'success');
             } else {
@@ -99,7 +100,8 @@ export class EditarPage implements OnInit {
               'Error con el servidor, por favor contactar con soporte',
               'danger'
             );
-          });
+          }
+        );
       });
   }
   async presentToast(mensaje, colors) {
@@ -109,5 +111,19 @@ export class EditarPage implements OnInit {
       color: colors,
     });
     toast.present();
+  }
+  checkSame(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.same) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ same: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
   }
 }
