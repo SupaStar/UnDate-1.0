@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   OnInit,
