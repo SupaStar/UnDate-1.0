@@ -11,6 +11,7 @@ export class SesionService {
   public idPackFavorite = null;
   private login = environment.url + 'login';
   private registro = environment.url + 'register';
+  private registroG = environment.url + 'registerG';
   private actualizar = environment.url + 'actualizar_usuario';
   private urlCP = environment.url + 'cp/';
   private urlAgregarDireccion = environment.url + 'usuario/direccion';
@@ -97,5 +98,8 @@ export class SesionService {
   misCotizaciones() {
     const httpOptions = this.refrecarToken();
     return this.http.get<any>(this.urlMisCotizaciones, httpOptions);
+  }
+  registroGoogle(google: any) {
+    return this.http.post<any>(this.registroG, google);
   }
 }

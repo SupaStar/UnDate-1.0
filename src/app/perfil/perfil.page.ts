@@ -5,6 +5,7 @@ import {
   NavController,
 } from '@ionic/angular';
 import { DireccionesPage } from '../modales/direcciones/direcciones.page';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 
 @Component({
   selector: 'app-perfil',
@@ -20,7 +21,8 @@ export class PerfilPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private modalCtrl: ModalController,
-    public routerOutlet: IonRouterOutlet
+    public routerOutlet: IonRouterOutlet,
+    private googlePlus: GooglePlus
   ) {
     this.tema = localStorage.getItem('dark');
     this.usuario.nombre = localStorage.getItem('_n_dt_nam');
@@ -42,6 +44,10 @@ export class PerfilPage implements OnInit {
     }
   }
   cerrarSesion() {
+    let glog = localStorage.getItem('g_log');
+    if (glog == 'true') {
+      this.googlePlus.logout();
+    }
     localStorage.clear();
     this.navCtrl.navigateRoot('/');
   }
