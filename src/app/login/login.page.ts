@@ -12,6 +12,7 @@ import {
   ToastController,
 } from '@ionic/angular';
 import { SesionService } from '../services/sesion.service';
+import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,8 @@ export class LoginPage implements OnInit {
     public loadingController: LoadingController,
     public toastController: ToastController,
     private navCtrl: NavController,
-    private animationCtrl: AnimationController
+    private animationCtrl: AnimationController,
+    private googlePlus: GooglePlus
   ) {
     this.restablecerFormulario();
     const token = localStorage.getItem('_t_s');
@@ -45,7 +47,8 @@ export class LoginPage implements OnInit {
       password: '',
     };
   }
-  ngOnInit() {}
+  ngOnInit() {
+  }
   login() {
     this.loadingController
       .create({
@@ -123,5 +126,11 @@ export class LoginPage implements OnInit {
     setTimeout(() => {
       nativeEl.setSelectionRange(inputSelection, inputSelection);
     }, 1);
+  }
+  async lG() {
+    this.googlePlus
+      .login({})
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
   }
 }
