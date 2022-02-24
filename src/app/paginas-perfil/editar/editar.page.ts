@@ -25,11 +25,13 @@ export class EditarPage implements OnInit {
     public toastCtrl: ToastController,
     private fb: FormBuilder
   ) {
+    let numero = localStorage.getItem('_n_dt_t');
+    numero = numero === 'null' ? '' : numero;
     this.usuario = this.fb.group(
       {
         nombres: [localStorage.getItem('_n_dt_nam'), [Validators.required]],
         apellidos: [localStorage.getItem('_n_dt_ap'), [Validators.required]],
-        telefono: [localStorage.getItem('_n_dt_t'), [Validators.required]],
+        telefono: [numero === null ? '' : numero, [Validators.required]],
         nombresM: [localStorage.getItem('_n_dt_nam'), [Validators.required]],
         apellidosM: [localStorage.getItem('_n_dt_ap'), [Validators.required]],
         telefonoM: [localStorage.getItem('_n_dt_t'), [Validators.required]],
