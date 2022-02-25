@@ -40,7 +40,12 @@
       <img
         :src="{{urlApi}}{{paquete.imagenes[0].ruta}}"
         :alt="{{paquete.nombre}}"
-        style="position: relative; max-height: 10rem; width: 100%"
+        style="
+          position: relative;
+          max-height: 10rem;
+          width: 100%;
+          object-fit: cover;
+        "
         button
         (click)="verPaquete(paquete.id)"
       />
