@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { AppCenterCrashes } from '@awesome-cordova-plugins/app-center-crashes/ngx';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,20 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(public screenOrientation: ScreenOrientation) {
+  constructor(
+    public screenOrientation: ScreenOrientation,
+    private appCrash: AppCenterCrashes
+  ) {
     this.modoOscuro();
     this.bloquearPantalla();
+    this.logCrash();
+  }
+  logCrash() {
+    this.appCrash.setEnabled(true).then(() => {
+      this.appCrash.lastSessionCrashReport().then((report) => {
+        console.log('Crash report', report);
+      });
+    });
   }
   modoOscuro() {
     const preferencia = localStorage.getItem('dark');
