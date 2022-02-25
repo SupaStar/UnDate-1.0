@@ -34,7 +34,7 @@ export class EditarPage implements OnInit {
         telefono: [numero, [Validators.required]],
         nombresM: [localStorage.getItem('_n_dt_nam'), [Validators.required]],
         apellidosM: [localStorage.getItem('_n_dt_ap'), [Validators.required]],
-        telefonoM: [numero, [Validators.required]],
+        telefonoM: numero,
       },
       {
         validator: [

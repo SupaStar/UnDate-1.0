@@ -180,22 +180,22 @@ export class InicioPage implements OnInit {
   }
   cargarMas(event) {
     if (this.filtro === 0) {
-      setTimeout(() => {
-        const faltantes = this.paquetesCompletos.length - this.paquetes.length;
-        if (faltantes <= 0) {
-          event.target.complete();
-          this.infiniteScroll.disabled = true;
-          return;
-        }
-        const start = this.paquetes.length;
-        this.paquetes = this.paquetes.concat(
-          this.paquetesCompletos.slice(start, start + 5)
-        );
+      // setTimeout(() => {
+      const faltantes = this.paquetesCompletos.length - this.paquetes.length;
+      if (faltantes <= 0) {
         event.target.complete();
-        if (this.paquetes.length === 10) {
-          event.target.disabled = true;
-        }
-      }, 2000);
+        this.infiniteScroll.disabled = true;
+        return;
+      }
+      const start = this.paquetes.length;
+      this.paquetes = this.paquetes.concat(
+        this.paquetesCompletos.slice(start, start + 5)
+      );
+      event.target.complete();
+      if (this.paquetes.length === 10) {
+        event.target.disabled = true;
+      }
+      // }, 2000);
     } else {
       setTimeout(() => {
         const faltantes = this.paquetesFiltrados.length - this.paquetes.length;
