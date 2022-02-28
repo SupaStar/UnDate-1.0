@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   AlertController,
+  IonHeader,
   LoadingController,
   NavController,
   ToastController,
@@ -16,6 +23,7 @@ import { SesionService } from '../services/sesion.service';
   styleUrls: ['./ver-paquete.page.scss'],
 })
 export class VerPaquetePage implements OnInit {
+  //@ViewChild('toolbar') tool: ElementRef;
   imgban = '';
   inicio = true;
   favoritos = false;
@@ -80,7 +88,20 @@ export class VerPaquetePage implements OnInit {
   ngOnInit() {
     this.cargarPaquete();
   }
-
+  imagenPrueba() {
+    setTimeout(() => {
+      const imageOverlay = document.getElementById('tool').shadowRoot;
+      const b = imageOverlay.childNodes[0].childNodes[0];
+      console.log(b);
+      b.addEventListener('click', () => {
+        console.log('click');
+      });
+      console.log(b);
+    }, 200);
+  }
+  prueba2(item) {
+    console.log(item[0]);
+  }
   cargarPaquete() {
     this.loadingController
       .create({
@@ -95,6 +116,7 @@ export class VerPaquetePage implements OnInit {
               if (this.paquete.imagenes.length > 0) {
                 this.carrusel = true;
               }
+              this.imagenPrueba();
             } else {
               let errorC = '';
               res.errors.forEach((element) => {
@@ -181,5 +203,8 @@ export class VerPaquetePage implements OnInit {
     carritos.push(itemCarrito);
     localStorage.setItem('car_tems', JSON.stringify(carritos));
     this.navCtrl.back();
+  }
+  imagen() {
+    console.log('imagen xd');
   }
 }

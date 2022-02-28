@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { CarritoPage } from '../modales/carrito/carrito.page';
 import { PaquetesService } from '../services/paquetes.service';
 import { SesionService } from '../services/sesion.service';
+import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 
 @Component({
   selector: 'app-inicio',
@@ -32,7 +33,8 @@ export class InicioPage implements OnInit {
     private toastController: ToastController,
     private navCtrl: NavController,
     private modalCtrl: ModalController,
-    private authService: SesionService
+    private authService: SesionService,
+    private fotos: PhotoViewer
   ) {
     this.carrito = false;
     const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
@@ -254,5 +256,25 @@ export class InicioPage implements OnInit {
         this.carrito = false;
       }
     });
+  }
+  verImagenes(id) {
+    const paqueteE = this.paquetesCompletos.find(
+      (paquete) => paquete.id === id
+    );
+    const imagenesPrueba = [];
+    paqueteE.imagenes.forEach((imagen) => {
+      imagenesPrueba.push({ url: this.urlApi + imagen.ruta });
+    });
+    const options = {
+      startIndex: 0, // default is 0
+      share: true, // default is false
+      closeButton: false, // default is true
+      copyToReference: true, // default is false
+      headers: '', // If this is not provided, an exception will be triggered
+      piccasoOptions: {}, // If this is not provided, an exception will be triggered
+    };
+    console.log(imagenesPrueba);
+    console.log('uwuuwu');
+    this.fotos.show(imagenesPrueba as any, options as any);
   }
 }
