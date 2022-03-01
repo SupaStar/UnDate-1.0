@@ -257,7 +257,7 @@ export class InicioPage implements OnInit {
       }
     });
   }
-  verImagenes(id) {
+  verImagenes(id, indiceImg) {
     const paqueteE = this.paquetesCompletos.find(
       (paquete) => paquete.id === id
     );
@@ -265,16 +265,8 @@ export class InicioPage implements OnInit {
     paqueteE.imagenes.forEach((imagen) => {
       imagenesPrueba.push({ url: this.urlApi + imagen.ruta });
     });
-    const options = {
-      startIndex: 0, // default is 0
-      share: true, // default is false
-      closeButton: false, // default is true
-      copyToReference: true, // default is false
-      headers: '', // If this is not provided, an exception will be triggered
-      piccasoOptions: {}, // If this is not provided, an exception will be triggered
-    };
-    console.log(imagenesPrueba);
-    console.log('uwuuwu');
-    this.fotos.show(imagenesPrueba[0].url, paqueteE.titulo, { share: true });
+    this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
+      share: true,
+    });
   }
 }
