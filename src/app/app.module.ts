@@ -15,6 +15,7 @@ import { CarritoPage } from './modales/carrito/carrito.page';
 import { PaquetesCotizacionPage } from './modales/paquetes-cotizacion/paquetes-cotizacion.page';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,12 @@ import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
     HttpClientModule,
     FontAwesomeModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },ScreenOrientation,GooglePlus],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ScreenOrientation,
+    GooglePlus,
+    PhotoViewer
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { CarritoPage } from '../modales/carrito/carrito.page';
 import { PaquetesService } from '../services/paquetes.service';
 import { SesionService } from '../services/sesion.service';
+import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 
 @Component({
   selector: 'app-inicio',
@@ -32,7 +33,8 @@ export class InicioPage implements OnInit {
     private toastController: ToastController,
     private navCtrl: NavController,
     private modalCtrl: ModalController,
-    private authService: SesionService
+    private authService: SesionService,
+    private fotos: PhotoViewer
   ) {
     this.carrito = false;
     const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
@@ -253,6 +255,18 @@ export class InicioPage implements OnInit {
         this.nProductos = 0;
         this.carrito = false;
       }
+    });
+  }
+  verImagenes(id, indiceImg) {
+    const paqueteE = this.paquetesCompletos.find(
+      (paquete) => paquete.id === id
+    );
+    const imagenesPrueba = [];
+    paqueteE.imagenes.forEach((imagen) => {
+      imagenesPrueba.push({ url: this.urlApi + imagen.ruta });
+    });
+    this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
+      share: true,
     });
   }
 }
