@@ -1,21 +1,16 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AlertController,
-  IonHeader,
   LoadingController,
+  ModalController,
   NavController,
   ToastController,
 } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { PaquetesService } from '../services/paquetes.service';
 import { SesionService } from '../services/sesion.service';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-ver-paquete',
@@ -34,6 +29,7 @@ export class VerPaquetePage implements OnInit {
   startPosition = 0;
   maximumHeight = 0;
   id: number;
+  favorito = false;
   paquete = {
     id: 0,
     titulo: '',
@@ -63,8 +59,10 @@ export class VerPaquetePage implements OnInit {
     private loadingController: LoadingController,
     private toastController: ToastController,
     private alertCtrl: AlertController,
-    private authService: SesionService
+    private authService: SesionService,
+    private modalCtrl: ModalController
   ) {
+    //Detecta de que vista viene, para volver a ella
     if (this.authService.idPackFavorite === null) {
       this.inicio = true;
       this.favoritos = false;
@@ -78,7 +76,20 @@ export class VerPaquetePage implements OnInit {
       this.inicio = false;
       this.busqueda = false;
     }
+    //Identifica si esta en favoritos o no
+    const favoritosG = JSON.parse(localStorage.getItem('fav_usr'));
+    if (favoritosG.length > 0) {
+      favoritosG.find((e) => {
+        if (e.paquete_id === this.authService.idPackFavorite) {
+          this.favorito = true;
+        }
+      });
+    } else {
+      this.favorito = false;
+    }
     this.id = Number(localStorage.getItem('paquete_id'));
+
+    //Crea las url para cargar las imagenes
     this.urlExtras = environment.urlPublic + 'extras/';
     this.urlApi = environment.urlPublic + 'banners/';
     this.imgban = this.urlApi + localStorage.getItem('img_ban');
@@ -206,5 +217,43 @@ export class VerPaquetePage implements OnInit {
   }
   imagen() {
     console.log('imagen xd');
+  }
+  async compartir() {
+    await Share.share({
+      title: 'Compartir',
+      text: 'Mira esta decoración!', //Arriba
+      url: `https://open.unDate/paquete/${this.id}`, //Abajo
+      dialogTitle: 'Comparte con tus amigos.',
+    });
+  }
+  addFavoritos() {
+    this.authService.favorite(this.id).subscribe(
+      (data) => {
+        if (data.status) {
+          let favoritosNuevos = JSON.parse(localStorage.getItem('fav_usr'));
+          if (data.fav !== true) {
+            this.favorito = true;
+            favoritosNuevos.push(data.fav);
+          } else {
+            this.favorito = false;
+            favoritosNuevos = favoritosNuevos.splice(
+              0,
+              favoritosNuevos.find((item) => item.paquete_id === this.id)
+            );
+          }
+          localStorage.setItem('fav_usr', JSON.stringify(favoritosNuevos));
+          this.modalCtrl.dismiss();
+          this.presentToast(data.message, 'success');
+        } else {
+          this.presentToast(data.message, 'danger');
+        }
+      },
+      (error) => {
+        this.presentToast(
+          'Error con el servidor, por favor contactar con soporte',
+          'danger'
+        );
+      }
+    );
   }
 }
