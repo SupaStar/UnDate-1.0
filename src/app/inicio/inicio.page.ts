@@ -11,6 +11,7 @@ import { CarritoPage } from '../modales/carrito/carrito.page';
 import { PaquetesService } from '../services/paquetes.service';
 import { SesionService } from '../services/sesion.service';
 import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-inicio',
@@ -267,6 +268,14 @@ export class InicioPage implements OnInit {
     });
     this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
       share: true,
+    });
+  }
+  async compartir() {
+    await Share.share({
+      title: 'Compartir',
+      text: 'Really awesome thing you need to see right meow', //Arriba
+      url: 'http://ionicframework.com/', //Abajo
+      dialogTitle: 'Comparte con tus amigos.',
     });
   }
 }
