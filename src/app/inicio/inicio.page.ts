@@ -275,6 +275,6 @@ export class InicioPage implements OnInit {
     };
     console.log(imagenesPrueba);
     console.log('uwuuwu');
-    this.fotos.show(imagenesPrueba as any, options as any);
+    this.fotos.show(imagenesPrueba[0].url, paqueteE.titulo, { share: true });
   }
 }
