@@ -6,6 +6,7 @@ import {
 } from '@ionic/angular';
 import { DireccionesPage } from '../modales/direcciones/direcciones.page';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-perfil',
@@ -43,9 +44,20 @@ export class PerfilPage implements OnInit {
       localStorage.setItem('dark', 'true');
     }
   }
-  cerrarSesion() {
-    let glog = localStorage.getItem('g_log');
-    if (glog == 'true') {
+  async cerrarSesion() {
+    const fileEntries = await Filesystem.readdir({
+      directory: Directory.Cache,
+      path: 'CACHED-IMG',
+    });
+    fileEntries.files.map(async (f) => {
+      console.log('Delete: ', f);
+      await Filesystem.deleteFile({
+        directory: Directory.Cache,
+        path: `CACHED-IMG/${f}`,
+      });
+    });
+    const glog = localStorage.getItem('g_log');
+    if (glog === 'true') {
       this.googlePlus.logout();
     }
     localStorage.clear();

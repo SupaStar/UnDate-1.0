@@ -48,12 +48,18 @@
         "
       >
         <ion-slide *ngFor="let imagen of paquete.imagenes;index as i">
-          <img
+          <cached-img
+            [src]="urlApi+imagen.ruta"
+            [spinner]="true"
+            button
+            (click)="verImagenes(paquete.id,i)"
+          ></cached-img>
+          <!-- <img
             :src="{{urlApi}}{{imagen.ruta}}"
             :alt="{{paquete.nombre}}"
             button
             (click)="verImagenes(paquete.id,i)"
-          />
+          /> -->
         </ion-slide>
       </ion-slides>
 

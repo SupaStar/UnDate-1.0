@@ -8,6 +8,7 @@ import { InicioPageRoutingModule } from './inicio-routing.module';
 
 import { InicioPage } from './inicio.page';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedComponentsModule } from '../utils/shared-components.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     IonicModule,
     InicioPageRoutingModule,
     FontAwesomeModule,
+    SharedComponentsModule
   ],
   declarations: [InicioPage]
 })
