@@ -12,6 +12,7 @@ import { PaquetesService } from '../services/paquetes.service';
 import { SesionService } from '../services/sesion.service';
 import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 import { Share } from '@capacitor/share';
+import { Filesystem } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-inicio',
@@ -265,6 +266,11 @@ export class InicioPage implements OnInit {
     const imagenesPrueba = [];
     paqueteE.imagenes.forEach((imagen) => {
       imagenesPrueba.push({ url: this.urlApi + imagen.ruta });
+    });
+    Filesystem.checkPermissions().then((result) => {
+      if (result.publicStorage !== 'granted') {
+        this.presentToast('No se otogra permisos de almacenamiento\nPor favor otorgarlos mediante la configuración.', 'danger');
+      }
     });
     this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
       share: true,

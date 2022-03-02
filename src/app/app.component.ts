@@ -41,28 +41,7 @@ export class AppComponent {
     let permiso = true;
     Filesystem.checkPermissions().then((result) => {
       if (result.publicStorage !== 'granted') {
-        while (permiso) {
-          Filesystem.requestPermissions().then((result2) => {
-            if (result2.publicStorage === 'granted') {
-              permiso = false;
-            } else {
-              this.alertCtrl
-                .create({
-                  header: 'Permisos',
-                  message:
-                    'No se pudo acceder a la memoria interna, por favor acepte los permisos',
-                  buttons: [
-                    {
-                      text: 'Aceptar',
-                    },
-                  ],
-                })
-                .then((alert) => {
-                  alert.present();
-                });
-            }
-          });
-        }
+        Filesystem.requestPermissions();
       }
     });
   }
