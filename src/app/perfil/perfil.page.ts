@@ -50,7 +50,6 @@ export class PerfilPage implements OnInit {
       path: 'CACHED-IMG',
     });
     fileEntries.files.map(async (f) => {
-      console.log('Delete: ', f);
       await Filesystem.deleteFile({
         directory: Directory.Cache,
         path: `CACHED-IMG/${f}`,

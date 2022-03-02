@@ -2,6 +2,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 //const { Filesystem } = FilesystemPlugin;
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 const CACHE_FOLDER = 'CACHED-IMG';
 @Component({
@@ -13,11 +15,10 @@ const CACHE_FOLDER = 'CACHED-IMG';
 export class CachedImageComponent {
   _src = '';
   @Input() spinner = false;
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   @Input()
   set src(imageUrl: string) {
-    console.log('ImageUrl', imageUrl);
     const imageName = imageUrl.split('/').pop();
     const fileType = imageName.split('.').pop();
     Filesystem.readFile({
@@ -25,7 +26,6 @@ export class CachedImageComponent {
       path: `${CACHE_FOLDER}/${imageName}`,
     })
       .then((readFile) => {
-        console.log('Path', readFile);
         this._src = `data:image/${fileType};base64,${readFile.data}`;
       })
       .catch(async (e) => {
@@ -39,9 +39,9 @@ export class CachedImageComponent {
       });
   }
   async storeImage(url, path) {
-    //Fetch con cors
-    const response = await fetch(url);
-    console.log('Response', response);
+    // const response = await fetch(`https://cors-anywhere.herokuapp.com/${url}`);
+    //const response = await fetch(`https://corsapi.herokuapp.com/${url}`);
+    const response = await fetch(environment.urlProxi + url);
     const blob = await response.blob();
     const base64Data = (await this.convertBlobToBase64(blob)) as string;
     const savedFile = await Filesystem.writeFile({

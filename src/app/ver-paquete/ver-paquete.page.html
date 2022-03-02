@@ -43,7 +43,10 @@
       <ion-list slot="content">
         <ion-item *ngFor="let extra of paquete.extras">
           <ion-thumbnail slot="start">
-            <img :src="{{urlExtras}}{{extra.ruta}}" />
+            <cached-img
+              [src]="urlExtras+extra.ruta"
+              [spinner]="true"
+            ></cached-img>
           </ion-thumbnail>
           <ion-label>{{extra.nombre}}</ion-label>
           <ion-checkbox

@@ -19,18 +19,25 @@
 <ion-content>
   <ion-card *ngFor="let paquete of paquetes">
     <div>
-      <img
-        :src="{{urlApi}}{{paquete.imagenes[0].ruta}}"
-        :alt="{{paquete.nombre}}"
+      <ion-slides
+        pager="true"
+        [options]="slideOpts"
         style="
           position: relative;
           max-height: 10rem;
           width: 100%;
           object-fit: cover;
         "
-        button
-        (click)="verPaquete(paquete.id)"
-      />
+      >
+        <ion-slide *ngFor="let imagen of paquete.imagenes;index as i">
+          <cached-img
+            [src]="urlApi+imagen.ruta"
+            [spinner]="true"
+            button
+            (click)="verImagenes(paquete.id,i)"
+          ></cached-img>
+        </ion-slide>
+      </ion-slides>
       <button class="btn" (click)="favoritos(paquete.id)">
         <ion-icon
           name="{{paquete.favorito===false||paquete.favorito===undefined?'heart-outline':'heart'}}"

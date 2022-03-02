@@ -88,7 +88,6 @@ export class VerPaquetePage implements OnInit {
       this.favorito = false;
     }
     this.id = Number(localStorage.getItem('paquete_id'));
-
     //Crea las url para cargar las imagenes
     this.urlExtras = environment.urlPublic + 'extras/';
     this.urlApi = environment.urlPublic + 'banners/';
@@ -98,20 +97,6 @@ export class VerPaquetePage implements OnInit {
 
   ngOnInit() {
     this.cargarPaquete();
-  }
-  imagenPrueba() {
-    setTimeout(() => {
-      const imageOverlay = document.getElementById('tool').shadowRoot;
-      const b = imageOverlay.childNodes[0].childNodes[0];
-      console.log(b);
-      b.addEventListener('click', () => {
-        console.log('click');
-      });
-      console.log(b);
-    }, 200);
-  }
-  prueba2(item) {
-    console.log(item[0]);
   }
   cargarPaquete() {
     this.loadingController
@@ -127,7 +112,6 @@ export class VerPaquetePage implements OnInit {
               if (this.paquete.imagenes.length > 0) {
                 this.carrusel = true;
               }
-              this.imagenPrueba();
             } else {
               let errorC = '';
               res.errors.forEach((element) => {
@@ -215,10 +199,8 @@ export class VerPaquetePage implements OnInit {
     localStorage.setItem('car_tems', JSON.stringify(carritos));
     this.navCtrl.back();
   }
-  imagen() {
-    console.log('imagen xd');
-  }
   async compartir() {
+    this.modalCtrl.dismiss();
     await Share.share({
       title: 'Compartir',
       text: 'Mira esta decoración!', //Arriba

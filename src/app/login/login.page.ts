@@ -98,6 +98,12 @@ export class LoginPage implements OnInit {
       });
   }
   async createCacheFolder() {
+    //check if exist
+    // const exist = await Filesystem.readdir({
+    //   path: CACHE_FOLDER,
+    //   });
+    // if (exist.files.length === 0) {
+    // }
     await Filesystem.mkdir({
       directory: Directory.Cache,
       path: `CACHED-IMG`,

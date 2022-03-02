@@ -3,6 +3,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { PaquetesService } from '../services/paquetes.service';
 import { environment } from 'src/environments/environment';
 import { SesionService } from '../services/sesion.service';
+import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
 
 @Component({
   selector: 'app-busqueda',
@@ -17,7 +18,8 @@ export class BusquedaPage implements OnInit {
     private paquetesService: PaquetesService,
     private navCtrl: NavController,
     private toastController: ToastController,
-    private authService: SesionService
+    private authService: SesionService,
+    private fotos: PhotoViewer
   ) {}
 
   ngOnInit() {}
@@ -95,5 +97,17 @@ export class BusquedaPage implements OnInit {
         );
       }
     );
+  }
+  verImagenes(id, indiceImg) {
+    const paqueteE = this.paquetes.find(
+      (paquete) => paquete.id === id
+    );
+    const imagenesPrueba = [];
+    paqueteE.imagenes.forEach((imagen) => {
+      imagenesPrueba.push({ url: this.urlApi + imagen.ruta });
+    });
+    this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
+      share: true,
+    });
   }
 }
