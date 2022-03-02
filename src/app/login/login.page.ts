@@ -8,6 +8,8 @@ import {
 } from '@ionic/angular';
 import { SesionService } from '../services/sesion.service';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+const CACHE_FOLDER = 'CACHED-IMG';
 
 @Component({
   selector: 'app-login',
@@ -74,6 +76,7 @@ export class LoginPage implements OnInit {
               localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
               localStorage.setItem('car_tems', JSON.stringify([]));
               loading.dismiss();
+              this.createCacheFolder();
               this.navCtrl.navigateRoot('/tabs/inicio');
             } else {
               let errorC = '';
@@ -93,6 +96,18 @@ export class LoginPage implements OnInit {
           }
         );
       });
+  }
+  async createCacheFolder() {
+    //check if exist
+    // const exist = await Filesystem.readdir({
+    //   path: CACHE_FOLDER,
+    //   });
+    // if (exist.files.length === 0) {
+    // }
+    await Filesystem.mkdir({
+      directory: Directory.Cache,
+      path: `CACHED-IMG`,
+    });
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({
@@ -166,6 +181,7 @@ export class LoginPage implements OnInit {
               localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
               localStorage.setItem('car_tems', JSON.stringify([]));
               localStorage.setItem('g_log', 'true');
+              this.createCacheFolder();
               this.navCtrl.navigateRoot('/tabs/inicio');
             } else {
               let errorC = '';

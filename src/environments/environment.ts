@@ -6,8 +6,10 @@ export const environment = {
   production: false,
   // url: 'http://localhost:8000/api/',
   // urlPublic: 'http://localhost:8000/',
+  // urlProxi:''
   url: 'https://un-date.herokuapp.com/api/',
   urlPublic: 'https://un-date.herokuapp.com/',
+  urlProxi:'https://corsapi.herokuapp.com/'
 };
 /*
  * For easier debugging in development mode, you can import the following file

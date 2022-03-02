@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VerPaquetePageRoutingModule } from './ver-paquete-routing.module';
 import { IonicHeaderParallaxModule } from 'ionic-header-parallax';
 import { VerPaquetePage } from './ver-paquete.page';
+import { SharedComponentsModule } from '../utils/shared-components.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { VerPaquetePage } from './ver-paquete.page';
     FormsModule,
     IonicModule,
     VerPaquetePageRoutingModule,
-    IonicHeaderParallaxModule
+    IonicHeaderParallaxModule,
+    SharedComponentsModule
   ],
   declarations: [VerPaquetePage]
 })
