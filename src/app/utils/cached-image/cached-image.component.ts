@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-//const { Filesystem } = FilesystemPlugin;
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 const CACHE_FOLDER = 'CACHED-IMG';
@@ -15,7 +14,7 @@ const CACHE_FOLDER = 'CACHED-IMG';
 export class CachedImageComponent {
   _src = '';
   @Input() spinner = false;
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   @Input()
   set src(imageUrl: string) {
