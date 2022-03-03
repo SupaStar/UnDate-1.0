@@ -38,7 +38,6 @@ export class AppComponent {
     this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
   }
   permisos() {
-    let permiso = true;
     Filesystem.checkPermissions().then((result) => {
       if (result.publicStorage !== 'granted') {
         Filesystem.requestPermissions();

@@ -74,6 +74,7 @@ export class LoginPage implements OnInit {
                 direcciones[0] = { ...direcciones[0], ...{ default: true } };
               }
               localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
+              localStorage.setItem('pass?', 'false');
               localStorage.setItem('car_tems', JSON.stringify([]));
               loading.dismiss();
               this.createCacheFolder();
@@ -98,12 +99,6 @@ export class LoginPage implements OnInit {
       });
   }
   async createCacheFolder() {
-    //check if exist
-    // const exist = await Filesystem.readdir({
-    //   path: CACHE_FOLDER,
-    //   });
-    // if (exist.files.length === 0) {
-    // }
     await Filesystem.mkdir({
       directory: Directory.Cache,
       path: `CACHED-IMG`,
@@ -180,6 +175,10 @@ export class LoginPage implements OnInit {
               }
               localStorage.setItem('_n_dt_d', JSON.stringify(direcciones));
               localStorage.setItem('car_tems', JSON.stringify([]));
+              localStorage.setItem(
+                'pass?',
+                data.pass === true ? 'true' : 'false'
+              );
               localStorage.setItem('g_log', 'true');
               this.createCacheFolder();
               this.navCtrl.navigateRoot('/tabs/inicio');

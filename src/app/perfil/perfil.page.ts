@@ -79,7 +79,12 @@ export class PerfilPage implements OnInit {
     this.navCtrl.navigateForward('/favoritos');
   }
   pass() {
-    this.navCtrl.navigateForward('/cambiarPass');
+    const pass = localStorage.getItem('pass?');
+    if (pass === 'true') {
+      this.navCtrl.navigateForward('/crearPass');
+    }else{
+      this.navCtrl.navigateForward('/cambiarPass');
+    }
   }
   cotizaciones() {
     this.navCtrl.navigateForward('/misCotizaciones');

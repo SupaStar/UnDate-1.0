@@ -8,12 +8,13 @@ import {
 import { SesionService } from 'src/app/services/sesion.service';
 
 @Component({
-  selector: 'app-cambiar-pass',
-  templateUrl: './cambiar-pass.page.html',
-  styleUrls: ['./cambiar-pass.page.scss'],
+  selector: 'app-crear-pass',
+  templateUrl: './crear-pass.page.html',
+  styleUrls: ['./crear-pass.page.scss'],
 })
-export class CambiarPassPage implements OnInit {
-  newPass: FormGroup = this.fb.group({});
+export class CrearPassPage implements OnInit {
+  primeraPass: FormGroup = this.fb.group({});
+
   constructor(
     private navController: NavController,
     public loadingController: LoadingController,
@@ -21,47 +22,27 @@ export class CambiarPassPage implements OnInit {
     private authProv: SesionService,
     private fb: FormBuilder
   ) {
-    this.newPass = this.fb.group(
+    this.primeraPass = this.fb.group(
       {
-        oldPass: ['', [Validators.required, Validators.minLength(6)]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
-        passwordConfirmation: [
-          '',
-          [Validators.required, Validators.minLength(6)],
-        ],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
       },
       {
-        validators: this.checkPasswords('password', 'passwordConfirmation'),
+        validator: this.checkPasswords('password', 'confirmPassword'),
       }
     );
   }
 
   ngOnInit() {}
-  perfil() {
-    this.navController.navigateBack('/tabs/perfil');
-  }
-  checkPasswords(controlName: string, matchingControlName: string) {
-    return (formGroup: FormGroup) => {
-      const control = formGroup.controls[controlName];
-      const matchingControl = formGroup.controls[matchingControlName];
-      if (matchingControl.errors && !matchingControl.errors.same) {
-        return;
-      }
-      if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ same: true });
-      } else {
-        matchingControl.setErrors(null);
-      }
-    };
-  }
-  cambiar() {
-    this.authProv.cambiarPassPerfil(this.newPass.value).subscribe(
+  crear() {
+    this.authProv.crearPass(this.primeraPass.value).subscribe(
       (data) => {
         if (data.status) {
           let mensaje = '';
           data.message.forEach((element) => {
             mensaje += element + '\n';
           });
+          localStorage.setItem('pass?', 'false');
           this.presentToast(mensaje, 'success');
           this.navController.navigateBack('/tabs/perfil');
         } else {
@@ -80,6 +61,20 @@ export class CambiarPassPage implements OnInit {
       }
     );
   }
+  checkPasswords(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.same) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ same: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({
       message: mensaje,
@@ -87,5 +82,8 @@ export class CambiarPassPage implements OnInit {
       color: colors,
     });
     toast.present();
+  }
+  perfil() {
+    this.navController.navigateBack('/tabs/perfil');
   }
 }

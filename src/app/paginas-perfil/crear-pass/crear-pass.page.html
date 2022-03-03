@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="perfil()">Regresar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div [formGroup]="primeraPass">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked" class="label">
+              Nueva contraseña
+            </ion-label>
+            <ion-input
+              formControlName="password"
+              type="password"
+              placeholder="Contraseña"
+              aria-label="Contraseña"
+            ></ion-input>
+          </ion-item>
+          <div
+            *ngIf="primeraPass.get('password').hasError('required') && primeraPass.get('password').touched"
+            class="error"
+            color="danger"
+          >
+            <ion-label
+              *ngIf="primeraPass.controls.password.errors.required"
+              color="danger"
+            >
+              La contraseña es requerida
+            </ion-label>
+            <ion-label
+              *ngIf="primeraPass.controls.password.errors.same"
+              color="danger"
+            >
+              Las contraseñas no coinciden
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label position="stacked" class="label">
+              Confirmar contraseña
+            </ion-label>
+            <ion-input
+              formControlName="confirmPassword"
+              type="password"
+              placeholder="Contraseña"
+              aria-label="Contraseña"
+            ></ion-input>
+          </ion-item>
+          <div
+            *ngIf="primeraPass.get('confirmPassword').hasError('required') && primeraPass.get('confirmPassword').touched"
+            class="error"
+            color="danger"
+          >
+            <ion-label
+              *ngIf="primeraPass.controls.confirmPassword.errors.required"
+              color="danger"
+            >
+              La confirmación contraseña es requerida
+            </ion-label>
+            <ion-label
+              *ngIf="primeraPass.controls.confirmPassword.errors.same"
+              color="danger"
+            >
+              Las contraseñas no coinciden
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button
+      color="primary"
+      [disabled]="!primeraPass.valid"
+      (click)="crear()"
+      class="botonEnviar"
+    >
+      Crear password
+    </ion-button>
+  </div>
+</ion-content>

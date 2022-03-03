@@ -66,6 +66,11 @@ const routes: Routes = [
     path: 'misCotizaciones',
     loadChildren: () => import('./paginas-perfil/mis-cotizaciones/mis-cotizaciones.module').then( m => m.MisCotizacionesPageModule)
   },
+  {
+    path: 'crearPass',
+    loadChildren: () => import('./paginas-perfil/crear-pass/crear-pass.module').then( m => m.CrearPassPageModule)
+  },
+
 ];
 @NgModule({
   imports: [

@@ -25,6 +25,7 @@ export class SesionService {
     environment.url + 'usuario/cambiar_pass_perfil';
   private urlCotizar = environment.url + 'usuario/cotizar';
   private urlMisCotizaciones = environment.url + 'usuario/cotizaciones';
+  private urlCrearPass = environment.url + 'usuario/crearPassword';
 
   constructor(private http: HttpClient) {}
   iniciarSesion(usuario: any) {
@@ -101,5 +102,9 @@ export class SesionService {
   }
   registroGoogle(google: any) {
     return this.http.post<any>(this.registroG, google);
+  }
+  crearPass(pass: any) {
+    const httpOptions = this.refrecarToken();
+    return this.http.post<any>(this.urlCrearPass, pass, httpOptions);
   }
 }

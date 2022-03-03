@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "full": "npm run build && npx cap add android && npx cordova-res android --skip-config --copy && npx cap copy && npx cap open android",
-    "pruebas": "npx cordova-res android --skip-config --copy && npm run build && npx cap copy && npx cap open android"
+    "pruebas": "npx cordova-res android --skip-config --copy && npm run build --prod && npx cap copy && npx cap open android"
   },
   "private": true,
   "dependencies": {
