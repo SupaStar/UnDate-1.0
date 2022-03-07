@@ -37,20 +37,20 @@
       </p>
     </ion-item> -->
   </ion-list>
-  <ion-list>
+  <ion-list style="margin-top: 2vh;">
     <ion-list-header>Tus paquetes.</ion-list-header>
     <ion-item *ngFor="let item of carrito;let i = index" [attr.data-index]="i">
-      <ion-label>{{item.paquete.titulo}}</ion-label>
+      <ion-label class="nombrePaquete">{{item.paquete.titulo}}</ion-label>
     </ion-item>
   </ion-list>
-  <ion-list>
+  <ion-list style="margin-top: 2vh;">
     <ion-list-header>Numero de personas. {{personas}}</ion-list-header>
     <ion-range min="1" max="99" pin style="margin: 0 2vw;" debounce="0" mode="ios" (ionChange)="aumentoPersonas()" [(ngModel)]="personas">
       <ion-label slot="start" style="font-size: 1.3rem;">0</ion-label>
       <ion-label slot="end" style="font-size: 1.3rem;">99</ion-label>
     </ion-range>
   </ion-list>
-  <ion-list>
+  <ion-list style="margin-top: 2vh;">
     <ion-list-header> Fecha y hora seleccionados: </ion-list-header>
     <ion-item button id="modal">
       <ion-text>
