@@ -44,11 +44,18 @@
     </ion-item>
   </ion-list>
   <ion-list>
+    <ion-list-header>Numero de personas. {{personas}}</ion-list-header>
+    <ion-range min="1" max="99" pin style="margin: 0 2vw;" debounce="0" mode="ios" (ionChange)="aumentoPersonas()" [(ngModel)]="personas">
+      <ion-label slot="start" style="font-size: 1.3rem;">0</ion-label>
+      <ion-label slot="end" style="font-size: 1.3rem;">99</ion-label>
+    </ion-range>
+  </ion-list>
+  <ion-list>
     <ion-list-header> Fecha y hora seleccionados: </ion-list-header>
     <ion-item button id="modal">
       <ion-text>
-        {{fechaDeseada===undefined?"Sin fecha
-        seleccionada":fechaDeseada}}</ion-text
+        {{fechaDeseadaFormateada===undefined?"Sin fecha
+        seleccionada":fechaDeseadaFormateada}}</ion-text
       >
     </ion-item>
   </ion-list>
@@ -73,6 +80,8 @@
           display-format="DD/MM/YYYY"
           picker-format="DD/MM/YYYY"
           [(ngModel)]="fechaDeseada"
+          min="{{fechaMin}}"
+          (ionChange)="formatoFecha()"
           locale="es-MX"
           placeholder="Fecha"
         ></ion-datetime>

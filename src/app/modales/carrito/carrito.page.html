@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let item of carrito;let i = index"  [attr.data-index]="i">
+  <div *ngFor="let item of carrito;let i = index" [attr.data-index]="i">
     <ion-item>
       <ion-label>{{item.paquete.titulo}}</ion-label>
       <ion-button slot="end" (click)="eliminar(i)">
@@ -15,7 +15,9 @@
       </ion-button>
     </ion-item>
   </div>
-  <ion-button class="botonPagar" (click)="cotizar()" color="dark">
-    Cotizar
-  </ion-button>
+  <div #btnCotizar>
+    <ion-button class="botonPagar" (click)="cotizar()" color="dark" >
+      Cotizar
+    </ion-button>
+  </div>
 </ion-content>

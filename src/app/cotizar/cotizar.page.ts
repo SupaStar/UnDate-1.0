@@ -6,6 +6,8 @@ import {
   NavController,
   ToastController,
 } from '@ionic/angular';
+import { format, parseISO } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { SesionService } from '../services/sesion.service';
 
 @Component({
@@ -17,7 +19,11 @@ export class CotizarPage implements OnInit {
   carrito: [];
   direccion: any;
   direcciones = [];
+  fechaMin = format(new Date(), 'yyyy-MM-dd');
   fechaDeseada: any;
+  fechaDeseadaFormateada: any;
+  personas = 1;
+  notificacion = true;
   constructor(
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
@@ -77,7 +83,12 @@ export class CotizarPage implements OnInit {
         .then((overlay) => {
           overlay.present();
           this.authService
-            .cotizar(this.carrito, this.direccion.id, this.fechaDeseada)
+            .cotizar(
+              this.carrito,
+              this.direccion.id,
+              this.fechaDeseada,
+              this.personas
+            )
             .subscribe(
               (res) => {
                 overlay.dismiss();
@@ -109,5 +120,29 @@ export class CotizarPage implements OnInit {
       dismissed: true,
     });
     this.navCtrl.navigateRoot('/nuevaDireccion');
+  }
+  formatoFecha() {
+    this.fechaDeseadaFormateada = format(
+      parseISO(this.fechaDeseada),
+      'HH:mm, MMM d, yyyy',
+      {
+        locale: es,
+      }
+    );
+  }
+  aumentoPersonas() {
+    if (this.personas >= 20 && this.notificacion === true) {
+      this.alertCtrl
+        .create({
+          header: 'Error',
+          message: 'Se generara una notificación al administrador',
+          buttons: ['OK'],
+        })
+        .then((alert) => alert.present());
+      this.notificacion = false;
+    }
+    if (this.personas < 20 && this.notificacion === false) {
+      this.notificacion = true;
+    }
   }
 }

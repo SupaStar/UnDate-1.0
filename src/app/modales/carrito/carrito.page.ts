@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ModalController, NavController } from '@ionic/angular';
 
 @Component({
@@ -6,7 +12,8 @@ import { ModalController, NavController } from '@ionic/angular';
   templateUrl: './carrito.page.html',
   styleUrls: ['./carrito.page.scss'],
 })
-export class CarritoPage implements OnInit {
+export class CarritoPage implements OnInit, AfterViewInit {
+  @ViewChild('btnCotizar') btnCotizar: ElementRef;
   carrito: any;
   constructor(
     private modalCtrl: ModalController,
@@ -15,6 +22,12 @@ export class CarritoPage implements OnInit {
 
   ngOnInit() {
     this.carrito = JSON.parse(localStorage.getItem('car_tems'));
+  }
+  ngAfterViewInit() {
+    const el=this.btnCotizar.nativeElement;
+    setTimeout(() => {
+      el.setAttribute('style', 'position: fixed; bottom: 51vh;');
+    }, 200);
   }
   cerrarModal() {
     this.modalCtrl.dismiss({
@@ -28,7 +41,7 @@ export class CarritoPage implements OnInit {
   eliminar(indice) {
     this.carrito.splice(indice, 1);
     localStorage.setItem('car_tems', JSON.stringify(this.carrito));
-    if(this.carrito.length === 0){
+    if (this.carrito.length === 0) {
       this.cerrarModal();
     }
   }

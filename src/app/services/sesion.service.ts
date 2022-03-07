@@ -87,11 +87,12 @@ export class SesionService {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCambiarPassPerfil, pass, httpOptions);
   }
-  cotizar(carrito: any, idDireccion: any, fechaDeseada: any) {
+  cotizar(carrito: any, idDireccion: any, fechaDeseada: any, personas: any) {
     const body = {
       paquetes: carrito,
       direccion: idDireccion,
       fechaD: fechaDeseada,
+      nPersonas: personas,
     };
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCotizar, body, httpOptions);
