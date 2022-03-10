@@ -39,7 +39,7 @@
         </ion-slide>
       </ion-slides>
       <button class="btn" (click)="favoritos(paquete.id)">
-        <ion-icon
+        <ion-icon id="favorito{{paquete.id}}"
           name="{{paquete.favorito===false||paquete.favorito===undefined?'heart-outline':'heart'}}"
         ></ion-icon>
       </button>

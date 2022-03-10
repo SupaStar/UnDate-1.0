@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController } from '@ionic/angular';
+import {
+  AnimationController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { PaquetesService } from '../services/paquetes.service';
 import { environment } from 'src/environments/environment';
 import { SesionService } from '../services/sesion.service';
@@ -19,7 +23,8 @@ export class BusquedaPage implements OnInit {
     private navCtrl: NavController,
     private toastController: ToastController,
     private authService: SesionService,
-    private fotos: PhotoViewer
+    private fotos: PhotoViewer,
+    private animacion: AnimationController
   ) {}
 
   ngOnInit() {}
@@ -62,6 +67,12 @@ export class BusquedaPage implements OnInit {
     toast.present();
   }
   favoritos(id) {
+    const animation = this.animacion.create();
+    animation.addElement(document.querySelector('#favorito' + id));
+    animation.duration(2000);
+    animation.fromTo('transform', 'scale(1)', 'scale(1.5)');
+    animation.fromTo('opacity', '1', '0');
+    animation.play();
     this.authService.favorite(id).subscribe(
       (data) => {
         if (data.status) {
@@ -84,6 +95,13 @@ export class BusquedaPage implements OnInit {
               favoritos.find((item) => item.paquete_id === id)
             );
           }
+          animation.destroy();
+          const animation2 = this.animacion.create();
+          animation2.addElement(document.querySelector('#favorito' + id));
+          animation2.duration(1000);
+          animation2.fromTo('transform', 'scale(1.5)', 'scale(1)');
+          animation2.fromTo('opacity', '0', '1');
+          animation2.play();
           localStorage.setItem('fav_usr', JSON.stringify(favoritos));
           this.presentToast(data.message, 'success');
         } else {
@@ -99,9 +117,7 @@ export class BusquedaPage implements OnInit {
     );
   }
   verImagenes(id, indiceImg) {
-    const paqueteE = this.paquetes.find(
-      (paquete) => paquete.id === id
-    );
+    const paqueteE = this.paquetes.find((paquete) => paquete.id === id);
     const imagenesPrueba = [];
     paqueteE.imagenes.forEach((imagen) => {
       imagenesPrueba.push({ url: this.urlApi + imagen.ruta });

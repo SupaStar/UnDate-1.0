@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  AnimationController,
   IonInfiniteScroll,
   LoadingController,
   ModalController,
@@ -36,7 +37,8 @@ export class InicioPage implements OnInit {
     private navCtrl: NavController,
     private modalCtrl: ModalController,
     private authService: SesionService,
-    private fotos: PhotoViewer
+    private fotos: PhotoViewer,
+    private animacion: AnimationController
   ) {
     this.carrito = false;
     const carritoLocal = JSON.parse(localStorage.getItem('car_tems'));
@@ -59,6 +61,12 @@ export class InicioPage implements OnInit {
     }
   }
   favoritos(id) {
+    const animation = this.animacion.create();
+    animation.addElement(document.querySelector('#favorito' + id));
+    animation.duration(2000);
+    animation.fromTo('transform', 'scale(1)', 'scale(1.5)');
+    animation.fromTo('opacity', '1', '0');
+    animation.play();
     this.authService.favorite(id).subscribe(
       (data) => {
         if (data.status) {
@@ -81,6 +89,17 @@ export class InicioPage implements OnInit {
               favoritos.find((item) => item.paquete_id === id)
             );
           }
+          animation.destroy();
+          const animation2 = this.animacion.create();
+          animation2.addElement(document.querySelector('#favorito' + id));
+          animation2.duration(1000);
+          animation2.fromTo('transform', 'scale(1.5)', 'scale(1)');
+          animation2.fromTo('opacity', '0', '1');
+          animation2.play();
+          localStorage.setItem(
+            'paquetes_cargados',
+            JSON.stringify(this.paquetesCompletos)
+          );
           localStorage.setItem('fav_usr', JSON.stringify(favoritos));
           this.presentToast(data.message, 'success');
         } else {
@@ -162,6 +181,10 @@ export class InicioPage implements OnInit {
               : false,
           }));
           this.paquetes = this.paquetesCompletos.slice(0, 5);
+          localStorage.setItem(
+            'paquetes_cargados',
+            JSON.stringify(this.paquetesCompletos)
+          );
           localStorage.setItem('cats_paq', JSON.stringify(data.cat_paq_reg));
           this.categorias = data.cat_paq_reg;
         } else {
@@ -269,7 +292,10 @@ export class InicioPage implements OnInit {
     });
     Filesystem.checkPermissions().then((result) => {
       if (result.publicStorage !== 'granted') {
-        this.presentToast('No se otogra permisos de almacenamiento\nPor favor otorgarlos mediante la configuración.', 'danger');
+        this.presentToast(
+          'No se otogra permisos de almacenamiento\nPor favor otorgarlos mediante la configuración.',
+          'danger'
+        );
       }
     });
     this.fotos.show(imagenesPrueba[indiceImg].url, paqueteE.titulo, {
