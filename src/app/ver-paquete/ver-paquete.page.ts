@@ -76,18 +76,18 @@ export class VerPaquetePage implements OnInit {
       this.inicio = false;
       this.busqueda = false;
     }
+    this.id = Number(localStorage.getItem('paquete_id'));
     //Identifica si esta en favoritos o no
     const favoritosG = JSON.parse(localStorage.getItem('fav_usr'));
     if (favoritosG.length > 0) {
       favoritosG.find((e) => {
-        if (e.paquete_id === this.authService.idPackFavorite) {
+        if (e.paquete_id === this.id) {
           this.favorito = true;
         }
       });
     } else {
       this.favorito = false;
     }
-    this.id = Number(localStorage.getItem('paquete_id'));
     //Crea las url para cargar las imagenes
     this.urlExtras = environment.urlPublic + 'extras/';
     this.urlApi = environment.urlPublic + 'banners/';

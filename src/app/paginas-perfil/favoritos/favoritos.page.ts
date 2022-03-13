@@ -46,6 +46,7 @@ export class FavoritosPage implements OnInit {
           this.sinFav=false;
         }
         this.cargando = false;
+        localStorage.setItem('fav_usr', JSON.stringify(this.favoritos));
         if(evento){
           evento.target.complete();
         }
