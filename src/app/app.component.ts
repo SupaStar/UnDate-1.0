@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { AlertController } from '@ionic/angular';
+import { CachingService } from './services/caching.service';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,14 @@ import { AlertController } from '@ionic/angular';
 export class AppComponent {
   constructor(
     public screenOrientation: ScreenOrientation,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private cacheService: CachingService
   ) {
     this.modoOscuro();
     this.bloquearPantalla();
     this.permisos();
+    this.cache();
+    this.imgsCache();
   }
   modoOscuro() {
     const preferencia = localStorage.getItem('dark');
@@ -42,6 +46,15 @@ export class AppComponent {
       if (result.publicStorage !== 'granted') {
         Filesystem.requestPermissions();
       }
+    });
+  }
+  cache() {
+    this.cacheService.initStorage();
+  }
+  async imgsCache() {
+    await Filesystem.mkdir({
+      directory: Directory.Cache,
+      path: `CACHED-IMG`,
     });
   }
 }

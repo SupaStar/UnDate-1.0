@@ -114,14 +114,14 @@ export class InicioPage implements OnInit {
       }
     );
   }
-  cargar() {
+  cargar(forzado = false, evento = null) {
     this.loadingController
       .create({
         message: 'Cargando...',
       })
       .then((loading) => {
         loading.present();
-        this.paquetesService.getPaquetes().subscribe(
+        this.paquetesService.getPaquetes(forzado).subscribe(
           (data) => {
             if (data.status) {
               const favoritos = JSON.parse(localStorage.getItem('fav_usr'));
@@ -145,9 +145,15 @@ export class InicioPage implements OnInit {
               });
               this.presentToast(errorC, 'danger');
             }
+            if(evento){
+              evento.target.complete();
+            }
             loading.dismiss();
           },
           (error) => {
+            if(evento){
+              evento.target.complete();
+            }
             loading.dismiss();
             this.presentToast(
               'Error con el servidor, por favor contactar con soporte',
@@ -162,49 +168,13 @@ export class InicioPage implements OnInit {
       localStorage.getItem('paquetes_cargados')
     );
     if (paquetesStorage.length === 0) {
-      this.cargar();
+      this.cargar(true);
     } else {
       this.paquetesCompletos = paquetesStorage;
       this.paquetes = this.paquetesCompletos.slice(0, 10);
     }
   }
-  refrescar(event) {
-    this.paquetesService.getPaquetes().subscribe(
-      (data) => {
-        if (data.status) {
-          this.infiniteScroll.disabled = false;
-          const favoritos = JSON.parse(localStorage.getItem('fav_usr'));
-          this.paquetesCompletos = data.paquetes.map((paquete) => ({
-            ...paquete,
-            favorito: favoritos.find((item) => item.paquete_id === paquete.id)
-              ? true
-              : false,
-          }));
-          this.paquetes = this.paquetesCompletos.slice(0, 5);
-          localStorage.setItem(
-            'paquetes_cargados',
-            JSON.stringify(this.paquetesCompletos)
-          );
-          localStorage.setItem('cats_paq', JSON.stringify(data.cat_paq_reg));
-          this.categorias = data.cat_paq_reg;
-        } else {
-          let errorC = '';
-          data.message.forEach((element) => {
-            errorC += element + '\n';
-          });
-          this.presentToast(errorC, 'danger');
-        }
-        event.target.complete();
-      },
-      (error) => {
-        event.target.complete();
-        this.presentToast(
-          'Error con el servidor, por favor contactar con soporte',
-          'danger'
-        );
-      }
-    );
-  }
+
   cargarMas(event) {
     if (this.filtro === 0) {
       // setTimeout(() => {

@@ -16,7 +16,10 @@ import { PaquetesCotizacionPage } from './modales/paquetes-cotizacion/paquetes-c
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
-
+import { IonicStorageModule } from '@ionic/storage-angular';
+import * as CordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
+import { Drivers } from '@ionic/storage';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,12 +34,17 @@ import { PhotoViewer } from '@awesome-cordova-plugins/photo-viewer/ngx';
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    IonicStorageModule.forRoot({
+      // eslint-disable-next-line no-underscore-dangle
+      driverOrder: [CordovaSQLiteDriver._driver, Drivers.IndexedDB]
+    }),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     ScreenOrientation,
     GooglePlus,
-    PhotoViewer
+    PhotoViewer,
+    Network
   ],
   bootstrap: [AppComponent],
 })

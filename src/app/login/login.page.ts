@@ -77,7 +77,6 @@ export class LoginPage implements OnInit {
               localStorage.setItem('pass?', 'false');
               localStorage.setItem('car_tems', JSON.stringify([]));
               loading.dismiss();
-              this.createCacheFolder();
               this.navCtrl.navigateRoot('/tabs/inicio');
             } else {
               let errorC = '';
@@ -97,12 +96,6 @@ export class LoginPage implements OnInit {
           }
         );
       });
-  }
-  async createCacheFolder() {
-    await Filesystem.mkdir({
-      directory: Directory.Cache,
-      path: `CACHED-IMG`,
-    });
   }
   async presentToast(mensaje, colors) {
     const toast = await this.toastController.create({
@@ -180,7 +173,6 @@ export class LoginPage implements OnInit {
                 data.pass === true ? 'true' : 'false'
               );
               localStorage.setItem('g_log', 'true');
-              this.createCacheFolder();
               this.navCtrl.navigateRoot('/tabs/inicio');
             } else {
               let errorC = '';

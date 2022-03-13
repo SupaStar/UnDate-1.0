@@ -7,6 +7,12 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="cargarCotizaciones(true,$event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      refreshingSpinner="circles"
+    ></ion-refresher-content>
+  </ion-refresher>
   <div *ngIf="cargando">
     <ion-list>
       <ion-item>
@@ -77,11 +83,18 @@
   </div>
   <div *ngIf="cargando||!(ninguna)">
     <ion-list>
-      <ion-item *ngFor="let cotizacion of cotizaciones" button (click)="detalles(cotizacion.id)" id="btnCotizacion">
+      <ion-item
+        *ngFor="let cotizacion of cotizaciones"
+        button
+        (click)="detalles(cotizacion.id)"
+        id="btnCotizacion"
+      >
         <ion-label>
           <h3>Cotización solicitada el dia: {{cotizacion.created_at}}</h3>
           <p>
-            <ion-text color="secondary">Fecha deseada: {{cotizacion.fechaDeseada}}</ion-text>
+            <ion-text color="secondary"
+              >Fecha deseada: {{cotizacion.fechaDeseada}}</ion-text
+            >
           </p>
           <p>
             <ion-text color="dark"> Estado: </ion-text>
@@ -91,11 +104,17 @@
             >
               <strong>Pendiente</strong>
             </ion-text>
-            <ng-template #elseBlock><ion-text color="success">Aceptada para el dia:{{cotizacion.fechaCotizacion}}</ion-text></ng-template>
+            <ng-template #elseBlock
+              ><ion-text color="success"
+                >Aceptada para el dia:{{cotizacion.fechaCotizacion}}</ion-text
+              ></ng-template
+            >
           </p>
         </ion-label>
       </ion-item>
     </ion-list>
   </div>
-  <div *ngIf="ninguna">Ninguna</div>
+  <div *ngIf="ninguna" class="sinCotizaciones">
+    <p>Aun no has realizado una cotizacion. Animate!</p>
+  </div>
 </ion-content>
