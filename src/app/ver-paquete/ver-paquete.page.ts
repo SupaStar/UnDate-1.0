@@ -96,16 +96,20 @@ export class VerPaquetePage implements OnInit {
   }
 
   ngOnInit() {
-    this.cargarPaquete();
+    if (this.authService.idPackFavorite === 'owo') {
+      this.cargarPaquete(true);
+    } else {
+      this.cargarPaquete();
+    }
   }
-  cargarPaquete() {
+  cargarPaquete(forzado = false, evento = null) {
     this.loadingController
       .create({
         message: 'Cargando...',
       })
       .then((loading) => {
         loading.present();
-        this.paqueteService.getPaquete(this.id).subscribe(
+        this.paqueteService.getPaquete(this.id, forzado).subscribe(
           (res) => {
             if (res.status) {
               this.paquete = res.paquete;
@@ -120,9 +124,15 @@ export class VerPaquetePage implements OnInit {
               this.presentToast(errorC, 'danger');
               this.navCtrl.navigateBack('/tabs/inicio');
             }
+            if (evento) {
+              evento.target.complete();
+            }
             loading.dismiss();
           },
           (error) => {
+            if (evento) {
+              evento.target.complete();
+            }
             loading.dismiss();
             this.presentToast(
               'Error con el servidor, por favor contactar con soporte',

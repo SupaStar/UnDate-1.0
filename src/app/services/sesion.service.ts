@@ -2,6 +2,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { CachingService } from './caching.service';
+import { from, Observable, of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +30,20 @@ export class SesionService {
   private urlCotizar = environment.url + 'usuario/cotizar';
   private urlMisCotizaciones = environment.url + 'usuario/cotizaciones';
   private urlCrearPass = environment.url + 'usuario/crearPassword';
+  private internet = true;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private network: Network,
+    private cacheS: CachingService
+  ) {
+    const disconnectSubscription = this.network.onDisconnect().subscribe(() => {
+      this.internet = false;
+    });
+    const connectSubscription = this.network.onConnect().subscribe(() => {
+      this.internet = true;
+    });
+  }
   iniciarSesion(usuario: any) {
     return this.http.post<any>(this.login, usuario);
   }
@@ -54,14 +70,6 @@ export class SesionService {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlEditarDireccion, direccion, httpOptions);
   }
-  refrecarToken() {
-    const jwt = localStorage.getItem('_t_s');
-    const headersO = new HttpHeaders().set('Authorization', 'Bearer ' + jwt);
-    const httpOptions = {
-      headers: headersO,
-    };
-    return httpOptions;
-  }
   requestResetPassword(usuario: any) {
     return this.http.post<any>(this.urlRequestResetPassword, usuario);
   }
@@ -79,9 +87,25 @@ export class SesionService {
       httpOptions
     );
   }
-  favoritos() {
+  favoritos(forceRefresh = false) {
     const httpOptions = this.refrecarToken();
-    return this.http.get<any>(this.urlFavoritos, httpOptions);
+    if (!this.internet) {
+      return from(this.cacheS.getCachedRequest(this.urlFavoritos));
+    }
+    if (forceRefresh) {
+      return this.getPetitionCache(this.urlFavoritos, httpOptions);
+    } else {
+      const storedValue = from(this.cacheS.getCachedRequest(this.urlFavoritos));
+      return storedValue.pipe(
+        switchMap((res) => {
+          if (res) {
+            return of(res);
+          } else {
+            return this.getPetitionCache(this.urlFavoritos, httpOptions);
+          }
+        })
+      );
+    }
   }
   cambiarPassPerfil(pass: any) {
     const httpOptions = this.refrecarToken();
@@ -97,9 +121,25 @@ export class SesionService {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCotizar, body, httpOptions);
   }
-  misCotizaciones() {
+  misCotizaciones(forceRefresh = false) {
+    if(!this.internet){
+      return from(this.cacheS.getCachedRequest(this.urlMisCotizaciones));
+    }
     const httpOptions = this.refrecarToken();
-    return this.http.get<any>(this.urlMisCotizaciones, httpOptions);
+    if (forceRefresh) {
+      return this.getPetitionCache(this.urlMisCotizaciones, httpOptions);
+    } else {
+      const storedValue = from(this.cacheS.getCachedRequest(this.urlMisCotizaciones));
+      return storedValue.pipe(
+        switchMap((res) => {
+          if (res) {
+            return of(res);
+          } else {
+            return this.getPetitionCache(this.urlMisCotizaciones, httpOptions);
+          }
+        })
+      );
+    }
   }
   registroGoogle(google: any) {
     return this.http.post<any>(this.registroG, google);
@@ -107,5 +147,20 @@ export class SesionService {
   crearPass(pass: any) {
     const httpOptions = this.refrecarToken();
     return this.http.post<any>(this.urlCrearPass, pass, httpOptions);
+  }
+  refrecarToken() {
+    const jwt = localStorage.getItem('_t_s');
+    const headersO = new HttpHeaders().set('Authorization', 'Bearer ' + jwt);
+    const httpOptions = {
+      headers: headersO,
+    };
+    return httpOptions;
+  }
+  getPetitionCache(url, httpOpts): Observable<any> {
+    return this.http.get(url, httpOpts).pipe(
+      tap((res) => {
+        this.cacheS.cacheRequest(url, res);
+      })
+    );
   }
 }

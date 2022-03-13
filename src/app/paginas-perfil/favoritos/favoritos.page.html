@@ -10,6 +10,12 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="cargarFavoritos(true,$event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      refreshingSpinner="circles"
+    ></ion-refresher-content>
+  </ion-refresher>
   <ion-list *ngIf="favoritos.length!==0">
     <ion-item *ngFor="let favorito of favoritos">
       <ion-thumbnail

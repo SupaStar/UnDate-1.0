@@ -26,6 +26,12 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="cargarPaquete(true,$event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      refreshingSpinner="circles"
+    ></ion-refresher-content>
+  </ion-refresher>
   <h1 style="margin: -17px 2vh 0px 2vh; font-size: 2rem">
     <p>{{paquete.titulo}}</p>
   </h1>

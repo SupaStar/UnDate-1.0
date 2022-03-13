@@ -25,8 +25,8 @@ export class MisCotizacionesPage implements OnInit {
   tabs() {
     this.navCtrl.back();
   }
-  cargarCotizaciones() {
-    this.authServ.misCotizaciones().subscribe(
+  cargarCotizaciones(forzar=false,evento=null) {
+    this.authServ.misCotizaciones(forzar).subscribe(
       (res: any) => {
         this.cargando = false;
         if (res.cotizaciones.length === 0) {
@@ -46,8 +46,14 @@ export class MisCotizacionesPage implements OnInit {
           });
           this.cotizaciones = res.cotizaciones;
         }
+        if(evento){
+          evento.target.complete();
+        }
       },
       (err) => {
+        if(evento){
+          evento.target.complete();
+        }
         this.cargando = false;
         this.ninguna = true;
       }

@@ -12,7 +12,6 @@ export class PaquetesCotizacionPage implements OnInit {
   urlPublica = environment.urlPublic + 'banners/';
   constructor(public navParams: NavParams) {
     this.paquetes = this.navParams.get('paquetes');
-    //console.log(this.paquetes);
   }
 
   ngOnInit() {}

@@ -26,7 +26,7 @@
     </ion-segment-button>
   </ion-segment>
 
-  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="cargar(true,$event)">
     <ion-refresher-content
       pullingIcon="chevron-down-circle-outline"
       pullingText="Suelta para refrescar"

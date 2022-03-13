@@ -7,6 +7,7 @@ import {
 import { DireccionesPage } from '../modales/direcciones/direcciones.page';
 import { GooglePlus } from '@awesome-cordova-plugins/google-plus/ngx';
 import { Directory, Filesystem } from '@capacitor/filesystem';
+import { CachingService } from '../services/caching.service';
 
 @Component({
   selector: 'app-perfil',
@@ -23,7 +24,8 @@ export class PerfilPage implements OnInit {
     private navCtrl: NavController,
     private modalCtrl: ModalController,
     public routerOutlet: IonRouterOutlet,
-    private googlePlus: GooglePlus
+    private googlePlus: GooglePlus,
+    private cacheS:CachingService
   ) {
     this.tema = localStorage.getItem('dark');
     this.usuario.nombre = localStorage.getItem('_n_dt_nam');
@@ -59,6 +61,7 @@ export class PerfilPage implements OnInit {
     if (glog === 'true') {
       this.googlePlus.logout();
     }
+    this.cacheS.clearCachedData();
     localStorage.clear();
     this.navCtrl.navigateRoot('/');
   }

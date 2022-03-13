@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
+import { CachingService } from 'src/app/services/caching.service';
 import { SesionService } from 'src/app/services/sesion.service';
 import { environment } from 'src/environments/environment';
 
@@ -16,7 +17,8 @@ export class FavoritosPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private authService: SesionService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private cacheS: CachingService
   ) {
     if (localStorage.getItem('fav_usr').length > 0) {
       this.cargando = true;
@@ -31,21 +33,27 @@ export class FavoritosPage implements OnInit {
   inicio() {
     this.navCtrl.navigateBack('/tabs/perfil');
   }
-  cargarFavoritos() {
-    this.authService.favoritos().subscribe(
+  cargarFavoritos(forzado=false,evento=null) {
+    this.authService.favoritos(forzado).subscribe(
       (data) => {
         if (data.favoritos.length === 0) {
-          this.cargando = false;
           this.sinFav = true;
         } else {
           this.favoritos = data.favoritos.map((paquete) => ({
             ...paquete,
             fav: true,
           }));
-          this.cargando = false;
+          this.sinFav=false;
+        }
+        this.cargando = false;
+        if(evento){
+          evento.target.complete();
         }
       },
       (error) => {
+        if(evento){
+          evento.target.complete();
+        }
         this.presentToast(
           'Error con el servidor, por favor contactar con soporte',
           'danger'
@@ -54,7 +62,6 @@ export class FavoritosPage implements OnInit {
       }
     );
   }
-
   verPaquete(id) {
     localStorage.setItem('paquete_id', id);
     let paqueteE = this.favoritos.find((paquete) => paquete.paquete_id === id);
@@ -70,14 +77,14 @@ export class FavoritosPage implements OnInit {
           let favoritos = JSON.parse(localStorage.getItem('fav_usr'));
           if (data.fav !== true) {
             this.favoritos.forEach((paquete) => {
-              if (paquete.id === id) {
+              if (paquete.paquete_id === id) {
                 paquete.fav = true;
               }
             });
             favoritos.push(data.fav);
           } else {
             this.favoritos.forEach((paquete) => {
-              if (paquete.id === id) {
+              if (paquete.paquete_id === id) {
                 paquete.fav = false;
               }
             });
