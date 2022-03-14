@@ -25,7 +25,8 @@
             ></ion-input>
           </ion-item>
           <ion-label
-            color="danger" class="error"
+            color="danger"
+            class="error"
             *ngIf="usuario.controls.nombres.errors?.required && (usuario.controls.nombres.touched || usuario.controls.nombres.dirty)"
             >* El nombre es obligatorio
           </ion-label>
@@ -161,14 +162,74 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button
-      expand="block"
-      [disabled]="!usuario.valid"
-      (click)="registro()"
-      color="medium"
-      class="btnRegistro"
-    >
-      Registrarse
-    </ion-button>
+    <div class="inferior">
+      <a id="aviso">Al registrarte aceptas nuestra política de privacidad</a>
+      <ion-button
+        expand="block"
+        [disabled]="!usuario.valid"
+        (click)="registro()"
+        color="medium"
+        class="btnRegistro"
+      >
+        Registrarse
+      </ion-button>
+    </div>
   </div>
+  <ion-modal
+    trigger="aviso"
+    [breakpoints]="[0.1, 0.5, 1]"
+    [initialBreakpoint]="1"
+  >
+    <ng-template>
+      <ion-content>
+        <h2><b>POLÍTICA DE PRIVACIDAD</b></h2>
+        <p class="contenido_Aviso">
+          El presente Política de Privacidad establece los términos en que Un
+          Date usa y protege la información que es proporcionada por sus
+          usuarios al momento de utilizar su aplicación Movil. Esta compañía
+          está comprometida con la seguridad de los datos de sus usuarios.
+          Cuando le pedimos llenar los campos de información personal con la
+          cual usted pueda ser identificado, lo hacemos asegurando que sólo se
+          empleará de acuerdo con los términos de este documento. Sin embargo
+          esta Política de Privacidad puede cambiar con el tiempo o ser
+          actualizada por lo que le recomendamos y enfatizamos revisar
+          continuamente esta página para asegurarse que está de acuerdo con
+          dichos cambios.
+        </p>
+        <h2>
+          <b>
+            Información que es recogida Nuestra aplicación podrá recoger
+            información</b
+          >
+        </h2>
+        <p class="contenido_Aviso">
+          personal por ejemplo: Nombre, información de contacto como su
+          dirección de correo electrónica e información demográfica. Así mismo
+          cuando sea necesario podrá ser requerida información específica para
+          procesar algún pedido o realizar una entrega o facturación.
+        </p>
+        <h2>
+          <b>Uso de la información recogida</b>
+        </h2> 
+        <p class="contenido_Aviso">
+          Nuestra aplicación emplea la información con el fin de proporcionar
+          el mejor servicio posible, particularmente para mantener un registro
+          de usuarios, de pedidos en caso que aplique, y mejorar nuestra
+          aplicación. Así mismo, Nuestra aplicación empleará la información
+          con el fin de prestar el servicio solicitado por el usuario,
+          particularmente para proporcionar el mejor servicio posible.
+        </p>
+        <h2>
+          <b>
+            Control de su información personal
+          </b>
+        </h2>
+        <p class="contenido_Aviso">
+          En cualquier momento usted puede restringir la recopilación o el
+          uso de la información personal que es proporcionada a nuestra
+          aplicación.
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
