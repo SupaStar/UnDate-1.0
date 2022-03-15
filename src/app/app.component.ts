@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-import { AlertController } from '@ionic/angular';
+import { AlertController, isPlatform } from '@ionic/angular';
 import { CachingService } from './services/caching.service';
 
 @Component({
@@ -16,10 +16,12 @@ export class AppComponent {
     private cacheService: CachingService
   ) {
     this.modoOscuro();
-    this.bloquearPantalla();
     this.permisos();
     this.cache();
     this.imgsCache();
+    if(isPlatform('capacitor')){
+      this.bloquearPantalla();
+    }
   }
   modoOscuro() {
     const preferencia = localStorage.getItem('dark');

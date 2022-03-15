@@ -63,9 +63,9 @@ export class InicioPage implements OnInit {
   favoritos(id) {
     const animation = this.animacion.create();
     animation.addElement(document.querySelector('#favorito' + id));
-    animation.duration(2000);
-    animation.fromTo('transform', 'scale(1)', 'scale(1.5)');
-    animation.fromTo('opacity', '1', '0');
+    animation.duration(500);
+    animation.iterations(Infinity);
+    animation.fromTo('transform', 'scale(0.5)', 'scale(1)');
     animation.play();
     this.authService.favorite(id).subscribe(
       (data) => {
@@ -75,6 +75,7 @@ export class InicioPage implements OnInit {
             this.paquetesCompletos.forEach((paquete) => {
               if (paquete.id === id) {
                 paquete.favorito = true;
+                return;
               }
             });
             favoritos.push(data.fav);
@@ -84,17 +85,15 @@ export class InicioPage implements OnInit {
                 paquete.favorito = false;
               }
             });
-            favoritos = favoritos.splice(
-              0,
-              favoritos.find((item) => item.paquete_id === id)
+            favoritos = favoritos.filter(
+              (item) => item.paquete_id !== id
             );
           }
           animation.destroy();
           const animation2 = this.animacion.create();
           animation2.addElement(document.querySelector('#favorito' + id));
-          animation2.duration(1000);
+          animation2.duration(500);
           animation2.fromTo('transform', 'scale(1.5)', 'scale(1)');
-          animation2.fromTo('opacity', '0', '1');
           animation2.play();
           localStorage.setItem(
             'paquetes_cargados',
@@ -145,13 +144,13 @@ export class InicioPage implements OnInit {
               });
               this.presentToast(errorC, 'danger');
             }
-            if(evento){
+            if (evento) {
               evento.target.complete();
             }
             loading.dismiss();
           },
           (error) => {
-            if(evento){
+            if (evento) {
               evento.target.complete();
             }
             loading.dismiss();

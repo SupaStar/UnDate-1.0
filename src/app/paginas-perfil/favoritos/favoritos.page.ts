@@ -80,6 +80,7 @@ export class FavoritosPage implements OnInit {
             this.favoritos.forEach((paquete) => {
               if (paquete.paquete_id === id) {
                 paquete.fav = true;
+                return;
               }
             });
             favoritos.push(data.fav);
@@ -89,9 +90,8 @@ export class FavoritosPage implements OnInit {
                 paquete.fav = false;
               }
             });
-            favoritos = favoritos.splice(
-              0,
-              favoritos.find((item) => item.paquete_id === id)
+            favoritos = favoritos.filter(
+              (item) => item.paquete_id !== id
             );
           }
           localStorage.setItem('fav_usr', JSON.stringify(favoritos));
