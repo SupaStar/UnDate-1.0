@@ -1,5 +1,5 @@
 {
-  "name": "Un Date App",
+  "name": "undateapp",
   "version": "0.0.1",
   "author": "Un Date Mx",
   "homepage": "https://ionicframework.com/",
@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
+    "@awesome-cordova-plugins/core": "^6.3.0",
     "@awesome-cordova-plugins/google-plus": "^5.39.1",
     "@awesome-cordova-plugins/network": "^5.40.0",
     "@awesome-cordova-plugins/photo-viewer": "^5.39.1",
